@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Margit Feyerer-Fleischanderl-Home</title>
+        <!-- Favicon-->
+        <link rel="shortcut icon" href="#">
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+        <link href="css/bootstrap5.0.2.min.css" rel="stylesheet" />
+        <link href="css/index.css" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+            <div class="container">
+                <a class="navbar-brand" href="/">
+                    Margit Feyerer-Fleischanderl
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <!-- 나중에 active빼기 -->
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/">
+                                HOME
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                                Skulptur
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="../gallery/gallery.html">
+                                        Figuren
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="../gallery/gallery.html">
+                                        Trophäen
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="../gallery/gallery.html">
+                                        Und so weiter
+                                    </a>
+                                </li>
+                            </ul>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/gallery">
+                                SKULPTUR
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/gallery">
+                                ZEICHNUNG
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/gallery">
+                                OBJEKT
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/text">
+                                TEXT
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/biography">
+                                BIOGRAFIE
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/contact">
+                                KONTAKT
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Page content-->
+        <div class="container img_contaner">
+            <!-- <img class="img-responsive center-block" src="img/©PNTGM147806a.jpg"/> -->
+            <img class="img-responsive center-block" src="img/©PNTGM147807.jpg"/>
+            <!-- <img class="img-responsive center-block" src="img/P1020812.jpg"/> -->
+        </div>
+        
+        
+        
+        
+        <!-- Bootstrap core JS-->
+        <script src="script/jquery3_5_1.js"></script>
+        <script src="script/bootstrap4_6_0.js"></script>
+
+        <!-- 갤러리 서브타이틀 만들어주기 
+        {GalleryPath}, {Subtitle}
+        설정 필요-->
+        <script type="rv-template" id="gallery_subtitle">
+            <li>
+                <a class="dropdown-item" href="{GalleryPath}">
+                    {Subtitle}
+                </a>
+            </li>
+        </script>
+        <!-- 랜덤 이미지 넣어주기 
+        {file_path} 
+        설정해줘야 함-->
+        <script type="rv-template" id="home_img_content">
+            <img class="img-responsive center-block" src="{file_path}"/>
+        </script>
+        
+        
+        
+    </body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Margit Feyerer-Fleischanderl-Update</title>
+        <!-- Favicon-->
+        <!-- Favicon-->
+        <link rel="shortcut icon" href="#">
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+        <link href="../bootstrap5.0.2.min.css" rel="stylesheet" />
+        <link href="css/update.css" rel="stylesheet" />
+        <script src="../ckeditor5-build-classic-29.1.0/ckeditor5-build-classic/ckeditor.js"></script>
+    </head>
+    <body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+            <div class="container">
+                <a class="navbar-brand" href="../home/index.html">
+                    Margit Feyerer-Fleischanderl
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../home/index.html">
+                                HOME
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="../gallery/gallery.html">
+                                SKULPTUR
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../gallery/gallery.html">
+                                ZEICHNUNG
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../gallery/gallery.html">
+                                OBJEKT
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../news/news.html">
+                                TEXT
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../biography/biography.html">
+                                BIOGRAFIE
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../contact/contact.html">
+                                KONTAKT
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Page content-->
+        
+        <div class="menu_wrap">
+            <div class="main_menu_wrap">
+                <label for="main_menu">
+                    Menu : 
+                </label>
+                <select id="main_menu" onchange="mainMenuEvent()">
+                    <option value="default" selected>Menu auswählen</option>
+                    <option value="skulptur">SKULPTUR</option>
+                    <option value="zeichnung">ZEICHNUNG</option>
+                    <option value="objekt">OBJEKT</option>
+                    <option value="news">TEXT</option>
+                    <option value="biography">BIOGRAFIE</option>
+                    <option value="contact">KONTAKT</option>
+                </select>
+            </div>
+        </div>
+        
+        
+        
+        
+        
+        
+        
+        <button class="save_btn" disabled="disabled" style="display: none;" click="New SaveBtnEvent()">
+            <span>Datei speichern</span>
+        </button>
+        <button class="delete_btn" disabled="disabled" style="display: none;">
+            <span>löschen</span>
+        </button>
+        
+        
+       
+        
+        
+        
+        
+        
+        
+        
+        <!-- Bootstrap core JS-->
+        <script src="../jquery3_5_1.js"></script>
+        <script src="../bootstrap4_6_0.js"></script>
+        <script src="script/update.js"></script>
+
+        <script type="rv-template" id="contact_wrap">
+            <div class="contact_modify_wrap">
+                <div class="contact_street_wrap">
+                    <label for="contact_street_input">Straße : </label>
+                    <input type="text" value="{street}" name="street_input" id="contact_street_input">
+                </div>
+    
+                <div class="contact_housenumber_wrap">
+                    <label for="contact_housenumber_input">HausNummer : </label>
+                    <input type="text" value="{housenumber}" name="housenumber_input" id="contact_housenumber_input">
+                </div>
+    
+                <div class="contact_postcode_wrap">
+                    <label for="contact_postcode_input">Postleitzahl : </label>
+                    <input type="text" value="{postcode}" name="postcode_input" id="contact_postcode_input">
+                </div>
+    
+                <div class="contact_phone_wrap">
+                    <label for="contact_phone_input">Telefonnummer : </label>
+                    <input type="text" value="{phone}" name="phone_input" id="contact_phone_input">
+                </div>
+    
+                <div class="contact_email_wrap">
+                    <label for="contact_email_input">Email : </label>
+                    <input type="text" value="{email}" name="email_input" id="contact_email_input">
+                </div>
+    
+                <div class="contact_homepage_owner_wrap">
+                    <label for="contact_homepage_owner_input">Medieninhaber und Herausgeber : </label>
+                    <input type="text" value="{homepage_owner}" name="homepage_owner_input" id="contact_homepage_owner_input">
+                </div>
+    
+                <div class="contact_homepage_producer_wrap">
+                    <label for="contact_homepage_producer_input">Gestaltung : </label>
+                    <input type="text" value="{homepage_producer}" name="homepage_producer_input" id="contact_homepage_producer_input">
+                </div>
+    
+                <div class="contact_Homepage_category_wrap">
+                    <label for="contact_Homepage_category_input">Grundlegende Richtung : </label>
+                    <input type="text" value="{Homepage_category}" name="Homepage_category_input" id="contact_Homepage_category_input">
+                </div>
+    
+                <div class="contact_liability_text_wrap">
+                    <label for="contact_liability_text_input">Haftung : </label>
+                <textarea name="liability_text_input" id="contact_liability_text_input" rows="10">{liability_text}</textarea>
+                </div>
+    
+                <div class="contact_links_text_wrap">
+                    <label for="contact_links_text_input">Links : </label>
+                    <textarea name="links_text_input" id="contact_links_text_input" rows="10">{links_text}</textarea>
+                </div>
+            </div>
+        </script>
+        
+        <template id="news_textarea">
+            <div class="news_update_wrap">
+                <div class="new_title_wrap">
+                    <label for="news_title_input">der Titel : </label>
+                    <input type="text" name="news_title" id="news_title_input">
+                </div>
+                
+                <div id="news_update_textarea">
+                </div>
+                
+                <script>
+                    ClassicEditor
+                    .create( document.querySelector( '#news_update_textarea' ) )
+                    .catch( error => {
+                        console.error( error );
+                    } );
+                </script>
+            </div>
+        </template>
+
+        <!-- 바이오그라피 삭제 선택시 테이블 템플릿 -->
+        <script type="rv-template" id="biography_table_wrap">
+            <table class="table table-striped table-hover biography_table">
+                <thead>
+                    <tr>
+                        <th style="width:10%">CheckBox</th>
+                        <th style="width:10%">Id</th>
+                        <th style="width:10%">das Jahr des Anfangs</th>
+                        <th style="width:10%">das Jahr des Endes</th>
+                        <th style="width:60%">Biografie</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {item_tr}
+                </tbody> 
+            </table>
+        </script>
+
+        <!-- 바이오그라피 삭제 선택시 테이블에 채워줄 아이템 템플릿 -->
+        <script type="rv-template" id="biography_table_item">
+            <tr>
+                <td style="width:10%"><input type="checkbox" name="biography_item_check" class="biography_item_check"></td>
+                <td style="width:10%">{id}</td>
+                <td style="width:10%">{start_year}</td>
+                <td style="width:10%">{end_year}</td>
+                <td style="width:60%; word-break:break-all;">{bio_text}</td>
+              </tr>
+        </script>
+
+        <!-- 바이오그라피 입력창 템플릿 -->
+        <script type="rv-template" id="biography_input_template">
+            <div class="biography_insert_wrap">
+                <div class="start_year_wrap">
+                    <label for="start_year_input">
+                        das Jahr des Anfangs : 
+                    </label>
+                    <input type="number" name="" id="start_year_input">
+                </div>
+                <div class="end_year_wrap">
+                    <label for="end_year_input">
+                        das Jahr des Endes : 
+                    </label>
+                    <input type="number" name="" id="end_year_input">
+                </div>
+                <div class="biography_text_input_wrap">
+                    <label for="biography_text_input">
+                        die Texte der Biografie :
+                    </label>
+                    <textarea name="" id="biography_text_input" cols="70" rows="3">
+    
+                    </textarea>
+                </div>
+            </div>
+        </script>
+
+        <!-- 메인메뉴에서 갤러리,바이오그라피 선택시 서브타이틀 선택창 만들어주기 
+        -->
+        <script type="rv-template" id="subtitle_template">
+            <div class="submenu_wrap">
+                <label for="submenu">
+                    >
+                </label>  
+                <select id="submenu" onchange="new {main_value}SubMenuEvent()">
+                    <option value="default" class="option_target" selected>Menu auswählen</option>
+                    <option value="new_subtitle">neue Menu</option>
+                </select>
+            </div>
+            <div class="delete_insert_wrap" style="display: none;"  onchange="new {main_value}DeleteSaveEvent()">
+                <select id="delete_insert">
+                    <option value="insert" selected>einfügen</option>
+                    <option value="delete">löschen</option>
+                </select>
+            </div>
+            <div class="new_subtitle_input_wrap" style="display: none;">
+                <label for="new_subtitle_input">
+                    neu Untertitel : 
+                </label>
+                <input type="text" class="subtitle_input" name="" id="new_subtitle_input">
+            </div>
+        </script>
+        
+        <!-- 갤러리, 바이오그라피 서브타이틀 옵션 만들어주기 -->
+        <script type="rv-template" id="select_options">
+            <option value="{options}">{upper_options}</option>
+        </script>
+        
+        <!-- 갤러리 하부메뉴 선택시 이미지 설명글 textarea -->
+        <script type="rv-template" id="gallery_img_expl">
+            <div class="img_title_wrap">
+                <label for="img_title">
+                    der Titel des Fotos : 
+                </label>
+                <input type="text" name="" id="img_title">
+            </div>
+            <div class="img_expl_wrap">
+                <label for="img_explanation_text">
+                    die Beschreibung des Fotos : 
+                </label>
+                <input type="text" id="img_explanation_text" name="" class="img_textarea">
+            </div>
+        </script>
+
+        <!-- 업로드 할 이미지파일 미리보기 -->
+        <script type="rv-template" id="file_wrap_template">
+            <div class="file_wrap">
+                <input type="file" class="gallery_upload_file" accept="image/png, image/jpeg" multiple>
+                <!-- preview pic. -->
+                <div class="review_photos review_photos_write">
+                    <div class="item_preview_thumbs">
+                        <ul class="lst_thumb">
+                            <li class="item" style="display: none;">
+                                <img src="" width="130" alt="upload_image" class="item_thumb">
+                                <a href="#" class="anchor">
+                                    <span class="spr_book ico_del">Löschen(삭제)</span>
+                                </a>
+                                <span class="img_border"></span>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </div>
+                <!-- //preview pic. -->
+            </div>
+        </script>
+
+        <!-- 삭제 이미지 랩 -->
+        <script type="rv-template" id="delete_preview_wrap">
+            <div class="delete_img_wrap">
+                <ul class="delete_ul">
+                    
+                </ul>
+            </div>
+        </script>
+        <!-- 갤러리 삭제 선택시 하부메뉴에 있는 모든 사진 불러오기 
+        check box에 id값이나 고유값 전달하기
+        {imgPath}설정하기-->
+        <script type="rv-template" id="delete_preview">
+            <li class="del_list">
+                <input type="checkbox" name="" class="delete_img_check">
+                <img src="{imgPath}" alt="" class="delete_img">
+            </li>
+        </script>
+        
+        <!-- 갤러리 업로드 할 파일 선택시 미리보기 노출
+        display: inline-block
+        src설정해주기
+        현재는 파일 1개씩만 업로드 구현예정이라 사용하지 않음.
+         -->
+        <script type="rv-template" id="thumnail_preview">
+            <li class="item" style="display: none;">
+                <img src="{thumnail_url}" width="130" alt="upload_image" class="item_thumb">
+                <a href="#" class="anchor">
+                    <span class="spr_book ico_del">Löschen(삭제)</span>
+                </a>
+                <span class="img_border"></span>
+            </li>
+        </script>
+
+        <!-- 삭제메뉴 선택시 해당 메뉴의 사진 불러와서 그려주기 -->
+        <script type="rv-template" id="delete_menu_item">
+            <li class="del_list">
+                <input type="checkbox" name="gallery_item_check" class="delete_img_check">
+                <img src="1.jpg" alt="" class="delete_img">
+            </li>
+            <li class="del_list">
+                <input type="checkbox" name="gallery_item_check" class="delete_img_check">
+                <img src="2.jpg" alt="" class="delete_img">
+            </li>
+            <li class="del_list">
+                <input type="checkbox" name="gallery_item_check" class="delete_img_check">
+                <img src="1.jpg" alt="" class="delete_img">
+            </li>
+            <li class="del_list">
+                <input type="checkbox" name="gallery_item_check" class="delete_img_check">
+                <img src="2.jpg" alt="" class="delete_img">
+            </li>
+        </script>
+        
+    </body>
+</html>
+<!-- 공지사항 만들기 -->

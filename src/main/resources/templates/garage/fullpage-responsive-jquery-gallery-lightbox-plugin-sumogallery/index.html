@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link href="sumogallery.css" rel="stylesheet" />
+	
+	<title>jQuery sumogallery Plugin Demo</title>
+</head>
+<body>
+	<div class="category_wrap swiper-container">
+		<!-- <h1 class="gallery_title">Bei Hofingers 2008</h1> -->
+		<div class="items_wrap swiper-wrapper">
+			<div class="swiper-slide">
+				<img class="swiper-slide" data-sgallery="group1" title="이미지 제목1" data-full="©PNTGM147806a.jpg" data-thumb="images/s_02.jpg" src="©PNTGM147806a.jpg">
+			</div>
+			<div class="swiper-slide">
+				<img data-sgallery="group1" title="이미지 제목1" data-full="images/03.jpg" data-thumb="images/s_03.jpg" src="©PNTGM147807.jpg">
+			</div>
+			<div class="swiper-slide">
+				<img data-sgallery="group1" title="이미지 제목1" data-full="images/03.jpg" data-thumb="images/s_03.jpg" src="FeyFlei Rote Mütze.jpg">
+			</div>
+			<div class="swiper-slide">
+				<img data-sgallery="group1" title="이미지 제목1" data-full="images/03.jpg" data-thumb="images/s_03.jpg" src="IMG_4782.jpg">
+			</div>
+			<div class="swiper-slide">
+				<img data-sgallery="group1" title="이미지 제목1" data-full="images/03.jpg" data-thumb="images/s_03.jpg" src="IMG_4783.jpg">
+			</div>
+			<div class="swiper-slide">
+				<img data-sgallery="group1" title="이미지 제목1" data-full="images/03.jpg" data-thumb="images/s_03.jpg" src="IMG_4784.jpg">
+			</div>
+			<div class="swiper-slide">
+				<img data-sgallery="group1" title="이미지 제목1" data-full="images/03.jpg" data-thumb="images/s_03.jpg" src="IMG_4785.jpg" width="120px" height="120px">
+			</div>
+			<div class="swiper-slide">
+				<img data-sgallery="group1" title="이미지 제목1" data-full="images/03.jpg" data-thumb="images/s_03.jpg" src="IMG_4786.jpg" width="120px" height="120px">
+			</div>
+			<div class="swiper-slide">
+				<img data-sgallery="group1" title="이미지 제목1" data-full="images/03.jpg" data-thumb="images/s_03.jpg" src="P8230265.jpg" width="120px" height="120px">
+			</div>
+			<div class="swiper-slide">
+				<img data-sgallery="group1" title="이미지 제목1" data-full="images/03.jpg" data-thumb="images/s_03.jpg" src="P8230266.jpg" width="120px" height="120px">
+			</div>
+			<div class="swiper-slide">
+				<img data-sgallery="group1" title="이미지 제목1" data-full="images/03.jpg" data-thumb="images/s_03.jpg" src="P8230272.jpg" width="120px" height="120px">
+			</div>
+			<div class="swiper-slide">
+				<img data-sgallery="group1" title="이미지 제목1" data-full="images/03.jpg" data-thumb="images/s_03.jpg" src="P8230276.jpg" width="120px" height="120px">
+			</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		</div>
+		<div class="swiper-button-next"></div>
+		<div class="swiper-button-prev"></div>
+		<div class="swiper-pagination"></div>
+			
+	</div>
+	
+
+
+
+	
+
+
+	<div class="SumoGallery" style="display:none;">
+		<div class="Sheader">
+			<p>Living room title of the new.</p><a>&times;</a>
+		</div>
+		
+		<div class="Sbody">
+			<a><img src="images/1_large.jpg" ></a>
+			<a><img src="images/2_large.jpg" ></a>
+			<a class="sel"><img src="images/4_large.png" ></a>
+		</div>
+		
+		<a class="Sarrow l">&#10092;</a>
+		<a class="Sarrow r">&#10093;</a>
+		
+	</div>
+	
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+	<!-- Initialize Swiper -->
+    <script>
+		var swiper = new Swiper(".category_wrap", {
+			slidesPerView: 3,
+			spaceBetween: 30,
+			slidesPerGroup: 3,
+			loop: true,
+			loopFillGroupWithBlank: true,
+			pagination: {
+				el: ".swiper-pagination",
+				clickable: true,
+			},
+			navigation: {
+				nextEl: ".swiper-button-next",
+				prevEl: ".swiper-button-prev",
+			},
+		});
+	</script>
+	
+	<script src="jquery.sumogallery.js"></script>
+	
+	<script type="rv-template" id="category_templete">
+		<div class="category_wrap">
+			<h1 class="gallery_title">{gallery_subtitle}</h1>
+		</div>
+	</script>
+	
+	<script type="rv-template" id="img_item_templete">
+		<img data-sgallery={gallery_subtitle} title={img_title} data-full={full_img_path} data-thumb={thumb_img_path} src={thumb_img_path}>
+	</script>
+
+</body>
+</html>

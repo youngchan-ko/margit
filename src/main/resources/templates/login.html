@@ -5,19 +5,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Margit Feyerer-Fleischanderl-Home</title>
+        <title>Margit Feyerer-Fleischanderl-Login</title>
         <!-- Favicon-->
         <link rel="shortcut icon" href="#">
         <!-- Core theme CSS (includes Bootstrap)-->
         <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
         <link href="css/bootstrap5.0.2.min.css" rel="stylesheet" />
-        <link href="css/index.css" rel="stylesheet" />
+        <link href="css/login.css" rel="stylesheet" />
     </head>
     <body>
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
             <div class="container">
-                <a class="navbar-brand" href="/">
+                <a class="navbar-brand" href="../home/index.html">
                     Margit Feyerer-Fleischanderl
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -30,28 +30,6 @@
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
-                        <!-- <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                                Skulptur
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item" href="../gallery/gallery.html">
-                                        Figuren
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="../gallery/gallery.html">
-                                        Trophäen
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="../gallery/gallery.html">
-                                        Und so weiter
-                                    </a>
-                                </li>
-                            </ul>
-                        </li> -->
                         <li class="nav-item">
                             <a class="nav-link" href="/skulptur">
                                 SKULPTUR
@@ -87,11 +65,11 @@
             </div>
         </nav>
         <!-- Page content-->
-        <div class="container img_contaner">
-            <!-- <img class="img-responsive center-block" src="img/©PNTGM147806a.jpg"/> -->
-            <img class="img-responsive center-block" src="img/©PNTGM147807.jpg"/>
-            <!-- <img class="img-responsive center-block" src="img/P1020812.jpg"/> -->
-        </div>
+        <form action="">
+	        <input type="text" class="id_input" name="username" placeholder="Username">
+	        <input type="password" class="pass_input" name="password" placeholder="Password">
+	        <button class="login_btn">Login</button>
+        </form>
         
         
         
@@ -100,22 +78,6 @@
         <script src="script/jquery3_5_1.js"></script>
         <script src="script/bootstrap4_6_0.js"></script>
 
-        <!-- 갤러리 서브타이틀 만들어주기 
-        {GalleryPath}, {Subtitle}
-        설정 필요-->
-        <script type="rv-template" id="gallery_subtitle">
-            <li>
-                <a class="dropdown-item" href="{GalleryPath}">
-                    {Subtitle}
-                </a>
-            </li>
-        </script>
-        <!-- 랜덤 이미지 넣어주기 
-        {file_path} 
-        설정해줘야 함-->
-        <script type="rv-template" id="home_img_content">
-            <img class="img-responsive center-block" src="{file_path}"/>
-        </script>
         
         
         

@@ -16,12 +16,12 @@ function ContactEvent(){
 ContactEvent.prototype = {
     connectAjax : function(){
         let testArray = [
-            {"Straße":"Humboldtstraße", 
-            "HausNummer":"15", 
-            "Postleitzahl":"A-4020", 
-            "Stadt":"Linz",
+            {"Street":"Humboldtstraße", 
+            "HouseNumber":"15", 
+            "postcode":"A-4020", 
+            "City":"Linz",
             "Email":"fey.flei@aon.at",
-            "TelEmailefonnummer":"+43 650 389 4710",
+            "TelephonNumber":"+43 650 389 4710",
             "homepage_owner":"Margit Feyerer-Fleischanderl",
             "homepage_producer":"Youngchan Kim",
             "Homepage_category":"Persönliche Homepage der Künstlerin",
@@ -38,10 +38,11 @@ ContactEvent.prototype = {
         }
         
         let editContactHtml = this.contactWrap
-            .replace('{street}',contactData[0].Straße)
-            .replace('{housenumber}',contactData[0].HausNummer)
-            .replace('{postcode}',contactData[0].Postleitzahl)
-            .replace('{phone}',contactData[0].Telefonnummer)
+            .replace('{street}',contactData[0].Street)
+            .replace('{housenumber}',contactData[0].HouseNumber)
+            .replace('{postcode}',contactData[0].postcode)
+            .replace('{city}',contactData[0].City)
+            .replace('{phone}',contactData[0].TelephonNumber)
             .replace('{email}',contactData[0].Email)
             .replace('{homepage_owner}',contactData[0].homepage_owner)
             .replace('{homepage_producer}',contactData[0].homepage_producer)

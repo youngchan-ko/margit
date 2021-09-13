@@ -11,54 +11,54 @@
         <link rel="shortcut icon" href="#">
         <!-- Core theme CSS (includes Bootstrap)-->
         <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
-        <link href="../bootstrap5.0.2.min.css" rel="stylesheet" />
+        <link href="css/bootstrap5.0.2.min.css" rel="stylesheet" />
         <link href="css/update.css" rel="stylesheet" />
-        <script src="../ckeditor5-build-classic-29.1.0/ckeditor5-build-classic/ckeditor.js"></script>
+        <script src="script/ckeditor5-build-classic-29.1.0/ckeditor5-build-classic/ckeditor.js"></script>
     </head>
     <body>
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
             <div class="container">
-                <a class="navbar-brand" href="../home/index.html">
+                <a class="navbar-brand" href="/">
                     Margit Feyerer-Fleischanderl
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="../home/index.html">
+                            <a class="nav-link" href="/">
                                 HOME
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
                         
                         <li class="nav-item">
-                            <a class="nav-link" href="../gallery/gallery.html">
+                            <a class="nav-link" href="/skulptur">
                                 SKULPTUR
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../gallery/gallery.html">
+                            <a class="nav-link" href="/zeichnung">
                                 ZEICHNUNG
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../gallery/gallery.html">
+                            <a class="nav-link" href="/objekt">
                                 OBJEKT
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../news/news.html">
+                            <a class="nav-link" href="/news">
                                 TEXT
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../biography/biography.html">
+                            <a class="nav-link" href="/biography">
                                 BIOGRAFIE
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../contact/contact.html">
+                            <a class="nav-link" href="/contact">
                                 KONTAKT
                             </a>
                         </li>
@@ -108,8 +108,8 @@
         
         
         <!-- Bootstrap core JS-->
-        <script src="../jquery3_5_1.js"></script>
-        <script src="../bootstrap4_6_0.js"></script>
+        <script src="script/jquery3_5_1.js"></script>
+        <script src="script/bootstrap4_6_0.js"></script>
         <script src="script/update.js"></script>
 
         <script type="rv-template" id="contact_wrap">
@@ -122,6 +122,11 @@
                 <div class="contact_housenumber_wrap">
                     <label for="contact_housenumber_input">HausNummer : </label>
                     <input type="text" value="{housenumber}" name="housenumber_input" id="contact_housenumber_input">
+                </div>
+
+                <div class="contact_city_wrap">
+                    <label for="contact_city_input">Stadt : </label>
+                    <input type="text" value="{city}" name="city_input" id="contact_city_input">
                 </div>
     
                 <div class="contact_postcode_wrap">

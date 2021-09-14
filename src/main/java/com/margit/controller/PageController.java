@@ -2,7 +2,10 @@ package com.margit.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.margit.model.User;
 
 @Controller
 public class PageController {
@@ -47,8 +50,19 @@ public class PageController {
 		return "update";
 	}
 
-	@GetMapping({"/login"})
-	public String login() {
-		return "login";
+	@GetMapping({"/loginFrom"})
+	public String loginForm() {
+		return "loginFrom";
+	}
+	
+	@GetMapping({"/joinForm"})
+	public String joinForm() {
+		return "join";
+	}
+
+	@PostMapping({"/joinPrc"})
+	public @ResponseBody String joinPrc(User user) {
+		System.out.println(user);
+		return "join";
 	}
 }

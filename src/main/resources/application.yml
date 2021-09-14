@@ -10,7 +10,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/security?serverTimezone=Europe/Vienna
+    url: jdbc:mysql://localhost:3306/margit?serverTimezone=Europe/Vienna
     username: margit
     password: margit2331
     

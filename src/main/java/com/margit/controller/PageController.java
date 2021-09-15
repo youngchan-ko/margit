@@ -1,15 +1,20 @@
 package com.margit.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.margit.model.User;
+import com.margit.service.JoinService;
 
 @Controller
 public class PageController {
 
+	@Autowired
+	private JoinService joinService;
+	
 	@GetMapping({"", "/"})
 	public String index() {
 		return "index";
@@ -61,8 +66,10 @@ public class PageController {
 	}
 
 	@PostMapping({"/joinPrc"})
-	public @ResponseBody String joinPrc(User user) {
+	public String joinPrc(User user) {
 		System.out.println(user);
-		return "join";
+		String aa = joinService.joinMember(user);
+		System.out.println(aa);
+		return "redirect:/loginForm";
 	}
 }

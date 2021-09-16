@@ -6,4 +6,5 @@ import com.margit.model.User;
 
 public interface JoinDao extends JpaRepository<User,Integer> {
 
+	public User findByUsername(String username);
 }

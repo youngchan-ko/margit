@@ -24,13 +24,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			//해당 주소로 들어갈때 인증이 필요하게 만들어줌.
 			.antMatchers("/update/**").authenticated()
 			//해당 주소로 들어갈때 권한을 확인하게 됨.
-			.antMatchers("/update/**").access("hasRole('owner')")
+//			.antMatchers("/update/**").access("hasRole('owner')")
 			//위의 주소가 아닌 다른 요청은 모든 권한 허용
 			.anyRequest().permitAll()
 			.and()
 			.formLogin()
-			.loginPage("/loginFrom");
-//			.loginProcessingUrl("/login")
-//			.defaultSuccessUrl("/update");
+			.loginPage("/loginForm")
+			.loginProcessingUrl("/login")
+			.defaultSuccessUrl("/update");
 	}
 }

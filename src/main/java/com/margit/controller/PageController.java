@@ -55,9 +55,9 @@ public class PageController {
 		return "update";
 	}
 
-	@GetMapping({"/loginFrom"})
+	@GetMapping({"/loginForm"})
 	public String loginForm() {
-		return "loginFrom";
+		return "loginForm";
 	}
 	
 	@GetMapping({"/joinForm"})

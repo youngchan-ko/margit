@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.margit.model.Contact;
 import com.margit.model.User;
+import com.margit.service.ContactService;
 import com.margit.service.JoinService;
 
 @Controller
@@ -14,6 +16,8 @@ public class PageController {
 
 	@Autowired
 	private JoinService joinService;
+	@Autowired
+	private ContactService contactService;
 	
 	@GetMapping({"", "/"})
 	public String index() {
@@ -39,6 +43,11 @@ public class PageController {
 	public String text() {
 		return "text";
 	}
+
+	@GetMapping({"/presse"})
+	public String presse() {
+		return "presse";
+	}
 	
 	@GetMapping({"/biography"})
 	public String biography() {
@@ -46,8 +55,10 @@ public class PageController {
 	}
 
 	@GetMapping({"/contact"})
-	public String contact() {
-		return "contact";
+	public Contact contact() {
+		Contact contactData = contactService.getContact();
+		System.out.println(contactData);
+		return contactData;
 	}
 	
 	@GetMapping({"/update"})

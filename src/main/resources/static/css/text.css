@@ -10007,6 +10007,29 @@ h3 {
   }
 }
 
+.card-text{
+  text-align: left;
+  line-height: 20px;
+  max-height:80px;
+  word-wrap:break-word
+  display:block;
+  display:-webkit-box;
+  -webkit-line-clamp:4;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  text-overflow:ellipsis;
+ }
+ /* {
+  max-height:54px; // 보여줄 높이까지(3줄의 높이를 입력해야한다)
+  word-wrap:break-word //잘라버릴 글자 단어 단위로 만들어준다)
+  display:block;
+  display:-webkit-box;
+  -webkit-line-clamp:3; //보여줄 줄 갯수
+  -webkit-box-orient:vertical; //박스의 방향 설정
+  overflow:hidden;
+  text-overflow:ellipsis;
+ } */
+
 @media screen and (max-width: 768px){
   .navbar-brand{
     font-size: 20px;

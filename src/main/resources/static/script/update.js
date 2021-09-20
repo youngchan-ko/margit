@@ -161,13 +161,13 @@ BiographySubMenuEvent.prototype = {
 }
 
 
-// ---------------------------------------News---------------------
+// ---------------------------------------Text---------------------
 //뉴스 서브메뉴 선택에 따른 뷰 보여주기
 //수정 선택시에 데이터 받아서 채워주기 변경해야함.
 function NewsSubMenuEvent(){
     this.menuWrap = $('.menu_wrap');
     this.submenuValue = $('#submenu')[0].value;
-    this.textInsertWrap = $('#news_textarea')[0].innerHTML;
+    this.textInsertWrap = $('#text_textarea')[0].innerHTML;
     this.saveBtn = $('.save_btn')[0];
     this.deleteBtn = $('.delete_btn')[0];
     this.writeHtml();
@@ -432,7 +432,7 @@ function mainMenuEvent(){
             break;
         
         case 'biography':
-            var examBiographySubmenu = ['basis','einzelausstellungen','gruppenausstellungen','lesungen','ankäufe - Stipendien'];
+            var examBiographySubmenu = ['Vita','einzelausstellungen','gruppenausstellungen','lesungen','ankäufe - Stipendien'];
             console.log(mainMenu.value);
             new WriteSubmenu(examBiographySubmenu,mainMenu.value);
             break;

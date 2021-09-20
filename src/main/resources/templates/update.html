@@ -53,6 +53,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="/presse">
+                                PRESSE
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/biography">
                                 BIOGRAFIE
                             </a>
@@ -111,7 +116,8 @@
         <script src="script/jquery3_5_1.js"></script>
         <script src="script/bootstrap4_6_0.js"></script>
         <script src="script/update.js"></script>
-
+        
+        <!-- 콘택트 수정 -->
         <script type="rv-template" id="contact_wrap">
             <div class="contact_modify_wrap">
                 <div class="contact_street_wrap">
@@ -171,10 +177,11 @@
             </div>
         </script>
         
-        <template id="news_textarea">
+        <!-- text, presse 인풋템플릿 -->
+        <template id="text_textarea">
             <div class="news_update_wrap">
                 <div class="new_title_wrap">
-                    <label for="news_title_input">der Titel : </label>
+                    <label for="news_title_input">Titel : </label>
                     <input type="text" name="news_title" id="news_title_input">
                 </div>
                 
@@ -198,9 +205,9 @@
                     <tr>
                         <th style="width:10%">CheckBox</th>
                         <th style="width:10%">Id</th>
-                        <th style="width:10%">das Jahr des Anfangs</th>
-                        <th style="width:10%">das Jahr des Endes</th>
-                        <th style="width:60%">Biografie</th>
+                        <th style="width:10%">von</th>
+                        <th style="width:10%">bis</th>
+                        <th style="width:60%">Text</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -225,19 +232,19 @@
             <div class="biography_insert_wrap">
                 <div class="start_year_wrap">
                     <label for="start_year_input">
-                        das Jahr des Anfangs : 
+                        von : 
                     </label>
                     <input type="number" name="" id="start_year_input">
                 </div>
                 <div class="end_year_wrap">
                     <label for="end_year_input">
-                        das Jahr des Endes : 
+                        bis : 
                     </label>
                     <input type="number" name="" id="end_year_input">
                 </div>
                 <div class="biography_text_input_wrap">
                     <label for="biography_text_input">
-                        die Texte der Biografie :
+                        Text :
                     </label>
                     <textarea name="" id="biography_text_input" cols="70" rows="3">
     
@@ -281,13 +288,13 @@
         <script type="rv-template" id="gallery_img_expl">
             <div class="img_title_wrap">
                 <label for="img_title">
-                    der Titel des Fotos : 
+                    Titel des Fotos : 
                 </label>
                 <input type="text" name="" id="img_title">
             </div>
             <div class="img_expl_wrap">
                 <label for="img_explanation_text">
-                    die Beschreibung des Fotos : 
+                    Beschreibung des Fotos : 
                 </label>
                 <input type="text" id="img_explanation_text" name="" class="img_textarea">
             </div>

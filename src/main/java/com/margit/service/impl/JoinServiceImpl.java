@@ -19,7 +19,7 @@ public class JoinServiceImpl implements JoinService{
 	
 	@Override
 	public String joinMember(User user) {
-		user.setRole("owner");
+		user.setRole("OWNER");
 		String rawPassword = user.getPassword();
 		String encPassword = bCryptPasswordEncoder.encode(rawPassword);
 		user.setPassword(encPassword);

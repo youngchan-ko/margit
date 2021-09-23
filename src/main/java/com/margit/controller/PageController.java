@@ -1,6 +1,7 @@
 package com.margit.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.margit.model.BiographyData;
 import com.margit.model.Contact;
 import com.margit.model.User;
+import com.margit.service.BiographyService;
 import com.margit.service.ContactService;
 import com.margit.service.JoinService;
 
@@ -23,6 +26,9 @@ public class PageController {
 	private JoinService joinService;
 	@Autowired
 	private ContactService contactService;
+	@Autowired
+	private BiographyService biographyService;
+
 	
 	@GetMapping({"", "/"})
 	public String index() {
@@ -61,8 +67,10 @@ public class PageController {
 	
 	@ResponseBody
 	@GetMapping({"/biography.ajax"})
-	public String biography_ajax() {
-		return "biography";
+	public List<BiographyData> biography_ajax() {
+		List<BiographyData> biographyData =biographyService.getBiography();
+		System.out.println(biographyData);
+		return biographyData;
 	}
 
 	@GetMapping({"/contact"})

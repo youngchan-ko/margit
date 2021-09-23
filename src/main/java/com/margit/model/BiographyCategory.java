@@ -9,13 +9,10 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Biography {
-
+public class BiographyCategory {
+	
 	@Id //primary key
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private int biographycategory_id;
-	private String start_year;
-	private String end_year;
-	private String biography_text;
+	private String biography_category;
 }

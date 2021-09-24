@@ -73,7 +73,7 @@
         </nav>
         <!-- Page content-->
         <div class="standard_wrap">
-            <div class="biography_item container">
+            <!-- <div class="biography_item container">
                 <p class="year text-left">
                     1959
                 </p>
@@ -110,98 +110,32 @@
                 <p class="biography_text">
                     freischaffend
                 </p>
-            </div>
+            </div> -->
         </div>
         
         
         
         <div class="accordion" id="accordionPanelsStayOpenExample">
-            <div class="accordion-item">
+            <!-- <div class="accordion-item">
                 <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                    Einzelausstellungen
+                    {category}
                     </button>
                 </h2>
                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
                     <div class="accordion-body">
-                        <div class="biography_item container">
-                            <p class="year text-left">
-                                1959
-                            </p>
-                            <p class="biography_text">
-                                geboren in Linz
-                            </p>
-                        </div>
-                        <div class="biography_item container">
-                            <p class="year text-left">
-                                1974 - 1978
-                            </p>
-                            <p class="biography_text">
-                                Fachschule für Gebrauchsgrafik – Linz
-                            </p>
-                        </div>
-                        <div class="biography_item container">
-                            <p class="year text-left">
-                                1979 - 1984
-                            </p>
-                            <p class="biography_text">
-                                Hochschule für Gestaltung in Linz, Meisterklasse Malerei und Grafik
-                            </p>
-                        </div>
-                        <div class="biography_item container">
-                            <p class="year text-left">
-                                ab 1985
-                            </p>
-                            <p class="biography_text">
-                                freischaffend
-                            </p>
-                        </div>
-                        <div class="biography_item container">
-                            <p class="year text-left">
-                                1959
-                            </p>
-                            <p class="biography_text">
-                                geboren in Linz
-                            </p>
-                        </div>
-                        <div class="biography_item container">
-                            <p class="year text-left">
-                                1974 - 1978
-                            </p>
-                            <p class="biography_text">
-                                Fachschule für Gebrauchsgrafik – Linz <br>
-                                Hochschule für Gestaltung in Linz, Meisterklasse<br> Malerei und Grafik<br>
-                                freischaffend<br>
-                            </p>
-                        </div>
-                        <div class="biography_item container">
-                            <p class="year text-left">
-                                1979 - 1984
-                            </p>
-                            <p class="biography_text">
-                                Hochschule für Gestaltung in Linz, Meisterklasse Malerei und Grafik
-                            </p>
-                        </div>
-                        <div class="biography_item container">
-                            <p class="year text-left">
-                                ab 1985
-                            </p>
-                            <p class="biography_text">
-                                freischaffend
-                            </p>
-                        </div>
-                       
+                        {contents}
                     </div>
                 </div>
             </div>
             
             <div class="accordion-item">
-                <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                <h2 class="accordion-header" id="asas">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
                     Gruppenausstellungen
                     </button>
                 </h2>
-                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="asas">
                     <div class="accordion-body">
                     <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
                     </div>
@@ -232,7 +166,7 @@
                     <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
    
         <!-- Bootstrap core JS-->
@@ -242,14 +176,37 @@
         <!-- accordion -->
         <script src="script/bootstrap5.0.2.bundle.js" ></script>
        
-        <script src="script/biography.js" ></script>
+        <script src="script/biography.js"></script>
 
 
         
 
-       
-        <script type="rv-template" id="biography_content">
-            
+       <!-- 카테고리 랩 -->
+        <script type="rv-template" id="category_wrap">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="{category}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne{ramdomId}" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne{ramdomId}">
+                    {category}
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne{ramdomId}" class="accordion-collapse collapse" aria-labelledby="{category}">
+                    <div class="accordion-body">
+                        {contents}
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <!-- 컨턴츠 랩 -->
+        <script type="rv-template" id="contents_wrap">
+            <div class="biography_item container">
+                <p class="year text-left">
+                    {year}
+                </p>
+                <p class="biography_text">
+                    {text}
+                </p>
+            </div>
         </script>
         
         

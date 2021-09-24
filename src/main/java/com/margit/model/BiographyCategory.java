@@ -15,4 +15,5 @@ public class BiographyCategory {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String biography_category;
+	private int turn;
 }

@@ -23,6 +23,13 @@ public class BiographyServiceImpl implements BiographyService{
 	@Autowired
 	private BiographyDao biographyDao;
 	
+	@Override
+	public List<BiographyCategory> biographyCategoryList(){
+		List<BiographyCategory> biographyCategoryList = biographyCategoryDao.findAll();
+		return biographyCategoryList;
+	}
+	
+	@Override
 	public List<BiographyData> getBiography() {
 		List<BiographyData> biographyDataList = new ArrayList<BiographyData>();
 		

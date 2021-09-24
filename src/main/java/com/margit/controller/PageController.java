@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.margit.model.BiographyCategory;
 import com.margit.model.BiographyData;
 import com.margit.model.Contact;
 import com.margit.model.User;
@@ -67,10 +68,16 @@ public class PageController {
 	
 	@ResponseBody
 	@GetMapping({"/biography.ajax"})
-	public List<BiographyData> biography_ajax() {
+	public Map<String, Object> biography_ajax() {
+		List<BiographyCategory> biographyCategoryList = biographyService.biographyCategoryList();
 		List<BiographyData> biographyData =biographyService.getBiography();
-		System.out.println(biographyData);
-		return biographyData;
+		
+		
+		Map<String, Object> lists = new HashMap<String, Object>();
+		lists.put("biographyCategoryList", biographyCategoryList);
+		lists.put("biographyData", biographyData);
+		
+		return lists;
 	}
 
 	@GetMapping({"/contact"})

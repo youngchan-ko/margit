@@ -3,20 +3,41 @@ function WriteCategory(serverData){
 	this.contentsData = serverData.biographyData;
 	this.categoryTarget = document.querySelector('.accordion');
 	this.categoryWrap = document.querySelector('#category_wrap').innerText;
+	this.contentsWrap = document.querySelector('#contents_wrap').innerText;
 	this.writeCategory();
 
 }
 WriteCategory.prototype = {
-	//카테고리 아코디언 만들기
+	//카테고리 아코디언, 컨텐츠 만들기
 	writeCategory : function(){
 		let itemHtml ="";
 		this.category.forEach(function(currentElement){
-			if(currentElement.biography_category != "basic"){
+			let biographyText = "";
+			let categoryName = currentElement.biography_category;
+			if(categoryName != "basic"){
 				let randomId = Math.floor(Math.random() * 1010);
-				let categoryName = this.categoryWrap
-				.replaceAll("{category}", currentElement.biography_category)
+				let categoryAccordion = this.categoryWrap
+				.replaceAll("{category}", categoryName)
 				.replaceAll("{ramdomId}",randomId);
-				itemHtml +=categoryName;
+				
+
+				this.contentsData.forEach(function(currentDataEliment){
+					if(currentDataEliment.biography_category == categoryName){
+						let withyearHtml = "";
+						let contentsHtml = "";
+						contentsHtml = this.contentsWrap.replace("{text}",currentDataEliment.biography_text);
+						if(currentDataEliment.end_year != null){
+							withyearHtml =contentsHtml.replace("{year}",currentDataEliment.start_year+" - "+currentDataEliment.end_year);
+							biographyText += withyearHtml;
+						}else{
+							withyearHtml = contentsHtml.replace("{year}",currentDataEliment.start_year);
+							biographyText += withyearHtml;
+						}
+					}
+				}.bind(this))
+				
+				let finalAccodionContents = categoryAccordion.replace("{contents}", biographyText);
+				itemHtml += finalAccodionContents;
 			}
 		}.bind(this))
 			this.categoryTarget.innerHTML = itemHtml;
@@ -42,13 +63,13 @@ WriteBasicContents.prototype = {
 				let withyearHtml = "";
 				let basicContentsHtml = "";
 				basicContentsHtml = this.contentsWrap.replace("{text}",currentElement.biography_text);
-				if(currentElement.end_year = "null"){
-					withyearHtml = basicContentsHtml.replace("{year}",currentElement.start_year);
+				if(currentElement.end_year != null){
+					withyearHtml =basicContentsHtml.replace("{year}",currentElement.start_year+" - "+currentElement.end_year);
 					initHtml += withyearHtml;
 				}else{
-					withyearHtml =basicContentsHtml.replace("{year}",currentElement.start_year+" - "+currentElement.end_year);
-
+					withyearHtml = basicContentsHtml.replace("{year}",currentElement.start_year);
 					initHtml += withyearHtml;
+					
 				}
 			}
 		}.bind(this))

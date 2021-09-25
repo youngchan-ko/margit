@@ -9,7 +9,7 @@ import com.margit.model.Biography;
 
 public interface BiographyDao extends JpaRepository<Biography, Integer>{
 	
-	@Query(value = "SELECT * FROM biography WHERE biographycategory_id = ?1", nativeQuery = true)
+	@Query(value = "SELECT * FROM biography WHERE biographycategory_id= ?1 ORDER BY start_year DESC", nativeQuery = true)
 	List<Biography> findByBiographycategory_id(int categoryId);
 
 }

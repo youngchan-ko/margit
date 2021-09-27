@@ -23,15 +23,15 @@ WriteCategory.prototype = {
 
 				this.contentsData.forEach(function(currentDataEliment){
 					if(currentDataEliment.biography_category == categoryName){
-						let withyearHtml = "";
+						let withYearHtml = "";
 						let contentsHtml = "";
 						contentsHtml = this.contentsWrap.replace("{text}",currentDataEliment.biography_text);
 						if(currentDataEliment.end_year != null){
-							withyearHtml =contentsHtml.replace("{year}",currentDataEliment.start_year+" - "+currentDataEliment.end_year);
-							biographyText += withyearHtml;
+							withYearHtml =contentsHtml.replace("{year}",currentDataEliment.start_year+" - "+currentDataEliment.end_year);
+							biographyText += withYearHtml;
 						}else{
-							withyearHtml = contentsHtml.replace("{year}",currentDataEliment.start_year);
-							biographyText += withyearHtml;
+							withYearHtml = contentsHtml.replace("{year}",currentDataEliment.start_year);
+							biographyText += withYearHtml;
 						}
 					}
 				}.bind(this))
@@ -57,23 +57,20 @@ function WriteBasicContents(serverData){
 WriteBasicContents.prototype = {
 	//기본 프로필 작성
 	writeBasicContents : function(){
-		let initHtml = '';
 		this.contentsData.forEach(function(currentElement){ 
 			if(currentElement.biography_category === "basic"){
-				let withyearHtml = "";
+				let withYearHtml = "";
 				let basicContentsHtml = "";
 				basicContentsHtml = this.contentsWrap.replace("{text}",currentElement.biography_text);
 				if(currentElement.end_year != null){
-					withyearHtml =basicContentsHtml.replace("{year}",currentElement.start_year+" - "+currentElement.end_year);
-					initHtml += withyearHtml;
+					withYearHtml =basicContentsHtml.replace("{year}",currentElement.start_year+" - "+currentElement.end_year);
+					this.basicCategoryTarget.insertAdjacentHTML('afterbegin',withYearHtml);
 				}else{
-					withyearHtml = basicContentsHtml.replace("{year}",currentElement.start_year);
-					initHtml += withyearHtml;
-					
+					withYearHtml = basicContentsHtml.replace("{year}",currentElement.start_year);
+					this.basicCategoryTarget.insertAdjacentHTML('afterbegin',withYearHtml);
 				}
 			}
 		}.bind(this))
-		this.basicCategoryTarget.innerHTML = initHtml;
 	}
 	// findCategory : function(){
 	// 	let biographyCategory = this.serverData.map(function (val, index) {

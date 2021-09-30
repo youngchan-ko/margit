@@ -211,8 +211,85 @@ NewsSubMenuEvent.prototype = {
 
 
 // ------------------------------------Gallery--------------------
+//갤러리 SendBtn이벤트
+function GallerySendBtnEvent(){
+    this.sendTarget = document.querySelector('.save_btn');
+    this.mainMenu = document.querySelector('#main_menu');
+    this.submenuValue = document.querySelector('#submenu').value;
+    this.newSubtitle = document.querySelector('#new_subtitle_input');
+    this.imgTitle = document.querySelector('#img_title');
+    this.imgExpl = document.querySelector('#img_explanation_text');
+    this.fileTarget = document.querySelector('.gallery_upload_file');
+    
 
+    this.eventListener();
+}
+GallerySendBtnEvent.prototype = {
+    eventListener : function(){
+        this.sendTarget.addEventListener('click', function(){
+            if(this.submenuValue === 'new_subtitle'){
+                let categoryNameResult = this.checkCategoryName();
+                let imgNameResult = this.checkImgTitle();
+                let imgFileResult = this.checkImgFile();
+                let result = categoryNameResult+imgNameResult+imgFileResult;
+                if(result === 3){
+                    let groupName = this.newSubtitle.value;
+                    this.makeFormData(groupName);
+                }
+            }
+        }.bind(this))
+    
+    },
+    checkCategoryName : function(){
+        if(this.newSubtitle.value.length === 0){
+            alert('그룹 이름을 확인해 주세요.');
+        }else{
+            return 1;
+        }
+    },
+    checkImgTitle: function(){
+        if(this.imgTitle.value.length === 0){
 
+            alert('사진 이름을 확인해 주세요.');
+        }else{
+            return 1;
+        }
+    },
+    checkImgFile: function(){
+        if(this.fileTarget.files[0] === null){
+            debugger;
+
+            alert('사진 파일을 확인해 주세요.');
+        }else{
+            debugger;
+            return 1;
+        }
+    },
+    makeFormData : function(groupName){
+        var formData = new FormData();
+
+        formData.append("galleryCategory", this.mainMenu.value);
+        formData.append("group", groupName);
+        formData.append("photoName", this.imgTitle.value);
+        formData.append("photoExpl", this.imgExpl.value);
+        formData.append("imgFile", this.fileTarget.files[0]);
+        debugger;
+        this.sendAjax(formData);
+    },
+    sendAjax : function(formData){
+        var oReq = new XMLHttpRequest();
+	    oReq.onreadystatechange = function(){
+            if(oReq.readyState === 4 && oReq.status === 200){		
+                var serverData = JSON.parse(this.responseText);
+                alert("파일저장에 성공했습니다.");
+                
+            }
+        }
+        oReq.open("POST", "/save_gallery");
+        oReq.send(formData);
+    }
+}
+    
 //갤러리 서브메뉴 선택후 저장, 삭제 선택시 이벤트
 //deleteList템플릿 바꿔주기(함수를 만들어서 호출해주기)
 function GalleryDeleteSaveEvent(){
@@ -248,6 +325,7 @@ GalleryDeleteSaveEvent.prototype = {
             this.imgExpl.style.display ='block';
             this.fileInput.style.display ='block';
             this.saveBtn.style.display ='block';
+            new GallerySendBtnEvent();
         }
     },
     checkboxEvent : function(){
@@ -329,6 +407,7 @@ GallerySubMenuEvent.prototype = {
             this.menuWrap.after(this.imgTextareaTemplate + this.fileInput);
             this.saveBtn.style.display = 'block';
             new CheckFileType();
+            new GallerySendBtnEvent();
         }else if(this.gallerySubtitle === 'default'){
             this.newSubtitleInput.style.display = 'none';
             this.saveBtn.style.display = 'none';
@@ -347,6 +426,24 @@ GallerySubMenuEvent.prototype = {
 
 
 // -------------------------------------공통 로직------------------
+//전송버튼 활성화
+// function ActiveSendBtn(){
+//     this.sendBtnEvent();
+// }
+// ActiveSendBtn.prototype = {
+//     sendBtnEvent : function(){
+//         this.submitTarget.addEventListener('click', function(){
+//             var textLength = document.querySelector('#comment_text').value.length;
+            
+//             if(textLength < 5){
+//                 alert("리뷰 입력을 확인해주세요.");
+//             }else{
+//                 this.makeFormData();
+//             }
+//         }.bind(this))
+//     }
+// }
+
 //서브메뉴 갱신하기
 function WriteSubmenu(submenu, mainValue) {
     this.mainValue = mainValue;
@@ -413,33 +510,27 @@ function mainMenuEvent(){
             for(i=0; i<$('.menu_wrap').nextAll('button').length; i++){
                 $('.menu_wrap').nextAll('button')[i].style.display = 'none';
             }
-            console.log(mainMenu.value);
             break;
 
         case 'skulptur':
         case 'zeichnung': 
         case 'objekt':
             var examGallerySubmenu = ['objekt','trophäen'];
-            
-            console.log(mainMenu.value);
             new WriteSubmenu(examGallerySubmenu,'Gallery');
             break;
 
         case 'news':
             var examNewsSubmenu = ['neue Text(new text)','Änderung(modify)','Löschung(delete)'];
-            console.log(mainMenu.value);
             new WriteSubmenu(examNewsSubmenu,mainMenu.value);
             break;
         
         case 'biography':
             var examBiographySubmenu = ['Vita','einzelausstellungen','gruppenausstellungen','lesungen','ankäufe - Stipendien'];
-            console.log(mainMenu.value);
             new WriteSubmenu(examBiographySubmenu,mainMenu.value);
             break;
         
         case 'contact':
             new ContactEvent();
-            console.log(mainMenu.value);
             break;
     }
 };

@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.margit.model.BiographyCategory;
 import com.margit.model.BiographyData;
 import com.margit.model.Contact;
+import com.margit.model.GallerySaveData;
 import com.margit.model.User;
 import com.margit.service.BiographyService;
 import com.margit.service.ContactService;
@@ -90,16 +91,17 @@ public class PageController {
 	@GetMapping({"/contact.ajax"})
 	public Contact contact_ajax(){
 		Contact contactData = contactService.getContact();
-//		System.out.println("contactData : "+contactData);
-//		
-//		Map<String, Object> lists = new HashMap<String, Object>();
-//		lists.put("contactData", contactData);
-//		System.out.println("lists : "+lists);
-//		
-//		ObjectMapper objectMapper = new ObjectMapper();
-//		String json = objectMapper.writeValueAsString(contactData);
-//		System.out.println("json : "+ json);
+
 		return contactData;
+	}
+	
+	@ResponseBody
+	@PostMapping({"/save_gallery"})
+	public int saveGallery(GallerySaveData gallerySaveData) {
+		System.out.println("PageController : "+gallerySaveData);
+		
+		return 0;
+		
 	}
 	
 	@GetMapping({"/update"})

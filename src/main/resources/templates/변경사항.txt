@@ -1,5 +1,8 @@
-갤러리 저장 데이터 넘어왔음
-이거로 이제 뒷단 구성해봐라
+갤러리 파일은 테이블에 저장이 끝났고 
+갤러리 서비스 임플에서
+crrentPhotoOrderNo
+crrentCategoryOrderNo
+구하는 로직을 만들고 그거까지 입력해서 Gallery Data완성시키고 저장해라
 
 
 카테고리 순서 쿼리만들기 

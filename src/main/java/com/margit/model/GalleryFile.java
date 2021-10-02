@@ -19,7 +19,7 @@ public class GalleryFile {
 	private String originalFileName;
 	private String fileName;
 	private String fileType;
-	private Timestamp regDate;
-	private Timestamp updateDate;
+	private String regDate;
+	private String updateDate;
 	
 }

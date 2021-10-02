@@ -19,6 +19,7 @@ import com.margit.model.GallerySaveData;
 import com.margit.model.User;
 import com.margit.service.BiographyService;
 import com.margit.service.ContactService;
+import com.margit.service.GallerySaveService;
 import com.margit.service.JoinService;
 
 @Controller
@@ -30,6 +31,9 @@ public class PageController {
 	private ContactService contactService;
 	@Autowired
 	private BiographyService biographyService;
+	@Autowired
+	private GallerySaveService gallerySaveService;
+	
 
 	
 	@GetMapping({"", "/"})
@@ -99,7 +103,7 @@ public class PageController {
 	@PostMapping({"/save_gallery"})
 	public int saveGallery(GallerySaveData gallerySaveData) {
 		System.out.println("PageController : "+gallerySaveData);
-		
+		gallerySaveService.saveGallery(gallerySaveData);
 		return 0;
 		
 	}

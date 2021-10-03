@@ -36,8 +36,8 @@ public class GallerySaveServiceImpl implements GallerySaveService{
 	@Transactional
 	public int saveGallery(GallerySaveData gallerySaveData) {
 		int saveGalleryFileId = saveGalleryFile(gallerySaveData);
-		int crrentPhotoOrderNo = galleryDao.getCurrentPhotoOderNo(
-				gallerySaveData.getGalleryCategory(), gallerySaveData.getGroup());
+		Integer crrentPhotoOrderNo = getCrrentPhotoOrderNo(gallerySaveData);
+		
 		
 		Gallery gallery = new Gallery();
 		gallery.setGalleryFileId(saveGalleryFileId);
@@ -51,8 +51,20 @@ public class GallerySaveServiceImpl implements GallerySaveService{
 		
 		
 	}
+	//CrrentPhotoOrderNo Gallery테이블에서 확인해서 그 다음 번호로 넣어주기
+	private Integer getCrrentPhotoOrderNo(GallerySaveData gallerySaveData) {
+		Integer crrentPhotoOrderNo = galleryDao.getCurrentPhotoOderNo(
+				gallerySaveData.getGalleryCategory(), gallerySaveData.getGroup());
+		if(crrentPhotoOrderNo == null) {
+			crrentPhotoOrderNo = 1;
+		}else {
+			crrentPhotoOrderNo++;
+		}
+		System.out.println("crrentPhotoOrderNo - "+crrentPhotoOrderNo);
+		return crrentPhotoOrderNo;
+	}
 	
-	
+	//GalleryFile테이블 저장
 	private int saveGalleryFile(GallerySaveData gallerySaveData) {
 		String saveFileName = makeFileName(gallerySaveData);
 		

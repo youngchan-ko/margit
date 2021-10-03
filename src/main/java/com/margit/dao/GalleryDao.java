@@ -11,7 +11,7 @@ public interface GalleryDao extends JpaRepository<Gallery, Integer>{
 	@Query(value = "SELECT MAX(photoOrderNo) FROM gallery "
 			+ "WHERE galleryCategory = ?1 AND `group` = ?2", 
 			nativeQuery = true)
-	int getCurrentPhotoOderNo(String galleryCategory, String group);
+	Integer getCurrentPhotoOderNo(String galleryCategory, String group);
 	
 	@Query(value = "SELECT DISTINCT groupOrderNo FROM gallery "
 			+ "WHERE galleryCategory= ?1 AND `group`=?2", 

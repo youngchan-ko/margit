@@ -19,7 +19,7 @@ public class Gallery {
 	private String photoName;
 	private String photoExpl;
 	private int photoOrderNo;
-	private String group;
+	private String groupName;
 	private int groupOrderNo;
 	
 }

@@ -102,10 +102,9 @@ public class PageController {
 	@ResponseBody
 	@PostMapping({"/save_gallery"})
 	public int saveGallery(GallerySaveData gallerySaveData) {
-		System.out.println("PageController : "+gallerySaveData);
 		gallerySaveService.saveGallery(gallerySaveData);
-		return 0;
 		
+		return 0;
 	}
 	
 	@GetMapping({"/update"})

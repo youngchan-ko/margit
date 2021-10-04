@@ -9,13 +9,17 @@ import com.margit.model.Gallery;
 public interface GalleryDao extends JpaRepository<Gallery, Integer>{
 
 	@Query(value = "SELECT MAX(photoOrderNo) FROM gallery "
-			+ "WHERE galleryCategory = ?1 AND `group` = ?2", 
+			+ "WHERE galleryCategory = ?1 AND groupName = ?2", 
 			nativeQuery = true)
 	Integer getCurrentPhotoOderNo(String galleryCategory, String group);
 	
 	@Query(value = "SELECT DISTINCT groupOrderNo FROM gallery "
-			+ "WHERE galleryCategory= ?1 AND `group`=?2", 
+			+ "WHERE galleryCategory= ?1 AND groupName=?2", 
 			nativeQuery = true)
-	int getCurrentGroupOderNo(String galleryCategory, String group);
+	Integer getCurrentGroupOderNo(String galleryCategory, String group);
+
+	@Query(value = "SELECT MAX(groupOrderNo) FROM gallery WHERE galleryCategory = ?1", 
+			nativeQuery = true)
+	int getMaxGroupOderNo(String galleryCategory);
 	
 }

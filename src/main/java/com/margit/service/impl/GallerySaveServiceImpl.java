@@ -1,6 +1,8 @@
 package com.margit.service.impl;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -34,38 +36,74 @@ public class GallerySaveServiceImpl implements GallerySaveService{
 	
 	@Override
 	@Transactional
-	public int saveGallery(GallerySaveData gallerySaveData) {
-		int saveGalleryFileId = saveGalleryFile(gallerySaveData);
-		Integer crrentPhotoOrderNo = getCrrentPhotoOrderNo(gallerySaveData);
+	public void saveGallery(GallerySaveData gallerySaveData) {
+		GalleryFile saveGalleryFileResultModel = saveGalleryFile(gallerySaveData);
+		Integer currentPhotoOrderNo = getCrrentPhotoOrderNo(gallerySaveData);
+		Integer currentGroupOrderNo = getCurrentGroupOrderNo(gallerySaveData);
 		
+		//파일 쓰기
+		WriteFile(saveGalleryFileResultModel, gallerySaveData);
 		
 		Gallery gallery = new Gallery();
-		gallery.setGalleryFileId(saveGalleryFileId);
+		gallery.setGalleryFileId(saveGalleryFileResultModel.getId());
 		gallery.setGalleryCategory(gallerySaveData.getGalleryCategory());
 		gallery.setPhotoName(gallerySaveData.getPhotoName());
 		gallery.setPhotoExpl(gallerySaveData.getPhotoExpl());
-		gallery.setPhotoOrderNo(crrentPhotoOrderNo);
-		gallery.setGroup(gallerySaveData.getGroup());
+		gallery.setPhotoOrderNo(currentPhotoOrderNo);
+		gallery.setGroupName(gallerySaveData.getGroup());
+		gallery.setGroupOrderNo(currentGroupOrderNo);
 		
-		return 0;
+		galleryDao.save(gallery);
 		
 		
 	}
+	
+	//파일 쓰기
+	private void WriteFile(GalleryFile galleryFile, GallerySaveData gallerySaveData) {
+		File f = new File(formattedDir);
+		if(!f.exists()){ // 저장 디렉토리 확인
+			f.mkdirs(); // 해당 디렉토리 만들기
+		}
+		try(
+                FileOutputStream fos = new FileOutputStream(formattedDir + File.separator + galleryFile.getFileName());
+                InputStream is = gallerySaveData.getImgFile().getInputStream();
+        ){
+        	    int readCount = 0;
+        	    byte[] buffer = new byte[1024];
+            while((readCount = is.read(buffer)) != -1){
+                fos.write(buffer,0,readCount);
+            }
+        }catch(Exception ex){
+            throw new RuntimeException("file Save Error");
+        }
+	}
+	
+	//CrrentGroupOrderNo Gallery테이블에서 확인해서 그 다음 번호로 넣어주기
+	private Integer getCurrentGroupOrderNo(GallerySaveData gallerySaveData) {
+		Integer currentGroupOrderNo = galleryDao.getCurrentGroupOderNo(
+				gallerySaveData.getGalleryCategory(), gallerySaveData.getGroup());
+		if(currentGroupOrderNo == null) {
+			int nextGroupOrderNo = galleryDao.getMaxGroupOderNo(gallerySaveData.getGalleryCategory());
+			currentGroupOrderNo = nextGroupOrderNo+1;		
+		}
+		return currentGroupOrderNo;
+	}
+	
+	
 	//CrrentPhotoOrderNo Gallery테이블에서 확인해서 그 다음 번호로 넣어주기
 	private Integer getCrrentPhotoOrderNo(GallerySaveData gallerySaveData) {
-		Integer crrentPhotoOrderNo = galleryDao.getCurrentPhotoOderNo(
+		Integer currentPhotoOrderNo = galleryDao.getCurrentPhotoOderNo(
 				gallerySaveData.getGalleryCategory(), gallerySaveData.getGroup());
-		if(crrentPhotoOrderNo == null) {
-			crrentPhotoOrderNo = 1;
+		if(currentPhotoOrderNo == null) {
+			currentPhotoOrderNo = 1;
 		}else {
-			crrentPhotoOrderNo++;
+			currentPhotoOrderNo++;
 		}
-		System.out.println("crrentPhotoOrderNo - "+crrentPhotoOrderNo);
-		return crrentPhotoOrderNo;
+		return currentPhotoOrderNo;
 	}
 	
 	//GalleryFile테이블 저장
-	private int saveGalleryFile(GallerySaveData gallerySaveData) {
+	private GalleryFile saveGalleryFile(GallerySaveData gallerySaveData) {
 		String saveFileName = makeFileName(gallerySaveData);
 		
 		GalleryFile galleryFile = new GalleryFile();
@@ -77,9 +115,9 @@ public class GallerySaveServiceImpl implements GallerySaveService{
 		galleryFile.setUpdateDate(now);
 		
 		galleryFileDao.save(galleryFile);
-		GalleryFile saveResultModel = galleryFileDao.findByFileName(saveFileName);
-		int saveGalleryFileId = saveResultModel.getId();
-		return saveGalleryFileId;
+		GalleryFile saveGalleryFileResultModel = galleryFileDao.findByFileName(saveFileName);
+		
+		return saveGalleryFileResultModel;
 	}
 
 	//이미지파일 이름 새로 만들기

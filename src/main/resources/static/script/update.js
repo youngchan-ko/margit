@@ -426,23 +426,7 @@ GallerySubMenuEvent.prototype = {
 
 
 // -------------------------------------공통 로직------------------
-//전송버튼 활성화
-// function ActiveSendBtn(){
-//     this.sendBtnEvent();
-// }
-// ActiveSendBtn.prototype = {
-//     sendBtnEvent : function(){
-//         this.submitTarget.addEventListener('click', function(){
-//             var textLength = document.querySelector('#comment_text').value.length;
-            
-//             if(textLength < 5){
-//                 alert("리뷰 입력을 확인해주세요.");
-//             }else{
-//                 this.makeFormData();
-//             }
-//         }.bind(this))
-//     }
-// }
+
 
 //서브메뉴 갱신하기
 function WriteSubmenu(submenu, mainValue) {

@@ -50,12 +50,10 @@ public class GallerySaveServiceImpl implements GallerySaveService{
 		gallery.setPhotoName(gallerySaveData.getPhotoName());
 		gallery.setPhotoExpl(gallerySaveData.getPhotoExpl());
 		gallery.setPhotoOrderNo(currentPhotoOrderNo);
-		gallery.setGroupName(gallerySaveData.getGroup());
+		gallery.setGroupName(gallerySaveData.getGroupName());
 		gallery.setGroupOrderNo(currentGroupOrderNo);
 		
 		galleryDao.save(gallery);
-		
-		
 	}
 	
 	//파일 쓰기
@@ -80,11 +78,21 @@ public class GallerySaveServiceImpl implements GallerySaveService{
 	
 	//CrrentGroupOrderNo Gallery테이블에서 확인해서 그 다음 번호로 넣어주기
 	private Integer getCurrentGroupOrderNo(GallerySaveData gallerySaveData) {
-		Integer currentGroupOrderNo = galleryDao.getCurrentGroupOderNo(
-				gallerySaveData.getGalleryCategory(), gallerySaveData.getGroup());
-		if(currentGroupOrderNo == null) {
-			int nextGroupOrderNo = galleryDao.getMaxGroupOderNo(gallerySaveData.getGalleryCategory());
+		int searchingGroupName = galleryDao.searchGalleryGroupName(gallerySaveData.getGroupName());
+		int currentGroupOrderNo = 0;
+		if(searchingGroupName == 1) {
+			currentGroupOrderNo = galleryDao.getCurrentGroupOderNo(
+					gallerySaveData.getGalleryCategory(), gallerySaveData.getGroupName());
+			
+			System.out.println("currentGroupOrderNo(oben) : "+currentGroupOrderNo);
+		}else {
+			System.out.println("currentGroupOrderNo(unten) : "+currentGroupOrderNo);
+			Integer nextGroupOrderNo = galleryDao.getMaxGroupOderNo(gallerySaveData.getGalleryCategory());
+			if(nextGroupOrderNo == null) {
+				nextGroupOrderNo = 0;
+			}
 			currentGroupOrderNo = nextGroupOrderNo+1;		
+			
 		}
 		return currentGroupOrderNo;
 	}
@@ -93,7 +101,7 @@ public class GallerySaveServiceImpl implements GallerySaveService{
 	//CrrentPhotoOrderNo Gallery테이블에서 확인해서 그 다음 번호로 넣어주기
 	private Integer getCrrentPhotoOrderNo(GallerySaveData gallerySaveData) {
 		Integer currentPhotoOrderNo = galleryDao.getCurrentPhotoOderNo(
-				gallerySaveData.getGalleryCategory(), gallerySaveData.getGroup());
+				gallerySaveData.getGalleryCategory(), gallerySaveData.getGroupName());
 		if(currentPhotoOrderNo == null) {
 			currentPhotoOrderNo = 1;
 		}else {

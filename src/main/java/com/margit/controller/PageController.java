@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -15,11 +16,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.margit.model.BiographyCategory;
 import com.margit.model.BiographyData;
 import com.margit.model.Contact;
+import com.margit.model.Gallery;
+import com.margit.model.GalleryGroupNameInterface;
 import com.margit.model.GallerySaveData;
 import com.margit.model.User;
 import com.margit.service.BiographyService;
 import com.margit.service.ContactService;
 import com.margit.service.GallerySaveService;
+import com.margit.service.GalleryUpdateService;
 import com.margit.service.JoinService;
 
 @Controller
@@ -33,6 +37,8 @@ public class PageController {
 	private BiographyService biographyService;
 	@Autowired
 	private GallerySaveService gallerySaveService;
+	@Autowired
+	private GalleryUpdateService galleryUpdateService;
 	
 
 	
@@ -54,6 +60,16 @@ public class PageController {
 	@GetMapping({"/objekt"})
 	public String objekt() {
 		return "objekt";
+	}
+	
+	@ResponseBody
+	@GetMapping({"/getGallerySubmenu"})
+	public List<GalleryGroupNameInterface> getGallerySubmenu(
+			@RequestParam(required=false) String galleryMainMenu) {
+		List<GalleryGroupNameInterface> galleryGroupName = 
+				galleryUpdateService.getGallerygroupName(galleryMainMenu);
+		return galleryGroupName;
+		
 	}
 
 	@GetMapping({"/text"})
@@ -106,6 +122,8 @@ public class PageController {
 		
 		return 0;
 	}
+	
+	
 	
 	@GetMapping({"/update"})
 	public String update() {

@@ -269,7 +269,7 @@ GallerySendBtnEvent.prototype = {
         var formData = new FormData();
 
         formData.append("galleryCategory", this.mainMenu.value);
-        formData.append("group", groupName);
+        formData.append("groupName", groupName);
         formData.append("photoName", this.imgTitle.value);
         formData.append("photoExpl", this.imgExpl.value);
         formData.append("imgFile", this.fileTarget.files[0]);
@@ -499,8 +499,21 @@ function mainMenuEvent(){
         case 'skulptur':
         case 'zeichnung': 
         case 'objekt':
-            var examGallerySubmenu = ['objekt','trophäen'];
-            new WriteSubmenu(examGallerySubmenu,'Gallery');
+            var oReq = new XMLHttpRequest();
+            oReq.onreadystatechange = function(){
+                if(oReq.readyState === 4 && oReq.status === 200){		
+                    var serverData = JSON.parse(this.responseText);
+                    console.log(serverData);
+                    let gallerySubtitle = [];
+                    serverData.forEach(function(currentDataEliment){
+                        gallerySubtitle.push(currentDataEliment.groupName); 
+                    });
+                    new WriteSubmenu(gallerySubtitle,'Gallery');
+                }
+            }
+            oReq.open("GET", "/getGallerySubmenu?galleryMainMenu="+mainMenu.value);
+            oReq.send();
+            
             break;
 
         case 'news':

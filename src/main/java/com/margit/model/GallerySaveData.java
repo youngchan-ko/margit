@@ -8,7 +8,7 @@ import lombok.Data;
 public class GallerySaveData {
 
 	private String galleryCategory;
-	private String group;
+	private String groupName;
 	private String photoName;
 	private String photoExpl;
 	private MultipartFile imgFile;

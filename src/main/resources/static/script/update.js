@@ -249,7 +249,6 @@ GallerySendBtnEvent.prototype = {
     },
     checkImgTitle: function(){
         if(this.imgTitle.value.length === 0){
-
             alert('사진 이름을 확인해 주세요.');
         }else{
             return 1;
@@ -257,11 +256,9 @@ GallerySendBtnEvent.prototype = {
     },
     checkImgFile: function(){
         if(this.fileTarget.files[0] === null){
-            debugger;
 
             alert('사진 파일을 확인해 주세요.');
         }else{
-            debugger;
             return 1;
         }
     },
@@ -273,7 +270,6 @@ GallerySendBtnEvent.prototype = {
         formData.append("photoName", this.imgTitle.value);
         formData.append("photoExpl", this.imgExpl.value);
         formData.append("imgFile", this.fileTarget.files[0]);
-        debugger;
         this.sendAjax(formData);
     },
     sendAjax : function(formData){
@@ -356,6 +352,7 @@ CheckFileType.prototype = {
     fileTargetEvent : function(){
         this.fileTarget.addEventListener('change', function(){
             var image = event.target.files[0];
+            debugger;
             var checkImageType = this.valideImageType(image.type);
             if(checkImageType){
                 this.thumListTarget.style.display = 'inline-block';

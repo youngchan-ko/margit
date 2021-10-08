@@ -16,8 +16,9 @@ public class GalleryUpdateServiceImpl implements GalleryUpdateService {
 	GalleryDao galleryDao;
 	
 	public List<GalleryGroupNameInterface> getGallerygroupName (String galleryCategory) {
-		List<GalleryGroupNameInterface> galleryGroupName = galleryDao.getGroupName(galleryCategory);
-		System.out.println("GalleryServiceImpl-galleryGroupName : "+galleryGroupName);
+		List<GalleryGroupNameInterface> galleryGroupName = 
+				galleryDao.getGroupName(galleryCategory);
+		
 		return galleryGroupName;
 	}
 

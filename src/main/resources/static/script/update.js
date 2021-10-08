@@ -220,24 +220,28 @@ function GallerySendBtnEvent(){
     this.imgTitle = document.querySelector('#img_title');
     this.imgExpl = document.querySelector('#img_explanation_text');
     this.fileTarget = document.querySelector('.gallery_upload_file');
-    
-
     this.eventListener();
 }
 GallerySendBtnEvent.prototype = {
     eventListener : function(){
         this.sendTarget.addEventListener('click', function(){
-            if(this.submenuValue === 'new_subtitle'){
-                let categoryNameResult = this.checkCategoryName();
-                let imgNameResult = this.checkImgTitle();
-                let imgFileResult = this.checkImgFile();
-                let result = categoryNameResult+imgNameResult+imgFileResult;
-                if(result === 3){
-                    let groupName = this.newSubtitle.value;
+            let imgNameResult = this.checkImgTitle();
+            let imgFileResult = this.checkImgFile();
+            let result = imgNameResult+imgFileResult;
+            if(result === 2){
+                let groupName = '';
+                if(this.submenuValue === 'new_subtitle'){
+                    let categoryNameResult = this.checkCategoryName();
+                    if(categoryNameResult === 1){
+                        groupName = this.newSubtitle.value;
+                        this.makeFormData(groupName);
+                    }
+                }else{
+                    groupName = this.submenuValue;
                     this.makeFormData(groupName);
                 }
             }
-        }.bind(this))
+        }.bind(this));
     
     },
     checkCategoryName : function(){
@@ -255,8 +259,7 @@ GallerySendBtnEvent.prototype = {
         }
     },
     checkImgFile: function(){
-        if(this.fileTarget.files[0] === null){
-
+        if(this.fileTarget.files.length === 0){
             alert('사진 파일을 확인해 주세요.');
         }else{
             return 1;
@@ -352,7 +355,6 @@ CheckFileType.prototype = {
     fileTargetEvent : function(){
         this.fileTarget.addEventListener('change', function(){
             var image = event.target.files[0];
-            debugger;
             var checkImageType = this.valideImageType(image.type);
             if(checkImageType){
                 this.thumListTarget.style.display = 'inline-block';

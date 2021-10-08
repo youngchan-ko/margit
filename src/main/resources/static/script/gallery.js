@@ -323,3 +323,11 @@ var swiper = new Swiper(".mySwiper", {
     sgallery.init();
 }(jQuery));
 
+function GetGalleryData(){
+    this.galleryCategory = document.location.pathname.slice(1);
+    
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+    new GetGalleryData();
+});

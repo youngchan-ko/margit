@@ -7,6 +7,6 @@ import com.margit.model.GalleryViewData;
 
 public interface GalleryService {
 
-	public List<GalleryViewData> getGallerygroupName (String galleryCategory);
+	public List<GalleryGroupNameInterface> getGalleryData (String galleryCategory);
 
 }

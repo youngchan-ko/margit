@@ -1,11 +1,18 @@
 package com.margit.service.impl;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JacksonException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.margit.dao.GalleryDao;
+import com.margit.model.Gallery;
 import com.margit.model.GalleryGroupNameInterface;
 import com.margit.model.GalleryViewData;
 import com.margit.service.GalleryService;
@@ -16,10 +23,14 @@ public class GalleryServiceImpl implements GalleryService{
 	GalleryDao galleryDao;
 	
 	@Override
-	public List<GalleryViewData> getGallerygroupName(String galleryCategory) {
-		List<GalleryGroupNameInterface> getGalleryGroupName = getGalleryGroupName(galleryCategory);
+	public List<GalleryGroupNameInterface> getGalleryData(String galleryCategory) {
 		
-		return null;
+		
+		List<GalleryGroupNameInterface> galleryGroupName = 
+				galleryDao.getGroupName(galleryCategory);
+		System.out.println("GalleryServiceImpl --: "+galleryGroupName);
+		
+		return galleryGroupName;
 	}
 	
 	private List<GalleryGroupNameInterface> getGalleryGroupName(String galleryCategory){

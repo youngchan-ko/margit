@@ -17,10 +17,12 @@ import com.margit.model.Contact;
 import com.margit.model.Gallery;
 import com.margit.model.GalleryGroupNameInterface;
 import com.margit.model.GallerySaveData;
+import com.margit.model.GalleryViewData;
 import com.margit.model.User;
 import com.margit.service.BiographyService;
 import com.margit.service.ContactService;
 import com.margit.service.GallerySaveService;
+import com.margit.service.GalleryService;
 import com.margit.service.GalleryUpdateService;
 import com.margit.service.JoinService;
 
@@ -37,6 +39,8 @@ public class PageController {
 	private GallerySaveService gallerySaveService;
 	@Autowired
 	private GalleryUpdateService galleryUpdateService;
+	@Autowired
+	private GalleryService galleryService;
 	
 
 	
@@ -50,9 +54,11 @@ public class PageController {
 		return "skulptur";
 	}
 	
+	@ResponseBody
 	@GetMapping({"/skulptur.ajax"})
-	public String getSkulpturData() {
-		return "skulptur";
+	public List<GalleryGroupNameInterface> getSkulpturData() {
+		List<GalleryGroupNameInterface> a = galleryService.getGalleryData("skulptur");
+		return a;
 	}
 	
 	@GetMapping({"/zeichnung"})

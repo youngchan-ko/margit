@@ -5,6 +5,7 @@
 js에서 수정해줘야함.
 
 GalleryServiceImpl에서 GalleryViewData만들어서 앞단으로 보내주기
+현재 그룹이름만 가져왔음.
 
 
 카테고리 순서 쿼리만들기 

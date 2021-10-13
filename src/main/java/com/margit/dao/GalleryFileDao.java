@@ -11,4 +11,7 @@ public interface GalleryFileDao extends JpaRepository<GalleryFile, Integer>{
 	@Query(value = "SELECT * FROM galleryfile WHERE fileName= ?1", nativeQuery = true)
 	GalleryFile findByFileName(String saveFileName);
 	
+	@Query(value = "SELECT * FROM galleryfile WHERE id= ?1", nativeQuery = true)
+	GalleryFile findById(int galleryFileId);
+	
 }

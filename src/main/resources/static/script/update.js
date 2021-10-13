@@ -510,7 +510,7 @@ function mainMenuEvent(){
                     new WriteSubmenu(gallerySubtitle,'Gallery');
                 }
             }
-            oReq.open("GET", "/getGallerySubmenu?galleryMainMenu="+mainMenu.value);
+            oReq.open("GET", "/getGalleryGroupName?galleryMainMenu="+mainMenu.value);
             oReq.send();
             
             break;

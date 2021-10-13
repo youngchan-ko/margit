@@ -323,57 +323,142 @@ var swiper = new Swiper(".mySwiper", {
     sgallery.init();
 }(jQuery));
 
-function GetGroupPhoto(groupName){
-    this.groupName = groupName;
-    this.test();
-
+function WriteGroupPhoto(){
+    this.groupName = new GetGalleryGroupName();
+    this.photoData = new GetGroupPhoto(this.groupName);
+    
+    
+    this.writeGroupName();
 }
-GetGroupPhoto.prototype = {
-    getPhotoData : function(){
-        var oReq = new XMLHttpRequest();
-            oReq.onreadystatechange = function(){
-                if(oReq.readyState === 4 && oReq.status === 200){	
-                    var groupName = JSON.parse(this.responseText);
-                    
-                }
-            }
-        oReq.open("GET", "/getGallerySubmenu?galleryMainMenu="+this.galleryCategory);
-        oReq.send();
-    },
-    test : function(){
-        console.log(this.groupName);
-    }
-}
-
-function GetGalleryGroupName(){
-    this.galleryCategory = document.location.pathname.slice(1);
-    this.groupWriteTarget = document.querySelector('.navbar');
-    this.groupWrap = document.querySelector('#group_wrap');
-    this.getPhotoData();
-}
-GetGalleryGroupName.prototype = {
-    getPhotoData : function(){
-        var oReq = new XMLHttpRequest();
-            oReq.onreadystatechange = function(){
-                if(oReq.readyState === 4 && oReq.status === 200){	
-                    var groupName = JSON.parse(this.responseText);
-                    console.log(groupName);
-                    
-                    new GetGroupPhoto(groupName);
-                }
-            }
-        oReq.open("GET", "/getGallerySubmenu?galleryMainMenu="+this.galleryCategory);
-        oReq.send();
-    },
-    writeGroupName : function(groupName){
+WriteGroupPhoto.prototype = {
+    writeGroupName : function(){
         let galleryDataHtml = "";
-        groupName.forEach(function(currentDataEliment){
+        this.groupName.forEach(function(currentDataEliment){
             let groupDataHtml = this.groupWrap.replace("{group_title}",currentDataEliment.groupName);
 
             galleryDataHtml =+ groupDataHtml;
         });
         console.log(galleryDataHtml);
-        debugger;
+    }
+}
+
+function GetGroupPhoto(groupName){
+    this.groupName = groupName;
+    this.galleryCategory = document.location.pathname.slice(1);
+    this.makeFormData();
+
+}
+GetGroupPhoto.prototype = {
+    getPhotoData : function(getPhotoFormData){
+        var oReq = new XMLHttpRequest();
+	    oReq.onreadystatechange = function(){
+            if(oReq.readyState === 4 && oReq.status === 200){
+                var photoData = JSON.parse(this.responseText);
+                // new WriteGroupPhoto(photoData);
+                console.log(photoData);
+                return photoData;
+                
+            }
+        }
+        oReq.open("POST", "/getPhotoData");
+        oReq.send(getPhotoFormData);
+    },
+    makeFormData : function(){
+        var getPhotoFormData = new FormData();
+        getPhotoFormData.append("galleryMainMenu", this.galleryCategory);
+        getPhotoFormData.append("groupName", this.groupName);
+        this.getPhotoData(getPhotoFormData);
+        // this.groupName.forEach(function(currentGroupName){
+        //     var getPhotoFormData = new FormData();
+
+        //     getPhotoFormData.append("galleryMainMenu", this.galleryCategory);
+        //     getPhotoFormData.append("groupName", currentGroupName.groupName);
+       
+        //     this.getPhotoData(getPhotoFormData);
+            
+        // }.bind(this));
+    }
+}
+function WriteGroupName(groupName){
+    this.galleryCategory = document.location.pathname.slice(1);
+    this.groupName = groupName;
+    this.groupWriteTarget = document.querySelector('.navbar');
+    this.groupWrap = document.querySelector('#group_wrap').innerText;
+    // this.photoContentWrap = document.querySelector('#slide_item').innerText;
+    this.writeGroupName();
+    // new GetGroupPhoto(this.groupName);
+}
+WriteGroupName.prototype = {
+    writeGroupName : function(){
+        let galleryDataHtml = "";
+        this.groupName.forEach(function(currentElement){
+            console.log(currentElement.groupName);
+            let groupDataHtml="";
+            
+            var getPhotoFormData = new FormData();
+            getPhotoFormData.append("galleryMainMenu", this.galleryCategory);
+            getPhotoFormData.append("groupName", currentElement.groupName);
+            
+            var oReq = new XMLHttpRequest();
+            oReq.onreadystatechange = function(){
+                if(oReq.readyState === 4 && oReq.status === 200){
+                    var photoData = JSON.parse(this.responseText);
+                    console.log(photoData);
+                    let photoContents = "";
+                    photoData.forEach(function(currentPhotoData){
+                        let photoContent = "";
+                        let photoContentWrap = document.querySelector('#slide_item').innerText;
+                        photoContent = photoContentWrap
+                        .replace("{group_name}", currentElement.groupName)
+                        .replace("{img_title}", currentPhotoData.photoName)
+                        .replace("{full_img_path}", currentPhotoData.fileName)
+                        .replace("{thumb_img_path}", currentPhotoData.fileName)
+                        .replace("{img_explanation}", currentPhotoData.photoExpl)
+                        .replace("{full_img_path}", currentPhotoData.fileName)
+                        photoContents +=photoContent;
+                    }.bind(this));
+                    console.log("1818181818"+photoContents);
+                    let groupWrap = document.querySelector('#group_wrap').innerText;
+                    groupDataHtml = groupWrap
+                    .replace("{group_title}",currentElement.groupName)
+                    .replace("{photo_contents}",photoContents);
+                    galleryDataHtml += groupDataHtml;
+                    let groupWriteTarget = document.querySelector('.navbar');
+                    groupWriteTarget.insertAdjacentHTML('afterend', galleryDataHtml);
+                }
+            }
+            oReq.open("POST", "/getPhotoData");
+            oReq.send(getPhotoFormData);
+            
+            
+
+
+
+            // console.log(photoData);
+            // galleryDataHtml += groupDataHtml;
+            }.bind(this));
+            // this.groupWriteTarget.insertAdjacentHTML('afterend', galleryDataHtml);
+    
+    }
+    
+}
+
+function GetGalleryGroupName(){
+    this.galleryCategory = document.location.pathname.slice(1);
+    this.getGalleryGroupName();
+}
+GetGalleryGroupName.prototype = {
+    getGalleryGroupName : function(){
+        var oReq = new XMLHttpRequest();
+            oReq.onreadystatechange = function(){
+                if(oReq.readyState === 4 && oReq.status === 200){	
+                    var groupName = JSON.parse(this.responseText);
+                    
+                    new WriteGroupName(groupName);
+                }
+            }
+        oReq.open("GET", "/getGalleryGroupName?galleryMainMenu="+this.galleryCategory);
+        oReq.send();
     }
 }
 

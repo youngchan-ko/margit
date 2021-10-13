@@ -17,7 +17,8 @@ import com.margit.model.Contact;
 import com.margit.model.Gallery;
 import com.margit.model.GalleryGroupNameInterface;
 import com.margit.model.GallerySaveData;
-import com.margit.model.GalleryViewData;
+import com.margit.model.GetPhotoFormData;
+import com.margit.model.PhotoData;
 import com.margit.model.User;
 import com.margit.service.BiographyService;
 import com.margit.service.ContactService;
@@ -55,10 +56,11 @@ public class PageController {
 	}
 	
 	@ResponseBody
-	@GetMapping({"/skulptur.ajax"})
-	public List<GalleryGroupNameInterface> getSkulpturData() {
-		List<GalleryGroupNameInterface> a = galleryService.getGalleryData("skulptur");
-		return a;
+	@PostMapping({"/getPhotoData"})
+	public List<PhotoData> getGalleryPhotoData(GetPhotoFormData getPhotoFormData) {
+		List<PhotoData> photoData = galleryService.getGalleryPhotoData(
+				getPhotoFormData.getGalleryMainMenu(), getPhotoFormData.getGroupName());
+		return photoData;
 	}
 	
 	@GetMapping({"/zeichnung"})
@@ -72,7 +74,7 @@ public class PageController {
 	}
 	
 	@ResponseBody
-	@GetMapping({"/getGallerySubmenu"})
+	@GetMapping({"/getGalleryGroupName"})
 	public List<GalleryGroupNameInterface> getGallerySubmenu(
 			@RequestParam(required=false) String galleryMainMenu) {
 		List<GalleryGroupNameInterface> galleryGroupName = 

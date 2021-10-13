@@ -117,7 +117,8 @@ public class GallerySaveServiceImpl implements GallerySaveService{
 		GalleryFile galleryFile = new GalleryFile();
 		
 		galleryFile.setOriginalFileName(gallerySaveData.getImgFile().getOriginalFilename());
-		galleryFile.setFileName(saveFileName);
+		String savePath = savedDir + File.separator + saveFileName;
+		galleryFile.setFileName(savePath);
 		galleryFile.setFileType(gallerySaveData.getImgFile().getContentType());
 		galleryFile.setRegDate(now);
 		galleryFile.setUpdateDate(now);

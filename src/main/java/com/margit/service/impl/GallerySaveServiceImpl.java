@@ -37,12 +37,16 @@ public class GallerySaveServiceImpl implements GallerySaveService{
 	@Override
 	@Transactional
 	public void saveGallery(GallerySaveData gallerySaveData) {
-		GalleryFile saveGalleryFileResultModel = saveGalleryFile(gallerySaveData);
+		String saveFileName = makeFileName(gallerySaveData);
+		System.out.println("saveFileName : "+saveFileName);
+		GalleryFile saveGalleryFileResultModel = saveGalleryFile(gallerySaveData, saveFileName);
+		System.out.println("saveGalleryFileResultModel : "+saveGalleryFileResultModel);
+		
 		Integer currentPhotoOrderNo = getCrrentPhotoOrderNo(gallerySaveData);
 		Integer currentGroupOrderNo = getCurrentGroupOrderNo(gallerySaveData);
 		
 		//파일 쓰기
-		WriteFile(saveGalleryFileResultModel, gallerySaveData);
+		WriteFile(saveFileName, gallerySaveData);
 		
 		Gallery gallery = new Gallery();
 		gallery.setGalleryFileId(saveGalleryFileResultModel.getId());
@@ -57,13 +61,13 @@ public class GallerySaveServiceImpl implements GallerySaveService{
 	}
 	
 	//파일 쓰기
-	private void WriteFile(GalleryFile galleryFile, GallerySaveData gallerySaveData) {
+	private void WriteFile(String saveFileName, GallerySaveData gallerySaveData) {
 		File f = new File(formattedDir);
 		if(!f.exists()){ // 저장 디렉토리 확인
 			f.mkdirs(); // 해당 디렉토리 만들기
 		}
 		try(
-                FileOutputStream fos = new FileOutputStream(formattedDir + File.separator + galleryFile.getFileName());
+                FileOutputStream fos = new FileOutputStream(formattedDir + File.separator + saveFileName);
                 InputStream is = gallerySaveData.getImgFile().getInputStream();
         ){
         	    int readCount = 0;
@@ -111,21 +115,21 @@ public class GallerySaveServiceImpl implements GallerySaveService{
 	}
 	
 	//GalleryFile테이블 저장
-	private GalleryFile saveGalleryFile(GallerySaveData gallerySaveData) {
-		String saveFileName = makeFileName(gallerySaveData);
+	private GalleryFile saveGalleryFile(GallerySaveData gallerySaveData, String saveFileName) {
+		
 		
 		GalleryFile galleryFile = new GalleryFile();
 		
 		galleryFile.setOriginalFileName(gallerySaveData.getImgFile().getOriginalFilename());
-		String savePath = savedDir + File.separator + saveFileName;
-		galleryFile.setFileName(savePath);
+		System.out.println("saveFileName : "+savedDir + File.separator + saveFileName);
+		galleryFile.setFileName(savedDir + File.separator + saveFileName);
 		galleryFile.setFileType(gallerySaveData.getImgFile().getContentType());
 		galleryFile.setRegDate(now);
 		galleryFile.setUpdateDate(now);
 		
+		System.out.println("galleryFile"+galleryFile);
 		galleryFileDao.save(galleryFile);
-		GalleryFile saveGalleryFileResultModel = galleryFileDao.findByFileName(saveFileName);
-		
+		GalleryFile saveGalleryFileResultModel = galleryFileDao.findByFileName(savedDir + File.separator + saveFileName);
 		return saveGalleryFileResultModel;
 	}
 

@@ -56,6 +56,16 @@ public class PageController {
 	}
 	
 	@ResponseBody
+	@GetMapping({"/getGalleryGroupNameDesc"})
+	public List<GalleryGroupNameInterface> getGallerySubmenuDesc(
+			@RequestParam(required=false) String galleryMainMenu) {
+		List<GalleryGroupNameInterface> galleryGroupName = 
+				galleryService.getGallerygroupNameDesc(galleryMainMenu);
+		return galleryGroupName;
+		
+	}
+	
+	@ResponseBody
 	@PostMapping({"/getPhotoData"})
 	public List<PhotoData> getGalleryPhotoData(GetPhotoFormData getPhotoFormData) {
 		List<PhotoData> photoData = galleryService.getGalleryPhotoData(

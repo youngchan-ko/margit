@@ -9,5 +9,5 @@ import com.margit.model.PhotoData;
 public interface GalleryService {
 
 	public List<PhotoData> getGalleryPhotoData (String galleryCategory, String groupName);
-
+	public List<GalleryGroupNameInterface> getGallerygroupNameDesc (String galleryCategory);
 }

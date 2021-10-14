@@ -50,6 +50,14 @@ public class GalleryServiceImpl implements GalleryService{
 		return photoData;
 	}
 	
+	@Override
+	public List<GalleryGroupNameInterface> getGallerygroupNameDesc (String galleryCategory) {
+		List<GalleryGroupNameInterface> galleryGroupName = 
+				galleryDao.getGroupNameDesc(galleryCategory);
+		
+		return galleryGroupName;
+	}
+	
 	private List<GalleryGroupNameInterface> getGalleryGroupName(String galleryCategory){
 		return galleryDao.getGroupName(galleryCategory);
 		 

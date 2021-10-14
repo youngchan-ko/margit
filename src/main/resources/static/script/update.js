@@ -225,6 +225,10 @@ function GallerySendBtnEvent(){
 GallerySendBtnEvent.prototype = {
     eventListener : function(){
         this.sendTarget.addEventListener('click', function(){
+            // event.preventDefault();
+            // event.stopImmediatePropagation();
+            event.stopPropagation();
+
             let imgNameResult = this.checkImgTitle();
             let imgFileResult = this.checkImgFile();
             let result = imgNameResult+imgFileResult;
@@ -384,6 +388,7 @@ CheckFileType.prototype = {
 //갤러리 서브폴더 값에따라
 //이미지설명 인풋, 파일인풋, 저장버튼 보이기 이벤트
 function GallerySubMenuEvent(){
+    
     this.menuWrap = $('.menu_wrap');
     this.gallerySubtitle = $('#submenu')[0].value;
     this.newSubtitleInput = $('.new_subtitle_input_wrap')[0];
@@ -397,6 +402,7 @@ function GallerySubMenuEvent(){
 GallerySubMenuEvent.prototype = {
     //갤러리 서브메뉴 선택에 따른 select와 input창 만들고 없애기
     checkSubtitle : function(){
+        
         if(this.menuWrap.nextAll('div').length > 0){
             this.menuWrap.nextAll('div').remove();
         }

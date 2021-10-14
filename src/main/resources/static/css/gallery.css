@@ -10104,6 +10104,7 @@ transition: none;-moz-transition: none;-webkit-transition: none;}
   width: auto;
   height: auto;
   object-fit: cover;
+  cursor: pointer;
 }
 
 .category_wrap{
@@ -10135,6 +10136,10 @@ transition: none;-moz-transition: none;-webkit-transition: none;}
 .toggle-thumbs{
   display: none;
 }
+
+
+
+
 
 @media screen and (max-width: 768px){
   .navbar-brand{

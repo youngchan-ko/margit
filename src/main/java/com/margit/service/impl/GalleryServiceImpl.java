@@ -54,7 +54,7 @@ public class GalleryServiceImpl implements GalleryService{
 	public List<GalleryGroupNameInterface> getGallerygroupNameDesc (String galleryCategory) {
 		List<GalleryGroupNameInterface> galleryGroupName = 
 				galleryDao.getGroupNameDesc(galleryCategory);
-		
+		System.out.println("galleryGroupName : "+galleryGroupName);
 		return galleryGroupName;
 	}
 	

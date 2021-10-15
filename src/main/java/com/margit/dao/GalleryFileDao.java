@@ -14,4 +14,7 @@ public interface GalleryFileDao extends JpaRepository<GalleryFile, Integer>{
 	@Query(value = "SELECT * FROM galleryfile WHERE id= ?1", nativeQuery = true)
 	GalleryFile findById(int galleryFileId);
 	
+	@Query(value = "select * from galleryfile order by rand() limit 1;", nativeQuery = true)
+	GalleryFile getRandomImg();
+	
 }

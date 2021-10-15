@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.margit.model.Gallery;
 import com.margit.model.GalleryGroupNameInterface;
+import com.margit.model.GalleryViewData;
 import com.margit.model.PhotoData;
 
 public interface GalleryService {
 
-	public List<PhotoData> getGalleryPhotoData (String galleryCategory, String groupName);
-	public List<GalleryGroupNameInterface> getGallerygroupNameDesc (String galleryCategory);
+	public List<GalleryViewData> getGalleryViewData (String galleryCategory);
 }

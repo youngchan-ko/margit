@@ -18,6 +18,7 @@ import com.margit.dao.GalleryFileDao;
 import com.margit.model.Gallery;
 import com.margit.model.GalleryFile;
 import com.margit.model.GalleryGroupNameInterface;
+import com.margit.model.GalleryViewData;
 import com.margit.model.PhotoData;
 import com.margit.service.GalleryService;
 
@@ -28,39 +29,28 @@ public class GalleryServiceImpl implements GalleryService{
 	@Autowired
 	GalleryFileDao galleryFileDao;
 	
-	@Override
-	public List<PhotoData> getGalleryPhotoData(String galleryCategory, String groupName) {
-		
-		List<PhotoData> photoData = new ArrayList<PhotoData>();
-		List<Gallery> gallery= galleryDao.getGroupPhotoData(galleryCategory, groupName);
-		for(Gallery currentGallery : gallery) {
-			PhotoData currentPhotoData = new PhotoData();
-			
-			currentPhotoData.setId(currentGallery.getId());
-			currentPhotoData.setPhotoOrderNo(currentGallery.getPhotoOrderNo());
-			currentPhotoData.setPhotoName(currentGallery.getPhotoName());
-			currentPhotoData.setPhotoExpl(currentGallery.getPhotoExpl());
-			currentPhotoData.setGalleryFileId(currentGallery.getGalleryFileId());
-			GalleryFile currentGalleryFile = galleryFileDao.findById(currentGallery.getGalleryFileId());
-			currentPhotoData.setFileName(currentGalleryFile.getFileName());
-			
-			photoData.add(currentPhotoData);
-		}
-		
-		return photoData;
-	}
 	
 	@Override
-	public List<GalleryGroupNameInterface> getGallerygroupNameDesc (String galleryCategory) {
+	public List<GalleryViewData> getGalleryViewData (String galleryCategory) {
+		
+		List<GalleryViewData> galleryViewDataList = new ArrayList<GalleryViewData>();
 		List<GalleryGroupNameInterface> galleryGroupName = 
-				galleryDao.getGroupNameDesc(galleryCategory);
-		System.out.println("galleryGroupName : "+galleryGroupName);
-		return galleryGroupName;
+				galleryDao.getGroupName(galleryCategory);
+		
+		for(GalleryGroupNameInterface currentGalleryGroupName : galleryGroupName) {
+			GalleryViewData  galleryViewData = new GalleryViewData();
+			
+			List<Gallery> gallery = 
+					galleryDao.getGroupPhotoData(galleryCategory, currentGalleryGroupName.getGroupName());
+			
+			galleryViewData.setGroupName(currentGalleryGroupName.getGroupName());
+			galleryViewData.setGroupOrderNo(currentGalleryGroupName.getGroupOrderNo());
+			galleryViewData.setGallery(gallery);
+			
+			galleryViewDataList.add(galleryViewData);
+		}
+		return galleryViewDataList;
 	}
 	
-	private List<GalleryGroupNameInterface> getGalleryGroupName(String galleryCategory){
-		return galleryDao.getGroupName(galleryCategory);
-		 
-	}
 
 }

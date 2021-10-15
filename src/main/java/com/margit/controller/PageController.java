@@ -15,8 +15,10 @@ import com.margit.model.BiographyCategory;
 import com.margit.model.BiographyData;
 import com.margit.model.Contact;
 import com.margit.model.Gallery;
+import com.margit.model.GalleryFile;
 import com.margit.model.GalleryGroupNameInterface;
 import com.margit.model.GallerySaveData;
+import com.margit.model.GalleryViewData;
 import com.margit.model.GetPhotoFormData;
 import com.margit.model.PhotoData;
 import com.margit.model.User;
@@ -25,6 +27,7 @@ import com.margit.service.ContactService;
 import com.margit.service.GallerySaveService;
 import com.margit.service.GalleryService;
 import com.margit.service.GalleryUpdateService;
+import com.margit.service.HomeService;
 import com.margit.service.JoinService;
 
 @Controller
@@ -42,6 +45,8 @@ public class PageController {
 	private GalleryUpdateService galleryUpdateService;
 	@Autowired
 	private GalleryService galleryService;
+	@Autowired
+	private HomeService homeService;
 	
 
 	
@@ -50,28 +55,28 @@ public class PageController {
 		return "index";
 	}
 	
+	@ResponseBody
+	@GetMapping({"/getMainImg.ajax"})
+	public GalleryFile getMainImg() {
+		GalleryFile mainImg = homeService.getmainImg();
+		return mainImg;
+	}
+	
 	@GetMapping({"/skulptur"})
 	public String skulptur() {
 		return "skulptur";
 	}
 	
 	@ResponseBody
-	@GetMapping({"/getGalleryGroupNameDesc"})
-	public List<GalleryGroupNameInterface> getGallerySubmenuDesc(
+	@GetMapping({"/getGalleryViewData"})
+	public List<GalleryViewData> getGalleryViewData(
 			@RequestParam(required=false) String galleryMainMenu) {
-		List<GalleryGroupNameInterface> galleryGroupName = 
-				galleryService.getGallerygroupNameDesc(galleryMainMenu);
-		return galleryGroupName;
+		List<GalleryViewData> galleryViewData = 
+				galleryService.getGalleryViewData(galleryMainMenu);
+		return galleryViewData;
 		
 	}
 	
-	@ResponseBody
-	@PostMapping({"/getPhotoData"})
-	public List<PhotoData> getGalleryPhotoData(GetPhotoFormData getPhotoFormData) {
-		List<PhotoData> photoData = galleryService.getGalleryPhotoData(
-				getPhotoFormData.getGalleryMainMenu(), getPhotoFormData.getGroupName());
-		return photoData;
-	}
 	
 	@GetMapping({"/zeichnung"})
 	public String zeichnung() {

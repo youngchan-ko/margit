@@ -1,3 +1,12 @@
+/*!
+ * jquery.sumogallery - v1.0.0
+ * http://hemantnegi.github.io/jquery.sumogallery
+ * created : 2015-01-21
+ *
+ * Copyright 2014 Hemant Negi
+ * Email : hemant.frnz@gmail.com
+ * Compressor http://refresh-sf.com/yui/
+ */
 (function ($) {
     // 'namespace sg';
 

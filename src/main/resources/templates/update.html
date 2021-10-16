@@ -86,9 +86,11 @@
                     <option value="news">TEXT</option>
                     <option value="biography">BIOGRAFIE</option>
                     <option value="contact">KONTAKT</option>
+                    <option value="exhibition">Aktuell</option>
                 </select>
             </div>
         </div>
+        
         
         
         
@@ -117,6 +119,28 @@
         <script src="script/jquery3_5_1.js"></script>
         <script src="script/bootstrap4_6_0.js"></script>
         <script src="script/update.js"></script>
+        
+        <!-- 전시공지 -->
+        <script type="rv-template" id="exhibition_wrap">
+            <div class="exhibition_input_wrap">
+                <div class="exhibition_title_input_wrap">
+                    <label for="exhibition_title_input">Ausstellungstitel</label>
+                    <input type="text" id="exhibition_title_input">
+                </div>
+                <div class="exhibition_place_input_wrap">
+                    <label for="exhibition_place_input">Ausstellungsort</label>
+                    <input type="text" id="exhibition_place_input">
+                </div>
+                <div class="exhibition_date_input_wrap">
+                    <label for="exhibition_date_input">Ausstellungszeitraum</label>
+                    <input type="text" id="exhibition_date_input">
+                </div>
+                <div class="exhibition_link_input_wrap">
+                    <label for="exhibition_link_input">Ausstellungslink</label>
+                    <input type="text" id="exhibition_link_input">
+                </div>
+            </div>
+        </script>
         
         <!-- 콘택트 수정 -->
         <script type="rv-template" id="contact_wrap">

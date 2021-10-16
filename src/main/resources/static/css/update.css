@@ -10119,3 +10119,16 @@ h3 {
 .contact_modify_wrap div textarea{
   width: 100%;
 }
+
+.exhibition_input_wrap div{
+  padding-left: 30px;
+  margin-bottom: 20px;
+}
+
+.exhibition_input_wrap div label {
+  display: block;
+  color: #F7381A;
+}
+.exhibition_input_wrap div input{
+  width: 100%;
+}

@@ -38,9 +38,7 @@ public class GallerySaveServiceImpl implements GallerySaveService{
 	@Transactional
 	public void saveGallery(GallerySaveData gallerySaveData) {
 		String saveFileName = makeFileName(gallerySaveData);
-		System.out.println("saveFileName : "+saveFileName);
 		GalleryFile saveGalleryFileResultModel = saveGalleryFile(gallerySaveData, saveFileName);
-		System.out.println("saveGalleryFileResultModel : "+saveGalleryFileResultModel);
 		
 		Integer currentPhotoOrderNo = getCrrentPhotoOrderNo(gallerySaveData);
 		Integer currentGroupOrderNo = getCurrentGroupOrderNo(gallerySaveData);
@@ -121,13 +119,11 @@ public class GallerySaveServiceImpl implements GallerySaveService{
 		GalleryFile galleryFile = new GalleryFile();
 		
 		galleryFile.setOriginalFileName(gallerySaveData.getImgFile().getOriginalFilename());
-		System.out.println("saveFileName : "+savedDir + File.separator + saveFileName);
 		galleryFile.setFileName(savedDir + File.separator + saveFileName);
 		galleryFile.setFileType(gallerySaveData.getImgFile().getContentType());
 		galleryFile.setRegDate(now);
 		galleryFile.setUpdateDate(now);
 		
-		System.out.println("galleryFile"+galleryFile);
 		galleryFileDao.save(galleryFile);
 		GalleryFile saveGalleryFileResultModel = galleryFileDao.findByFileName(savedDir + File.separator + saveFileName);
 		return saveGalleryFileResultModel;

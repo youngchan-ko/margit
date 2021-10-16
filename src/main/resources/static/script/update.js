@@ -1,5 +1,32 @@
-
-
+//---------------------------------------Exhibition------------------------
+function ExhibitionEvent(){
+    this.exhibitionWrap = document.querySelector('#exhibition_wrap').innerText;
+    this.fileInputWrap = document.querySelector('#file_wrap_template').innerText;
+    this.menuWrap = document.querySelector('.menu_wrap');
+    this.mainMenuWrap = document.querySelector('.main_menu_wrap');
+    this.saveBtn = document.querySelector('.save_btn');
+    this.deleteBtn = document.querySelector('.delete_btn');
+    this.writeModifyMenu();
+}
+ExhibitionEvent.prototype = {
+    checkServer : function(){
+        if(this.mainMenuWrap.nextAll('div').length > 0){
+            this.mainMenuWrap.nextAll('div').style.display = 'none';
+        }
+        // 여기서 결과값에 따라서 버튼 보이기 해주면 좋을듯
+        // 현재는 따로만들었음.
+    },
+    writeNewInfo : function(){
+        this.menuWrap.insertAdjacentHTML('afterend', this.fileInputWrap + this.exhibitionWrap);
+        this.saveBtn.style.display = 'block';
+        new CheckFileType();
+    },
+    writeModifyMenu : function(){
+        this.menuWrap.insertAdjacentHTML('afterend', this.fileInputWrap + this.exhibitionWrap);
+        this.saveBtn.style.display = 'inline-block';
+        this.deleteBtn.style.display = 'inline-block';
+    }
+}
 
 
 // ---------------------------------------Contact-------------------------
@@ -533,6 +560,10 @@ function mainMenuEvent(){
         
         case 'contact':
             new ContactEvent();
+            break;
+        
+        case 'exhibition':
+            new ExhibitionEvent();
             break;
     }
 };

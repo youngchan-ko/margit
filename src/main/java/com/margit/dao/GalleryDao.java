@@ -34,11 +34,6 @@ public interface GalleryDao extends JpaRepository<Gallery, Integer>{
 			nativeQuery = true)
 	List<GalleryGroupNameInterface> getGroupName(String galleryCategory);
 
-	@Query(value = "select DISTINCT groupName, groupOrderNo from gallery "
-			+ "where galleryCategory=?1 ORDER BY groupOrderNo Desc", 
-			nativeQuery = true)
-	List<GalleryGroupNameInterface> getGroupNameDesc(String galleryCategory);
-
 	@Query(value = "SELECT * FROM gallery WHERE galleryCategory = ?1 "
 			+ "AND groupName = ?2 ORDER BY photoOrderNo", 
 			nativeQuery = true)

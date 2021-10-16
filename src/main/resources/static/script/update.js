@@ -14,7 +14,7 @@ ExhibitionEvent.prototype = {
             this.mainMenuWrap.nextAll('div').style.display = 'none';
         }
         // 여기서 결과값에 따라서 버튼 보이기 해주면 좋을듯
-        // 현재는 따로만들었음.
+        // 현재는 this.writeNewInfo(),this.writeModifyMenu()에서 따로만들었음.
     },
     writeNewInfo : function(){
         this.menuWrap.insertAdjacentHTML('afterend', this.fileInputWrap + this.exhibitionWrap);

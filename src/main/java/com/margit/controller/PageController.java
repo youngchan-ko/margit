@@ -24,6 +24,7 @@ import com.margit.model.PhotoData;
 import com.margit.model.User;
 import com.margit.service.BiographyService;
 import com.margit.service.ContactService;
+import com.margit.service.GalleryDeleteService;
 import com.margit.service.GallerySaveService;
 import com.margit.service.GalleryService;
 import com.margit.service.GalleryUpdateService;
@@ -43,6 +44,8 @@ public class PageController {
 	private GallerySaveService gallerySaveService;
 	@Autowired
 	private GalleryUpdateService galleryUpdateService;
+	@Autowired
+	private GalleryDeleteService galleryDeleteService;
 	@Autowired
 	private GalleryService galleryService;
 	@Autowired
@@ -74,6 +77,28 @@ public class PageController {
 		List<GalleryViewData> galleryViewData = 
 				galleryService.getGalleryViewData(galleryMainMenu);
 		return galleryViewData;
+		
+	}
+	
+	@ResponseBody
+	@GetMapping({"/getGalleryUpdateData"})
+	public List<Gallery> getGroupPhotoData(
+			@RequestParam(required=false) String galleryMainMenu,
+			@RequestParam(required=false) String galleryGroupName) {
+		List<Gallery> galleryGroupPhotoData = 
+				galleryService.getGroupPhotoData(galleryMainMenu, galleryGroupName);
+		return galleryGroupPhotoData;
+		
+	}
+	
+	@ResponseBody
+	@GetMapping({"/deleteGalleryData"})
+	public int deleteGalleryData(
+			@RequestParam(required = false, value = "galleryIdArr") List<Integer> galleryId) 
+			{
+		
+		galleryDeleteService.deleteGalleryFile(galleryId);
+		return 1;
 		
 	}
 	

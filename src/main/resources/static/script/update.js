@@ -239,7 +239,36 @@ NewsSubMenuEvent.prototype = {
 
 
 // ------------------------------------Gallery--------------------
+//갤러리 사진 삭제 버튼 이벤트
+function GalleryDeleteBtnEvent(){
+    this.checkList = document.querySelectorAll("input[class=delete_img_check]:checked");
+    this.eventListner();
+}
+GalleryDeleteBtnEvent.prototype={
+    eventListner : function(){
+        $('.gallery_delete_btn').off().on('click', function(){
+            var galleryIdArr = new Array();
+            
+            this.checkList.forEach(function (element) {
+                let idNum = Number(element.dataset.galleryid);
+                galleryIdArr.push(idNum);
+            });
+            
 
+            var oReq = new XMLHttpRequest();
+            oReq.onreadystatechange = function(){
+                if(oReq.readyState === 4 && oReq.status === 200){		
+                    alert("파일삭제에 성공했습니다.");
+                    window.location.href='http://localhost:8080/update';
+                }
+            }
+            oReq.open("GET", "/deleteGalleryData?galleryIdArr="+galleryIdArr);
+            console.log(galleryIdArr);
+            oReq.send();
+            
+        }.bind(this));
+   }
+}
 
 //갤러리 SendBtn이벤트
 function GallerySendBtnEvent(){
@@ -348,10 +377,12 @@ CheckPhotoName.prototype = {
 //deleteList템플릿 바꿔주기(함수를 만들어서 호출해주기)
 function GalleryDeleteSaveEvent(){
     this.menuWrap = $('.menu_wrap');
+    this.mainMenuValue = document.querySelector('#main_menu').value;
+    this.submenuValue = document.querySelector('#submenu').value;
     this.deleteSaveValue = $('#delete_insert')[0].value;
     this.deleteTemplate = $('#delete_preview_wrap')[0].innerHTML;
     this.deleteMenuWrap = $('.delete_img_wrap');
-    this.deleteList = $('#delete_menu_item')[0].innerHTML;
+    this.deleteList = $('#delete_preview')[0].innerHTML;
     this.deleteBtn = $('.gallery_delete_btn')[0];
     this.imgTitle = $('.img_title_wrap')[0];
     this.imgExpl = $('.img_expl_wrap')[0];
@@ -366,10 +397,7 @@ GalleryDeleteSaveEvent.prototype = {
             this.imgExpl.style.display ='none';
             this.fileInput.style.display ='none';
             this.saveBtn.style.display ='none';
-            this.menuWrap.after(this.deleteTemplate);
-            this.deleteBtn.style.display = 'block';
-            $('.delete_ul').append(this.deleteList);
-            this.checkboxEvent();
+            this.writeGroupPhotoData();
         }else{
             if(this.deleteMenuWrap.length > 0){
                 this.deleteMenuWrap[0].style.display = 'none';
@@ -389,11 +417,35 @@ GalleryDeleteSaveEvent.prototype = {
             if(galleryCheckbox.is(':checked')===true){
                 this.deleteBtn.disabled = false;
                 this.deleteBtn.style.backgroundColor="#F7381A";
+                new GalleryDeleteBtnEvent();
             }else{
                 this.deleteBtn.disabled = true;
                 this.deleteBtn.style.backgroundColor="grey";
             }
         }.bind(this))
+    },
+    writeGroupPhotoData : function(){
+        var oReq = new XMLHttpRequest();
+            oReq.onreadystatechange = function(){
+                if(oReq.readyState === 4 && oReq.status === 200){		
+                    var serverData = JSON.parse(oReq.responseText);
+                    let deleteItems ="";
+                    serverData.forEach(element => {
+                        let deleteItem = this.deleteList
+                        .replace("{galleryId}",element.id)
+                        .replace("{imgPath}","download/"+element.galleryFileId);
+                        
+                        deleteItems +=deleteItem;
+                    });
+                    let deleteHtml = this.deleteTemplate.replace("{groupPhotoData}",deleteItems);
+                    this.menuWrap.after(deleteHtml);
+                    this.deleteBtn.style.display = 'block';
+                    this.checkboxEvent();
+                    
+                }
+            }.bind(this)
+            oReq.open("GET", "/getGalleryUpdateData?galleryMainMenu="+this.mainMenuValue+"&galleryGroupName="+this.submenuValue);
+            oReq.send();
     }
 }
 

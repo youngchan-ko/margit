@@ -1,6 +1,7 @@
 package com.margit.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.margit.model.GalleryFile;
@@ -17,4 +18,7 @@ public interface GalleryFileDao extends JpaRepository<GalleryFile, Integer>{
 	@Query(value = "select * from galleryfile order by rand() limit 1;", nativeQuery = true)
 	GalleryFile getRandomImg();
 	
+	@Modifying
+	@Query(value = "DELETE FROM galleryfile WHERE id = ?1", nativeQuery = true)
+	void deleteById(int galleryFileId);
 }

@@ -376,7 +376,7 @@
         <script type="rv-template" id="delete_preview_wrap">
             <div class="delete_img_wrap">
                 <ul class="delete_ul">
-                    
+                    {groupPhotoData}
                 </ul>
             </div>
         </script>
@@ -385,8 +385,8 @@
         {imgPath}설정하기-->
         <script type="rv-template" id="delete_preview">
             <li class="del_list">
-                <input type="checkbox" name="" class="delete_img_check">
-                <img src="{imgPath}" alt="" class="delete_img">
+                <input type="checkbox" data-galleryId="{galleryId}"  class="delete_img_check">
+                <img src="{imgPath}" class="delete_img">
             </li>
         </script>
         
@@ -405,7 +405,7 @@
             </li>
         </script>
 
-        <!-- 삭제메뉴 선택시 해당 메뉴의 사진 불러와서 그려주기 -->
+        <!-- 삭제메뉴 선택시 해당 메뉴의 사진 불러와서 그려주기
         <script type="rv-template" id="delete_menu_item">
             <li class="del_list">
                 <input type="checkbox" name="gallery_item_check" class="delete_img_check">
@@ -423,7 +423,7 @@
                 <input type="checkbox" name="gallery_item_check" class="delete_img_check">
                 <img src="2.jpg" alt="" class="delete_img">
             </li>
-        </script>
+        </script> -->
         
     </body>
 </html>

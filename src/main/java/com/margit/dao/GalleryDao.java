@@ -3,9 +3,11 @@ package com.margit.dao;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.margit.model.Gallery;
+import com.margit.model.GalleryFile;
 import com.margit.model.GalleryGroupNameInterface;
 
 //JpaRepository<User(데이터 타입), Integer(프라이머리키의 형태)>
@@ -38,5 +40,12 @@ public interface GalleryDao extends JpaRepository<Gallery, Integer>{
 			+ "AND groupName = ?2 ORDER BY photoOrderNo", 
 			nativeQuery = true)
 	List<Gallery> getGroupPhotoData(String galleryCategory, String groupName);
+	
+	@Query(value = "SELECT * FROM gallery WHERE id= ?1", nativeQuery = true)
+	GalleryFile findById(int galleryId);
+	
+	@Modifying
+	@Query(value = "DELETE FROM gallery WHERE id = ?1", nativeQuery = true)
+	void deleteById(int galleryId);
 	
 }

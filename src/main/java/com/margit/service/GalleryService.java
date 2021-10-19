@@ -10,4 +10,6 @@ import com.margit.model.PhotoData;
 public interface GalleryService {
 
 	public List<GalleryViewData> getGalleryViewData (String galleryCategory);
+
+	public List<Gallery> getGroupPhotoData(String galleryCategory, String groupName);
 }

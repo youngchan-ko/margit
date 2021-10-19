@@ -1,25 +1,16 @@
 package com.margit.service.impl;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.margit.dao.GalleryDao;
 import com.margit.dao.GalleryFileDao;
 import com.margit.model.Gallery;
-import com.margit.model.GalleryFile;
 import com.margit.model.GalleryGroupNameInterface;
 import com.margit.model.GalleryViewData;
-import com.margit.model.PhotoData;
 import com.margit.service.GalleryService;
 
 @Service
@@ -29,11 +20,12 @@ public class GalleryServiceImpl implements GalleryService{
 	@Autowired
 	GalleryFileDao galleryFileDao;
 	
-	
+
+	//갤러리 전체 불러오기
 	@Override
 	public List<GalleryViewData> getGalleryViewData (String galleryCategory) {
-		
 		List<GalleryViewData> galleryViewDataList = new ArrayList<GalleryViewData>();
+		
 		List<GalleryGroupNameInterface> galleryGroupName = 
 				galleryDao.getGroupName(galleryCategory);
 		
@@ -52,5 +44,14 @@ public class GalleryServiceImpl implements GalleryService{
 		return galleryViewDataList;
 	}
 	
+	@Override
+	public List<Gallery> getGroupPhotoData (String galleryCategory, String groupName){
+
+		
+		List<Gallery> galleryGroupData = 
+				galleryDao.getGroupPhotoData(galleryCategory, groupName);
+		
+		return galleryGroupData;
+	}
 
 }

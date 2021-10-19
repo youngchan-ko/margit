@@ -4,8 +4,8 @@ function ExhibitionEvent(){
     this.fileInputWrap = document.querySelector('#file_wrap_template').innerText;
     this.menuWrap = document.querySelector('.menu_wrap');
     this.mainMenuWrap = document.querySelector('.main_menu_wrap');
-    this.saveBtn = document.querySelector('.save_btn');
-    this.deleteBtn = document.querySelector('.delete_btn');
+    this.saveBtn = document.querySelector('.exhibition_save_btn');
+    this.deleteBtn = document.querySelector('.exhibition_delete_btn');
     this.writeModifyMenu();
 }
 ExhibitionEvent.prototype = {
@@ -25,6 +25,7 @@ ExhibitionEvent.prototype = {
         this.menuWrap.insertAdjacentHTML('afterend', this.fileInputWrap + this.exhibitionWrap);
         this.saveBtn.style.display = 'inline-block';
         this.deleteBtn.style.display = 'inline-block';
+        new CheckFileType();
     }
 }
 
@@ -35,8 +36,8 @@ function ContactEvent(){
     this.menuWrap = $('.menu_wrap');
     this.mainMenuWrap = $('.main_menu_wrap');
     this.contactWrap = $('#contact_wrap')[0].innerHTML;
-    this.saveBtn = $('.save_btn');
-    this.deleteBtn = $('.delete_btn');
+    this.saveBtn = $('.contact_save_btn');
+    this.deleteBtn = $('.contact_delete_btn');
     this.connectAjax();
     
 }
@@ -238,24 +239,24 @@ NewsSubMenuEvent.prototype = {
 
 
 // ------------------------------------Gallery--------------------
+
+
 //갤러리 SendBtn이벤트
 function GallerySendBtnEvent(){
-    this.sendTarget = document.querySelector('.save_btn');
     this.mainMenu = document.querySelector('#main_menu');
     this.submenuValue = document.querySelector('#submenu').value;
     this.newSubtitle = document.querySelector('#new_subtitle_input');
     this.imgTitle = document.querySelector('#img_title');
     this.imgExpl = document.querySelector('#img_explanation_text');
     this.fileTarget = document.querySelector('.gallery_upload_file');
+    this.deleteInsertValue = document.querySelector('#delete_insert').value;
+    this.ajaxUrl = '';
     this.eventListener();
 }
 GallerySendBtnEvent.prototype = {
     eventListener : function(){
-        this.sendTarget.addEventListener('click', function(){
-            // event.preventDefault();
-            // event.stopImmediatePropagation();
-            event.stopPropagation();
-
+        $('.gallery_save_btn').off().on('click', function() {
+            
             let imgNameResult = this.checkImgTitle();
             let imgFileResult = this.checkImgFile();
             let result = imgNameResult+imgFileResult;
@@ -271,9 +272,8 @@ GallerySendBtnEvent.prototype = {
                     groupName = this.submenuValue;
                     this.makeFormData(groupName);
                 }
-            }
+            };
         }.bind(this));
-    
     },
     checkCategoryName : function(){
         if(this.newSubtitle.value.length === 0){
@@ -304,9 +304,17 @@ GallerySendBtnEvent.prototype = {
         formData.append("photoName", this.imgTitle.value);
         formData.append("photoExpl", this.imgExpl.value);
         formData.append("imgFile", this.fileTarget.files[0]);
+        
         this.sendAjax(formData);
     },
+    makeAjaxUrl : function(){
+        if(this.submenuValue ==="new_subtitle" ||this.deleteInsertValue ==="insert"){
+            this.ajaxUrl = "/save_gallery"
+        }
+        
+    },
     sendAjax : function(formData){
+        this.makeAjaxUrl();
         var oReq = new XMLHttpRequest();
 	    oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
@@ -315,11 +323,27 @@ GallerySendBtnEvent.prototype = {
                 
             }
         }
-        oReq.open("POST", "/save_gallery");
+        oReq.open("POST", this.ajaxUrl);
         oReq.send(formData);
     }
 }
-    
+
+function CheckPhotoName(){
+    this.photoName = document.querySelector('#img_title');
+    this.photoNameInputBlurEvent();
+}
+CheckPhotoName.prototype = {
+    photoNameInputBlurEvent : function(){
+        this.photoName.addEventListener('blur', function(){
+            var textFilter = /^.{3}$/;
+            var textValueCheck = (textFilter).test(this.photoName.value);
+            if(!textValueCheck){
+                alert("사진 제목을 입력하세요.");
+            }
+        }.bind(this))
+    }
+}
+
 //갤러리 서브메뉴 선택후 저장, 삭제 선택시 이벤트
 //deleteList템플릿 바꿔주기(함수를 만들어서 호출해주기)
 function GalleryDeleteSaveEvent(){
@@ -328,11 +352,11 @@ function GalleryDeleteSaveEvent(){
     this.deleteTemplate = $('#delete_preview_wrap')[0].innerHTML;
     this.deleteMenuWrap = $('.delete_img_wrap');
     this.deleteList = $('#delete_menu_item')[0].innerHTML;
-    this.deleteBtn = $('.delete_btn')[0];
+    this.deleteBtn = $('.gallery_delete_btn')[0];
     this.imgTitle = $('.img_title_wrap')[0];
     this.imgExpl = $('.img_expl_wrap')[0];
     this.fileInput = $('.file_wrap')[0];
-    this.saveBtn = $('.save_btn')[0];
+    this.saveBtn = $('.gallery_save_btn')[0];
     this.makeDeleteMenu();
 }
 GalleryDeleteSaveEvent.prototype = {
@@ -356,6 +380,7 @@ GalleryDeleteSaveEvent.prototype = {
             this.fileInput.style.display ='block';
             this.saveBtn.style.display ='block';
             new GallerySendBtnEvent();
+            // new CheckPhotoName();
         }
     },
     checkboxEvent : function(){
@@ -422,8 +447,8 @@ function GallerySubMenuEvent(){
     this.imgTextareaTemplate = $('#gallery_img_expl')[0].innerHTML;
     this.selectDeleteInsert = $('.delete_insert_wrap')[0];
     this.fileInput = $('#file_wrap_template')[0].innerHTML;
-    this.saveBtn = $('.save_btn')[0];
-    this.deleteBtn = $('.delete_btn')[0];
+    this.gallerySaveBtn = $('.gallery_save_btn')[0];
+    this.galleryDeleteBtn = $('.gallery_delete_btn')[0];
     this.checkSubtitle();
 }
 GallerySubMenuEvent.prototype = {
@@ -434,22 +459,23 @@ GallerySubMenuEvent.prototype = {
             this.menuWrap.nextAll('div').remove();
         }
         if(this.gallerySubtitle === 'new_subtitle'){
+            new InitBtn();
             this.newSubtitleInput.style.display = 'inline-block';
             this.selectDeleteInsert.style.display = 'none';
             this.menuWrap.after(this.imgTextareaTemplate + this.fileInput);
-            this.saveBtn.style.display = 'block';
+            this.gallerySaveBtn.style.display = 'block';
             new CheckFileType();
             new GallerySendBtnEvent();
         }else if(this.gallerySubtitle === 'default'){
             this.newSubtitleInput.style.display = 'none';
-            this.saveBtn.style.display = 'none';
-            this.deleteBtn.style.display = 'none';
+            this.gallerySaveBtn.style.display = 'none';
+            this.galleryDeleteBtn.style.display = 'none';
             this.selectDeleteInsert.style.display = 'none';
         }else{
             this.newSubtitleInput.style.display = 'none';
             this.selectDeleteInsert.style.display = 'inline-block';
             this.menuWrap.after(this.imgTextareaTemplate + this.fileInput);
-            this.saveBtn.style.display = 'block';
+            this.gallerySaveBtn.style.display = 'block';
             new GalleryDeleteSaveEvent();
             new CheckFileType();
         }
@@ -458,8 +484,33 @@ GallerySubMenuEvent.prototype = {
 
 
 // -------------------------------------공통 로직------------------
-
-
+function InitBtn(){
+    this.gallerySaveBtn = document.querySelector('.gallery_save_btn');
+    this.galleryDeleteBtn = document.querySelector('.gallery_delete_btn');
+    this.textSaveBtn = document.querySelector('.text_save_btn');
+    this.textDeleteBtn = document.querySelector('.text_delete_btn');
+    this.biographySaveBtn = document.querySelector('.biography_save_btn');
+    this.biographyDeleteBtn = document.querySelector('.biography_delete_btn');
+    this.contactSaveBtn = document.querySelector('.contact_save_btn');
+    this.contactDeleteBtn = document.querySelector('.contact_delete_btn');
+    this.exhibitionSaveBtn = document.querySelector('.exhibition_save_btn');
+    this.exhibitionDeleteBtn = document.querySelector('.exhibition_delete_btn');
+    this.deactivateBtn();
+}
+InitBtn.prototype = {
+    deactivateBtn : function(){
+        this.gallerySaveBtn.style.display = 'none';
+        this.galleryDeleteBtn.style.display = 'none';
+        this.textSaveBtn.style.display = 'none';
+        this.textDeleteBtn.style.display = 'none';
+        this.biographySaveBtn.style.display = 'none';
+        this.biographyDeleteBtn.style.display = 'none';
+        this.contactSaveBtn.style.display = 'none';
+        this.contactDeleteBtn.style.display = 'none';
+        this.exhibitionSaveBtn.style.display = 'none';
+        this.exhibitionDeleteBtn.style.display = 'none';
+    }
+}
 //서브메뉴 갱신하기
 function WriteSubmenu(submenu, mainValue) {
     this.mainValue = mainValue;
@@ -467,8 +518,6 @@ function WriteSubmenu(submenu, mainValue) {
     this.submenuOption = $('#select_options')[0].innerHTML;
     this.mainMenuWrap = $(".main_menu_wrap");
     this.deleteInsertWrap = $('.delete_insert_wrap')[0];
-    this.saveBtn = $('.save_btn')[0];
-    this.deleteBtn = $('.delete_btn')[0];
     this.submenu = submenu;
     this.writeSubtitles();
 }
@@ -491,8 +540,7 @@ WriteSubmenu.prototype = {
         if(this.mainMenuWrap.next().length > 0){
             this.mainMenuWrap.next().remove();
         }
-        this.saveBtn.style.display = 'none';
-        this.deleteBtn.style.display = 'none';
+        new InitBtn();
         var upperMainValue =this.mainValue.charAt(0).toUpperCase() + this.mainValue.slice(1);
         var submenuHtml = this.submenuTemplate.replaceAll('{main_value}',upperMainValue);
         this.mainMenuWrap.after(submenuHtml);
@@ -559,10 +607,12 @@ function mainMenuEvent(){
             break;
         
         case 'contact':
+            new InitBtn();
             new ContactEvent();
             break;
         
         case 'exhibition':
+            new InitBtn();
             new ExhibitionEvent();
             break;
     }

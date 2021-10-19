@@ -10058,14 +10058,22 @@ h3 {
   max-height: 230px;
 }
 
-.delete_btn{
+.gallery_delete_btn,
+.text_delete_btn,
+.biography_delete_btn,
+.contact_delete_btn,
+.exhibition_delete_btn{
   height: 70px;
   line-height: 70px;
   width: 150px;
   background-color: gray;
 }
 
-.save_btn{
+.gallery_save_btn,
+.text_save_btn,
+.biography_save_btn,
+.contact_save_btn,
+.exhibition_save_btn{
   height: 70px;
   line-height: 70px;
   width: 150px;

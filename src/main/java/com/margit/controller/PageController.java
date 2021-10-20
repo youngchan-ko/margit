@@ -17,6 +17,7 @@ import com.margit.model.Contact;
 import com.margit.model.Gallery;
 import com.margit.model.GalleryFile;
 import com.margit.model.GalleryGroupNameInterface;
+import com.margit.model.GalleryModifyData;
 import com.margit.model.GallerySaveData;
 import com.margit.model.GalleryViewData;
 import com.margit.model.GetPhotoFormData;
@@ -80,6 +81,7 @@ public class PageController {
 		
 	}
 	
+	//갤러리 그룹별 모든 이미지 가져오기
 	@ResponseBody
 	@GetMapping({"/getGalleryUpdateData"})
 	public List<Gallery> getGroupPhotoData(
@@ -88,7 +90,15 @@ public class PageController {
 		List<Gallery> galleryGroupPhotoData = 
 				galleryService.getGroupPhotoData(galleryMainMenu, galleryGroupName);
 		return galleryGroupPhotoData;
-		
+	}
+	
+	//갤러리 개별 사진데이터 가져오기
+	@ResponseBody
+	@GetMapping({"/getPhotoDetailData"})
+	public GalleryModifyData getPhotoDetailData(
+			@RequestParam(required=false) int galleryId) {
+		GalleryModifyData photoDetailData = galleryUpdateService.getPhotoDetailData(galleryId);
+		return photoDetailData;
 	}
 	
 	@ResponseBody

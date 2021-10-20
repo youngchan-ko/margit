@@ -318,6 +318,8 @@
                 <select id="delete_insert">
                     <option value="insert" selected>einfügen</option>
                     <option value="delete">löschen</option>
+                    <option value="modify">ändern</option>
+                    <option value="photoOrderNoModify">die Foto-Reihenfolge ändern</option>
                 </select>
             </div>
             <div class="new_subtitle_input_wrap" style="display: none;">
@@ -380,9 +382,8 @@
                 </ul>
             </div>
         </script>
-        <!-- 갤러리 삭제 선택시 하부메뉴에 있는 모든 사진 불러오기 
-        check box에 id값이나 고유값 전달하기
-        {imgPath}설정하기-->
+        
+        <!-- 갤러리 삭제 선택시 하부메뉴에 있는 모든 사진 불러오기 -->
         <script type="rv-template" id="delete_preview">
             <li class="del_list">
                 <input type="checkbox" data-galleryId="{galleryId}"  class="delete_img_check">
@@ -390,40 +391,22 @@
             </li>
         </script>
         
-        <!-- 갤러리 업로드 할 파일 선택시 미리보기 노출
-        display: inline-block
-        src설정해주기
-        현재는 파일 1개씩만 업로드 구현예정이라 사용하지 않음.
-         -->
-        <script type="rv-template" id="thumnail_preview">
-            <li class="item" style="display: none;">
-                <img src="{thumnail_url}" width="130" alt="upload_image" class="item_thumb">
-                <a href="#" class="anchor">
-                    <span class="spr_book ico_del">Löschen(삭제)</span>
-                </a>
-                <span class="img_border"></span>
+        
+        <!-- 갤러리 수정 랩 -->
+        <script type="rv-template" id="modify_preview_wrap">
+            <div class="modify_img_wrap">
+                <ul class="modify_ul">
+                    {groupPhotoData}
+                </ul>
+            </div>
+        </script>
+        
+        <!-- 갤러리 수정 선택시 그룹내 모든이미지 보여주기 -->
+        <script type="rv-template" id="modify_preview">
+            <li class="modify_list">
+                <img src="{imgPath}" class="modify_img" data-galleryId="{galleryId}">
             </li>
         </script>
-
-        <!-- 삭제메뉴 선택시 해당 메뉴의 사진 불러와서 그려주기
-        <script type="rv-template" id="delete_menu_item">
-            <li class="del_list">
-                <input type="checkbox" name="gallery_item_check" class="delete_img_check">
-                <img src="1.jpg" alt="" class="delete_img">
-            </li>
-            <li class="del_list">
-                <input type="checkbox" name="gallery_item_check" class="delete_img_check">
-                <img src="2.jpg" alt="" class="delete_img">
-            </li>
-            <li class="del_list">
-                <input type="checkbox" name="gallery_item_check" class="delete_img_check">
-                <img src="1.jpg" alt="" class="delete_img">
-            </li>
-            <li class="del_list">
-                <input type="checkbox" name="gallery_item_check" class="delete_img_check">
-                <img src="2.jpg" alt="" class="delete_img">
-            </li>
-        </script> -->
         
     </body>
 </html>

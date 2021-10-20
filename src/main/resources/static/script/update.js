@@ -381,8 +381,11 @@ function GalleryDeleteSaveEvent(){
     this.submenuValue = document.querySelector('#submenu').value;
     this.deleteSaveValue = $('#delete_insert')[0].value;
     this.deleteTemplate = $('#delete_preview_wrap')[0].innerHTML;
+    this.modifyTemplate = $('#modify_preview_wrap')[0].innerHTML;
     this.deleteMenuWrap = $('.delete_img_wrap');
+    this.modifyMenuWrap = $('.modify_img_wrap');
     this.deleteList = $('#delete_preview')[0].innerHTML;
+    this.modifyList = $('#modify_preview')[0].innerHTML;
     this.deleteBtn = $('.gallery_delete_btn')[0];
     this.imgTitle = $('.img_title_wrap')[0];
     this.imgExpl = $('.img_expl_wrap')[0];
@@ -392,24 +395,30 @@ function GalleryDeleteSaveEvent(){
 }
 GalleryDeleteSaveEvent.prototype = {
     makeDeleteMenu : function(){
-        if(this.deleteSaveValue === 'delete'){
-            this.imgTitle.style.display ='none';
-            this.imgExpl.style.display ='none';
-            this.fileInput.style.display ='none';
-            this.saveBtn.style.display ='none';
-            this.writeGroupPhotoData();
-        }else{
-            if(this.deleteMenuWrap.length > 0){
-                this.deleteMenuWrap[0].style.display = 'none';
-            }
-            this.deleteBtn.style.display = 'none';
-            this.imgTitle.style.display ='block';
-            this.imgExpl.style.display ='block';
-            this.fileInput.style.display ='block';
-            this.saveBtn.style.display ='block';
-            new GallerySendBtnEvent();
-            // new CheckPhotoName();
+        switch (this.deleteSaveValue) {
+            case 'insert':
+                this.htmlInit();
+                this.imgTitle.style.display ='block';
+                this.imgExpl.style.display ='block';
+                this.fileInput.style.display ='block';
+                this.saveBtn.style.display ='block';
+                new GallerySendBtnEvent();
+                break;
+                
+            case 'delete':
+                this.htmlInit();
+                this.deleteGroupPhotoData();
+                break;
+            
+            case 'modify':
+                this.htmlInit();
+                this.modifyGroupPhotoData();
+                break;
+            
+            case 'photoOrderNoModify':
+                break;
         }
+        
     },
     checkboxEvent : function(){
         let galleryCheckbox = $('.delete_img_check');
@@ -424,7 +433,7 @@ GalleryDeleteSaveEvent.prototype = {
             }
         }.bind(this))
     },
-    writeGroupPhotoData : function(){
+    deleteGroupPhotoData : function(){
         var oReq = new XMLHttpRequest();
             oReq.onreadystatechange = function(){
                 if(oReq.readyState === 4 && oReq.status === 200){		
@@ -441,11 +450,73 @@ GalleryDeleteSaveEvent.prototype = {
                     this.menuWrap.after(deleteHtml);
                     this.deleteBtn.style.display = 'block';
                     this.checkboxEvent();
-                    
                 }
             }.bind(this)
             oReq.open("GET", "/getGalleryUpdateData?galleryMainMenu="+this.mainMenuValue+"&galleryGroupName="+this.submenuValue);
             oReq.send();
+    },
+    modifyGroupPhotoData : function(){
+        var oReq = new XMLHttpRequest();
+            oReq.onreadystatechange = function(){
+                if(oReq.readyState === 4 && oReq.status === 200){		
+                    var serverData = JSON.parse(oReq.responseText);
+                    let modifyItems ="";
+                    serverData.forEach(element => {
+                        let modifyItem = this.modifyList
+                        .replace("{galleryId}",element.id)
+                        .replace("{imgPath}","download/"+element.galleryFileId);
+                        
+                        modifyItems +=modifyItem;
+                    });
+                    let modifyHtml = this.modifyTemplate.replace("{groupPhotoData}",modifyItems);
+                    this.menuWrap.after(modifyHtml);
+                    this.saveBtn.style.display = 'block';
+                    this.modifyListClickEvent();
+                }
+            }.bind(this)
+            oReq.open("GET", "/getGalleryUpdateData?galleryMainMenu="+this.mainMenuValue+"&galleryGroupName="+this.submenuValue);
+            oReq.send();
+    },
+    modifyListClickEvent : function(){
+        let modifyListTarget = document.querySelectorAll('.modify_list');
+        
+        modifyListTarget.forEach(element => {
+            element.addEventListener('click', function(){
+                var oReq = new XMLHttpRequest();
+                oReq.onreadystatechange = function(){
+                    if(oReq.readyState === 4 && oReq.status === 200){	
+                        var photoDetailData = JSON.parse(oReq.responseText);	
+                        console.log(photoDetailData);
+                        debugger;
+                        this.htmlInit();
+                        this.imgTitle.style.display ='block';
+                        this.imgTitle.attr('value',photoDetailData.gallery.photoName); 
+                        this.imgExpl.style.display ='block';
+                        this.imgExpl.attr('value',photoDetailData.gallery.photoExpl);
+                        this.fileInput.style.display ='block';
+                        this.saveBtn.style.display ='block';
+                    }
+                }.bind(this)
+                oReq.open("GET", "/getPhotoDetailData?galleryId="+element.firstElementChild.dataset.galleryid);
+                oReq.send();
+            }.bind(this))
+        });
+    },
+    htmlInit : function(){
+        this.imgTitle.style.display ='none';
+        this.imgExpl.style.display ='none';
+        this.fileInput.style.display ='none';
+        this.saveBtn.style.display ='none';
+        this.deleteBtn.style.display = 'none';
+        // if(this.deleteMenuWrap.length > 0){
+        //     this.deleteMenuWrap[0].style.display = 'none';
+        // }
+        // if(this.modifyMenuWrap.length > 0){
+        //     this.modifyMenuWrap[0].style.display = 'none';
+        // }
+        if($('.menu_wrap').nextAll('div').length > 0){
+            $('.menu_wrap').nextAll('div').css("display", "none");
+        }
     }
 }
 

@@ -21,4 +21,10 @@ public interface GalleryFileDao extends JpaRepository<GalleryFile, Integer>{
 	@Modifying
 	@Query(value = "DELETE FROM galleryfile WHERE id = ?1", nativeQuery = true)
 	void deleteById(int galleryFileId);
+	
+	@Modifying
+	@Query(value = "UPDATE galleryfile SET originalFileName= ?1, fileName= ?2, "
+			+ "fileType= ?3, updateDate = ?4 WHERE id= ?5", nativeQuery = true)
+	void updateById(
+			String originalFileName, String fileName, String fileType, String updateDate, int id);
 }

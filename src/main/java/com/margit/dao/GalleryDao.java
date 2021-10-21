@@ -42,10 +42,14 @@ public interface GalleryDao extends JpaRepository<Gallery, Integer>{
 	List<Gallery> getGroupPhotoData(String galleryCategory, String groupName);
 	
 	@Query(value = "SELECT * FROM gallery WHERE id= ?1", nativeQuery = true)
-	GalleryFile findById(int galleryId);
+	Gallery findById(int galleryId);
 	
 	@Modifying
 	@Query(value = "DELETE FROM gallery WHERE id = ?1", nativeQuery = true)
 	void deleteById(int galleryId);
+
+	@Modifying
+	@Query(value = "UPDATE gallery SET photoName= ?1, photoExpl= ?2 WHERE id= ?3", nativeQuery = true)
+	void updateById(String photoName, String photoExpl, int id);
 	
 }

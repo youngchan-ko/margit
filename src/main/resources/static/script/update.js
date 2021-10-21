@@ -279,7 +279,9 @@ function GallerySendBtnEvent(){
     this.imgExpl = document.querySelector('#img_explanation_text');
     this.fileTarget = document.querySelector('.gallery_upload_file');
     this.deleteInsertValue = document.querySelector('#delete_insert').value;
+    this.galleryId = document.querySelector('#gallery_id').value;
     this.ajaxUrl = '';
+    this.ajaxMethod ='';
     this.eventListener();
 }
 GallerySendBtnEvent.prototype = {
@@ -291,14 +293,14 @@ GallerySendBtnEvent.prototype = {
             let result = imgNameResult+imgFileResult;
             if(result === 2){
                 let groupName = '';
-                if(this.submenuValue === 'new_subtitle'){
+                if(document.querySelector('#submenu').value === 'new_subtitle'){
                     let categoryNameResult = this.checkCategoryName();
                     if(categoryNameResult === 1){
                         groupName = this.newSubtitle.value;
                         this.makeFormData(groupName);
                     }
                 }else{
-                    groupName = this.submenuValue;
+                    groupName = document.querySelector('#submenu').value;
                     this.makeFormData(groupName);
                 }
             };
@@ -333,13 +335,21 @@ GallerySendBtnEvent.prototype = {
         formData.append("photoName", this.imgTitle.value);
         formData.append("photoExpl", this.imgExpl.value);
         formData.append("imgFile", this.fileTarget.files[0]);
-        
+        if(document.querySelector('#delete_insert').value === "modify"){
+            formData.append("galleryId", Number(this.galleryId))
+        }
         this.sendAjax(formData);
     },
     makeAjaxUrl : function(){
-        if(this.submenuValue ==="new_subtitle" ||this.deleteInsertValue ==="insert"){
-            this.ajaxUrl = "/save_gallery"
+        debugger;
+        if(document.querySelector('#submenu').value ==="new_subtitle" ||document.querySelector('#delete_insert').value ==="insert"){
+            this.ajaxUrl = "/save_gallery";
+            this.ajaxMethod = "POST";
+        }else if(document.querySelector('#delete_insert').value === "modify"){
+            this.ajaxUrl = "/update_photoData";
+            this.ajaxMethod = "PUT";
         }
+        debugger;
         
     },
     sendAjax : function(formData){
@@ -352,7 +362,9 @@ GallerySendBtnEvent.prototype = {
                 
             }
         }
-        oReq.open("POST", this.ajaxUrl);
+        console.log(this.ajaxMethod);
+        console.log(this.ajaxUrl);
+        oReq.open(this.ajaxMethod, this.ajaxUrl);
         oReq.send(formData);
     }
 }
@@ -391,6 +403,9 @@ function GalleryDeleteSaveEvent(){
     this.imgExpl = $('.img_expl_wrap')[0];
     this.fileInput = $('.file_wrap')[0];
     this.saveBtn = $('.gallery_save_btn')[0];
+    this.thumListTarget = document.querySelector('.item');
+    this.thumImgTarget = document.querySelector('.item_thumb');
+    this.galleryIdInput = document.querySelector('#gallery_id');
     this.makeDeleteMenu();
 }
 GalleryDeleteSaveEvent.prototype = {
@@ -490,11 +505,16 @@ GalleryDeleteSaveEvent.prototype = {
                         debugger;
                         this.htmlInit();
                         this.imgTitle.style.display ='block';
-                        this.imgTitle.attr('value',photoDetailData.gallery.photoName); 
+                        this.imgTitle.getElementsByTagName("input")[0].value=photoDetailData.gallery.photoName; 
                         this.imgExpl.style.display ='block';
-                        this.imgExpl.attr('value',photoDetailData.gallery.photoExpl);
+                        this.imgExpl.getElementsByTagName("input")[0].value=photoDetailData.gallery.photoExpl;
                         this.fileInput.style.display ='block';
                         this.saveBtn.style.display ='block';
+                        new CheckFileType();
+                        this.thumListTarget.style.display = 'inline-block';
+                        this.thumImgTarget.src ='download/'+photoDetailData.gallery.galleryFileId;
+                        new CheckFileType().cancelEvent();
+                        this.galleryIdInput.value = photoDetailData.gallery.id;
                     }
                 }.bind(this)
                 oReq.open("GET", "/getPhotoDetailData?galleryId="+element.firstElementChild.dataset.galleryid);

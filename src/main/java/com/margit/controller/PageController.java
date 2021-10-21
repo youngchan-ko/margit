@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -19,6 +20,7 @@ import com.margit.model.GalleryFile;
 import com.margit.model.GalleryGroupNameInterface;
 import com.margit.model.GalleryModifyData;
 import com.margit.model.GallerySaveData;
+import com.margit.model.GalleryUpdateData;
 import com.margit.model.GalleryViewData;
 import com.margit.model.GetPhotoFormData;
 import com.margit.model.PhotoData;
@@ -112,6 +114,21 @@ public class PageController {
 		
 	}
 	
+	@ResponseBody
+	@PostMapping({"/save_gallery"})
+	public int saveGallery(GallerySaveData gallerySaveData) {
+		gallerySaveService.saveGallery(gallerySaveData);
+		
+		return 0;
+	}
+	
+	@ResponseBody
+	@PutMapping({"/update_photoData"})
+	public int saveGallery(GalleryUpdateData galleryUpdateData) {
+		int result = galleryUpdateService.updatePhotoData(galleryUpdateData);
+		
+		return result;
+	}
 	
 	@GetMapping({"/zeichnung"})
 	public String zeichnung() {
@@ -176,13 +193,7 @@ public class PageController {
 		return contactData;
 	}
 	
-	@ResponseBody
-	@PostMapping({"/save_gallery"})
-	public int saveGallery(GallerySaveData gallerySaveData) {
-		gallerySaveService.saveGallery(gallerySaveData);
-		
-		return 0;
-	}
+	
 	
 	
 	

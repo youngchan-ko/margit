@@ -45,8 +45,6 @@ public class GalleryDeleteServiceImpl implements GalleryDeleteService{
 			galleryFileList.add(galleryFile);
 		}
 		
-		System.out.println(galleryList);
-		System.out.println(galleryFileList);
 		deletePhotoData(galleryFileList);
 
 		for(Gallery currentGallery : galleryList) {

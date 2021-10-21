@@ -316,7 +316,7 @@
             </div>
             <div class="delete_insert_wrap" style="display: none;"  onchange="new {main_value}DeleteSaveEvent()">
                 <select id="delete_insert">
-                    <option value="insert" selected>einfügen</option>
+                    <option value="insert">einfügen</option>
                     <option value="delete">löschen</option>
                     <option value="modify">ändern</option>
                     <option value="photoOrderNoModify">die Foto-Reihenfolge ändern</option>
@@ -337,17 +337,23 @@
         
         <!-- 갤러리 하부메뉴 선택시 이미지 설명글 textarea -->
         <script type="rv-template" id="gallery_img_expl">
+            <div class="gallery_id_wrap" style="display: none;">
+                <label for="gallery_id">
+                    galleryId : 
+                </label>
+                <input type="text" value="" id="gallery_id">
+            </div>
             <div class="img_title_wrap">
                 <label for="img_title">
                     Titel des Fotos : 
                 </label>
-                <input type="text" name="" id="img_title">
+                <input type="text" value="" id="img_title">
             </div>
             <div class="img_expl_wrap">
                 <label for="img_explanation_text">
                     Beschreibung des Fotos : 
                 </label>
-                <input type="text" id="img_explanation_text" name="" class="img_textarea">
+                <input type="text" id="img_explanation_text" value="" class="img_textarea">
             </div>
         </script>
 

@@ -91,6 +91,8 @@
             </div>
         </div>
         
+
+        
         
         
         
@@ -413,6 +415,44 @@
                 <img src="{imgPath}" class="modify_img" data-galleryId="{galleryId}">
             </li>
         </script>
-        
+
+        <!-- 갤러리 사진순서 변경 선택시 테이블 템플릿 -->
+        <script type="rv-template" id="photoOrderNoModifyWrap">
+            <table class="table table-striped table-hover photoOrderNoTable">
+                <thead>
+                    <tr>
+                        <th style="display:none;">GalleryId</th>
+                        <th style="width:10%">Up</th>
+                        <th style="width:10%">Down</th>
+                        <th style="width:10%">Num</th>
+                        <th style="width:40%">Foto</th>
+                        <th style="width:30%">Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {photoItems}
+                    
+                </tbody> 
+            </table>
+        </script>
+        <!-- 갤러리 사진순서 변경 테이블 채워줄 아이템 -->
+        <script type="rv-template" id="photoOrderNoModifyTableItem">
+            <tr class="photoOrderNoModifyItem">
+                <td style="display:none;" class="photoOrderNoModifyItem_galleryId">{galleryId}</td>
+                <td style="width:10%">
+                    <a href="#" class="photoOrderNoModifyItem_upBtn">Up</a>
+                </td>
+                <td style="width:10%">
+                    <a href="#" class="photoOrderNoModifyItem_downBtn">Down</a>
+                </td>
+                <td style="width:10%" class="photoOrderNoModifyItem_photoOrderNo">
+                    <input type="number" class="photoOrderNoModifyItem_photoOrderNo_input" readonly value="{PhotoOrderNo}">
+                </td>
+                <td style="width:40%">
+                    <img class="photoOrderNoModifySample" src="download/{galleryFileId}">
+                </td>
+                <td style="width:30%; word-break:break-all;">{photoName}</td>
+            </tr>
+        </script>
     </body>
 </html>

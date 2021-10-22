@@ -123,7 +123,7 @@ public class PageController {
 	}
 	
 	@ResponseBody
-	@PutMapping({"/update_photoData"})
+	@PostMapping({"/update_photoData"})
 	public int saveGallery(GalleryUpdateData galleryUpdateData) {
 		int result = galleryUpdateService.updatePhotoData(galleryUpdateData);
 		

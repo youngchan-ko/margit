@@ -48,13 +48,13 @@ public class GalleryUpdateServiceImpl implements GalleryUpdateService {
 	@Override
 	public GalleryModifyData getPhotoDetailData(int galleryId) {
 		Gallery gallery = galleryDao.getById(galleryId);
-		System.out.println(gallery);
+		
 		GalleryFile galleryFile = galleryFileDao.getById(gallery.getGalleryFileId());
-		System.out.println(galleryFile);
+		
 		GalleryModifyData galleryModifyData = new GalleryModifyData();
 		galleryModifyData.setGallery(gallery);
 		galleryModifyData.setGalleryFile(galleryFile);
-		System.out.println(galleryModifyData);
+
 		return galleryModifyData;
 	}
 	
@@ -62,27 +62,22 @@ public class GalleryUpdateServiceImpl implements GalleryUpdateService {
 	@Transactional
 	public int updatePhotoData(GalleryUpdateData galleryUpdateData) {
 		Gallery gallery = galleryDao.getById(galleryUpdateData.getGalleryId());
-//		Gallery newGallery = new Gallery();
-//		System.out.println("updateSetviceImpl-gallery :"+gallery);
-//		newGallery.setId(galleryUpdateData.getGalleryId());
-//		newGallery.setPhotoName(galleryUpdateData.getPhotoName());
-//		newGallery.setPhotoExpl(galleryUpdateData.getPhotoExpl());
-//		newGallery.setGalleryCategory(gallery.getGalleryCategory());
-//		newGallery.setGalleryFileId(gallery.getGalleryFileId());
-//		newGallery.setGroupName(gallery.getGroupName());
-//		newGallery.setGroupOrderNo(gallery.getGroupOrderNo());
-//		newGallery.setPhotoOrderNo(gallery.getPhotoOrderNo());
-//		
-//		System.out.println("updateSetviceImpl-newGallery :"+newGallery);
-//		//gallery Update
-//		galleryDao.save(newGallery);
-		galleryDao.updateById(galleryUpdateData.getPhotoName(), galleryUpdateData.getPhotoExpl(), galleryUpdateData.getGalleryId());
 		
+		Gallery newGallery = new Gallery();
+		newGallery.setId(galleryUpdateData.getGalleryId());
+		newGallery.setPhotoName(galleryUpdateData.getPhotoName());
+		newGallery.setPhotoExpl(galleryUpdateData.getPhotoExpl());
+		newGallery.setGalleryCategory(gallery.getGalleryCategory());
+		newGallery.setGalleryFileId(gallery.getGalleryFileId());
+		newGallery.setGroupName(gallery.getGroupName());
+		newGallery.setGroupOrderNo(gallery.getGroupOrderNo());
+		newGallery.setPhotoOrderNo(gallery.getPhotoOrderNo());
 		
+		//gallery Update
+		galleryDao.save(newGallery);
 		
 		GalleryFile galleryFile = galleryFileDao.getById(gallery.getGalleryFileId());
 		GalleryFile newGalleryFile = new GalleryFile();
-		System.out.println("updateSetviceImpl-galleryFile :"+galleryFile);
 
 		deletePhotoData(galleryFile);
 		
@@ -90,19 +85,17 @@ public class GalleryUpdateServiceImpl implements GalleryUpdateService {
 		
 		WriteFile(saveFileName, galleryUpdateData);
 		
-//		newGalleryFile.setOriginalFileName(galleryUpdateData.getImgFile().getOriginalFilename());
-//		newGalleryFile.setFileName(savedDir + File.separator + saveFileName);
-//		newGalleryFile.setFileType(galleryUpdateData.getImgFile().getContentType());
-//		newGalleryFile.setUpdateDate(now);
-//		newGalleryFile.setId(galleryFile.getId());
-//		newGalleryFile.setRegDate(galleryFile.getRegDate());
-//		
-//		System.out.println("updateSetviceImpl-newGalleryFile :"+newGalleryFile);
-//		//galleryFile Update
-//		galleryFileDao.save(newGalleryFile);
-		updateGalleryFile(galleryUpdateData, saveFileName, gallery.getGalleryFileId());
-		return 1;
+		newGalleryFile.setOriginalFileName(galleryUpdateData.getImgFile().getOriginalFilename());
+		newGalleryFile.setFileName(savedDir + File.separator + saveFileName);
+		newGalleryFile.setFileType(galleryUpdateData.getImgFile().getContentType());
+		newGalleryFile.setUpdateDate(now);
+		newGalleryFile.setId(galleryFile.getId());
+		newGalleryFile.setRegDate(galleryFile.getRegDate());
 		
+		//galleryFile Update
+		galleryFileDao.save(newGalleryFile);
+
+		return 1;
 	}
 
 	
@@ -137,27 +130,6 @@ public class GalleryUpdateServiceImpl implements GalleryUpdateService {
         }catch(Exception ex){
             throw new RuntimeException("file Save Error");
         }
-	}
-	
-	//GalleryFile테이블 저장
-	private void updateGalleryFile(GalleryUpdateData galleryUpdateData, String saveFileName,int id) {
-		
-		
-		GalleryFile galleryFile = new GalleryFile();
-		
-		galleryFile.setOriginalFileName(galleryUpdateData.getImgFile().getOriginalFilename());
-		galleryFile.setFileName(savedDir + File.separator + saveFileName);
-		galleryFile.setFileType(galleryUpdateData.getImgFile().getContentType());
-		galleryFile.setRegDate(now);
-		galleryFile.setUpdateDate(now);
-		
-		galleryFileDao.updateById(galleryUpdateData.getImgFile().getOriginalFilename(), 
-				savedDir + File.separator + saveFileName, 
-				galleryUpdateData.getImgFile().getContentType(), 
-				now, 
-				id);
-		//여기에 gallerFile 업데이트 구문 넣어주기
-		//galleryFileDao.save(galleryFile);
 	}
 	
 	//이미지파일 이름 새로 만들기

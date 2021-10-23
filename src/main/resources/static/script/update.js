@@ -240,11 +240,54 @@ NewsSubMenuEvent.prototype = {
 
 // ------------------------------------Gallery--------------------
 //갤러리 사진 순서변경 메뉴만들기
-function ModifyPhotoOrderNo(){
-
+function ModifyPhotoOrderNoBtnEvent(){
+    this.upBtn=document.querySelectorAll('.photoOrderNoModifyItem_upBtn');
+    this.downBtn=document.querySelectorAll('.photoOrderNoModifyItem_downBtn');
+    this.upBtnEvent();
 }
-ModifyPhotoOrderNo.prototype = {
+ModifyPhotoOrderNoBtnEvent.prototype = {
+    upBtnEvent : function(){
+        this.upBtn.forEach(element => {
+            $(document).on('click', '.photoOrderNoModifyItem_upBtn', function(){
+                // element.addEventListener('click', function(){
+                // event.preventDefault();
+                // let eventTarget = element;
 
+                let currentPhotoOrderNoNode = event.target.parentNode.nextElementSibling.nextElementSibling.firstElementChild;
+                let newPhotoOrderNoValue = parseInt(currentPhotoOrderNoNode.value)-1;
+                debugger;
+                let currentpreviousSiblingNode = event.target.parentNode.parentNode.previousElementSibling.children[3].firstElementChild;
+                let newpreviousSiblingValue = parseInt(currentpreviousSiblingNode.value)+1;
+                currentpreviousSiblingNode.value=newpreviousSiblingValue;
+                if(newPhotoOrderNoValue === 1){
+                    event.target.disabled = true;
+                }else{
+                    event.target.disabled = false;
+                }
+
+                let clone = event.target.parentNode.parentNode.cloneNode(true);
+                event.target.parentNode.parentNode.previousElementSibling.insertAdjacentHTML('beforebegin', clone.innerHTML);
+                
+                event.target.parentElement.parentElement.previousElementSibling.previousElementSibling.children[3].firstElementChild.value = newPhotoOrderNoValue;
+
+                event.target.parentNode.parentNode.remove();
+            }.bind(this))
+            
+        });
+    },
+    btnDisabledEvent : function(){
+        let OrderNoTarget=document.querySelectorAll('.photoOrderNoModifyItem_photoOrderNo_input');
+        
+        OrderNoTarget.addEventListener('change', function(){
+            if(event.target === 1){
+debugger;
+                // event.target.
+            }else{
+debugger;
+            }
+        })
+
+    }
 }
 
 //갤러리 사진 삭제 버튼 이벤트
@@ -536,19 +579,45 @@ GalleryDeleteSaveEvent.prototype = {
                 var serverData = JSON.parse(oReq.responseText);
                 console.log(serverData);
                 let itemHtml ="";
-                serverData.forEach(element => {
-                    let currentItemHtml = this.photoOrderNoModifyTableItem
-                    .replace("{galleryId", element.id)
-                    .replace("{PhotoOrderNo}", element.photoOrderNo)
-                    .replace("{galleryFileId}", element.galleryFileId)
-                    .replace("{photoName}", element.photoName);
-                    itemHtml +=currentItemHtml;
-                });
+
+                for(i=0; i<serverData.length; i++){
+                    let currentItemHtml = '';
+                    if(i===0){
+                        currentItemHtml = this.photoOrderNoModifyTableItem
+                        .replace("{galleryId}", serverData[i].id)
+                        .replace("{upBtnDisabled}", 'disabled')
+                        .replace("{downBtnDisabled}", '')
+                        .replace("{PhotoOrderNo}", serverData[i].photoOrderNo)
+                        .replace("{galleryFileId}", serverData[i].galleryFileId)
+                        .replace("{photoName}", serverData[i].photoName);
+                        itemHtml +=currentItemHtml;
+                    }else if(i===serverData.length-1){
+                        currentItemHtml = this.photoOrderNoModifyTableItem
+                        .replace("{galleryId}", serverData[i].id)
+                        .replace("{upBtnDisabled}", '')
+                        .replace("{downBtnDisabled}", 'disabled')
+                        .replace("{PhotoOrderNo}", serverData[i].photoOrderNo)
+                        .replace("{galleryFileId}", serverData[i].galleryFileId)
+                        .replace("{photoName}", serverData[i].photoName);
+                        itemHtml +=currentItemHtml;
+                    }else{
+                        currentItemHtml = this.photoOrderNoModifyTableItem
+                        .replace("{galleryId}", serverData[i].id)
+                        .replace("{upBtnDisabled}", '')
+                        .replace("{downBtnDisabled}", '')
+                        .replace("{PhotoOrderNo}", serverData[i].photoOrderNo)
+                        .replace("{galleryFileId}", serverData[i].galleryFileId)
+                        .replace("{photoName}", serverData[i].photoName);
+                        itemHtml +=currentItemHtml;
+                    }
+                }
+                
                 let photoOrderNoModifyTableHtml = this.photoOrderNoModifyWrap
                 .replace("{photoItems}", itemHtml);
 
                 this.menuWrap.after(photoOrderNoModifyTableHtml);
                 this.saveBtn.style.display ='block';
+                new ModifyPhotoOrderNoBtnEvent();
             }
         }.bind(this)
         oReq.open("GET", "/getGalleryUpdateData?galleryMainMenu="+this.mainMenuValue+"&galleryGroupName="+this.submenuValue);

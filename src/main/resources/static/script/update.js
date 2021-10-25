@@ -241,52 +241,98 @@ NewsSubMenuEvent.prototype = {
 // ------------------------------------Gallery--------------------
 //갤러리 사진 순서변경 메뉴만들기
 function ModifyPhotoOrderNoBtnEvent(){
-    this.upBtn=document.querySelectorAll('.photoOrderNoModifyItem_upBtn');
-    this.downBtn=document.querySelectorAll('.photoOrderNoModifyItem_downBtn');
     this.upBtnEvent();
+    this.downBtnEvent();
 }
 ModifyPhotoOrderNoBtnEvent.prototype = {
     upBtnEvent : function(){
-        this.upBtn.forEach(element => {
-            $(document).on('click', '.photoOrderNoModifyItem_upBtn', function(){
-                // element.addEventListener('click', function(){
-                // event.preventDefault();
-                // let eventTarget = element;
-
-                let currentPhotoOrderNoNode = event.target.parentNode.nextElementSibling.nextElementSibling.firstElementChild;
-                let newPhotoOrderNoValue = parseInt(currentPhotoOrderNoNode.value)-1;
-                debugger;
-                let currentpreviousSiblingNode = event.target.parentNode.parentNode.previousElementSibling.children[3].firstElementChild;
-                let newpreviousSiblingValue = parseInt(currentpreviousSiblingNode.value)+1;
-                currentpreviousSiblingNode.value=newpreviousSiblingValue;
-                if(newPhotoOrderNoValue === 1){
-                    event.target.disabled = true;
-                }else{
-                    event.target.disabled = false;
-                }
-
-                let clone = event.target.parentNode.parentNode.cloneNode(true);
-                event.target.parentNode.parentNode.previousElementSibling.insertAdjacentHTML('beforebegin', clone.innerHTML);
-                
-                event.target.parentElement.parentElement.previousElementSibling.previousElementSibling.children[3].firstElementChild.value = newPhotoOrderNoValue;
-
-                event.target.parentNode.parentNode.remove();
+        let upBtn=document.querySelectorAll('.photoOrderNoModifyItem_upBtn');
+        upBtn.forEach(element => {
+            element.addEventListener('click', function(){
+                this.upBtnFn(event);
+                this.upBtnDisable();
             }.bind(this))
+        });
+    },
+    upBtnFn : function(event){
+        let currentPhotoOrderNoNode = event.target.parentNode.nextElementSibling.nextElementSibling.firstElementChild;
+        let newPhotoOrderNoValue = parseInt(currentPhotoOrderNoNode.value)-1;
+        let currentpreviousSiblingNode = event.target.parentNode.parentNode.previousElementSibling.children[3].firstElementChild;
+        let newpreviousSiblingValue = parseInt(currentpreviousSiblingNode.value)+1;
+        currentpreviousSiblingNode.value=newpreviousSiblingValue;
+        
+            
+        let clone = event.target.parentNode.parentNode.cloneNode(true);
+        event.target.parentNode.parentNode.previousElementSibling.insertAdjacentHTML('beforebegin', clone.innerHTML);
+        
+        event.target.parentElement.parentElement.previousElementSibling.previousElementSibling.children[3].firstElementChild.value = newPhotoOrderNoValue;
+
+        event.target.parentNode.parentNode.remove();
+        this.upBtnEvent();
+        this.upBtnDisable();
+    },
+    upBtnDisable : function(){
+        let OrderNoInput = document.querySelectorAll('.photoOrderNoModifyItem_photoOrderNo_input');
+        OrderNoInput.forEach(element => {
+            let upBtnTarget = element.parentNode.previousElementSibling.previousElementSibling.firstElementChild;
+            let downBtnTarget = element.parentNode.previousElementSibling.firstElementChild;
+            let firstCheckValue = parseInt(element.value);
+            let LastCheckPoint = element.parentNode.parentNode.nextElementSibling;
+            if(firstCheckValue === 1){
+                upBtnTarget.disabled = true;
+            }else if(LastCheckPoint === null){
+                downBtnTarget.disabled = true;
+            }else{
+                upBtnTarget.disabled = false;
+                downBtnTarget.disabled = false;
+            }
             
         });
     },
-    btnDisabledEvent : function(){
-        let OrderNoTarget=document.querySelectorAll('.photoOrderNoModifyItem_photoOrderNo_input');
+    downBtnEvent : function(){
+        let downBtn=document.querySelectorAll('.photoOrderNoModifyItem_downBtn');
+        downBtn.forEach(element => {
+            element.addEventListener('click', function(){
+                this.downBtnFn(event);
+                this.downBtnDisable();
+            }.bind(this))
+        });
+    },
+    downBtnFn :function(event){
+        let currentPhotoOrderNoNode = event.target.parentNode.nextElementSibling.firstElementChild;
+        let newPhotoOrderNoValue = parseInt(currentPhotoOrderNoNode.value)+1;
+        let currentNextSiblingNode = event.target.parentNode.parentNode.nextElementSibling.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.firstElementChild;
+        let newpnextSiblingValue = parseInt(currentNextSiblingNode.value)-1;
         
-        OrderNoTarget.addEventListener('change', function(){
-            if(event.target === 1){
-debugger;
-                // event.target.
-            }else{
-debugger;
-            }
-        })
+        currentNextSiblingNode.value=newpnextSiblingValue;
+        
+            
+        let clone = event.target.parentNode.parentNode.cloneNode(true);
+        event.target.parentNode.parentNode.nextElementSibling.insertAdjacentHTML('afterend', clone.innerHTML);
+        
+        event.target.parentElement.parentElement.nextElementSibling.nextElementSibling.children[3].firstElementChild.value = newPhotoOrderNoValue;
 
+        event.target.parentNode.parentNode.remove();
+        this.downBtnEvent();
+        this.downBtnDisable();
+    },
+    downBtnDisable : function(){
+        let OrderNoInput = document.querySelectorAll('.photoOrderNoModifyItem_photoOrderNo_input');
+        OrderNoInput.forEach(element => {
+            let downBtnTarget = element.parentNode.previousElementSibling.firstElementChild;
+            let upBtnTarget = element.parentNode.previousElementSibling.previousElementSibling.firstElementChild;
+            let LastCheckPoint = element.parentNode.parentNode.nextElementSibling;
+            let firstCheckValue = parseInt(element.value);
+            if(LastCheckPoint === null){
+                downBtnTarget.disabled = true;
+            }else if(firstCheckValue === 1){
+                upBtnTarget.disabled = true;
+            }else{
+                downBtnTarget.disabled = false;
+                upBtnTarget.disabled = false;
+            }
+            
+        });
     }
 }
 

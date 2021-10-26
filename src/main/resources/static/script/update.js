@@ -255,22 +255,30 @@ ModifyPhotoOrderNoBtnEvent.prototype = {
         });
     },
     upBtnFn : function(event){
-        let currentPhotoOrderNoNode = event.target.parentNode.nextElementSibling.nextElementSibling.firstElementChild;
-        let newPhotoOrderNoValue = parseInt(currentPhotoOrderNoNode.value)-1;
-        let currentpreviousSiblingNode = event.target.parentNode.parentNode.previousElementSibling.children[3].firstElementChild;
-        let newpreviousSiblingValue = parseInt(currentpreviousSiblingNode.value)+1;
-        currentpreviousSiblingNode.value=newpreviousSiblingValue;
-        
+        if(event.target.parentNode.parentNode.previousElementSibling != null){
             
-        let clone = event.target.parentNode.parentNode.cloneNode(true);
-        event.target.parentNode.parentNode.previousElementSibling.insertAdjacentHTML('beforebegin', clone.innerHTML);
-        
-        event.target.parentElement.parentElement.previousElementSibling.previousElementSibling.children[3].firstElementChild.value = newPhotoOrderNoValue;
-
-        event.target.parentNode.parentNode.remove();
-        this.upBtnEvent();
-        this.upBtnDisable();
+            let currentPhotoOrderNoInput = event.target.parentNode.nextElementSibling.nextElementSibling.firstElementChild;
+            let newPhotoOrderNoValue = parseInt(currentPhotoOrderNoInput.value)-1;
+            let currentpreviousSiblingInput = event.target.parentNode.parentNode.previousElementSibling.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.firstElementChild;
+            let newpreviousSiblingValue = parseInt(currentpreviousSiblingInput.value)+1;
+            currentpreviousSiblingInput.value=newpreviousSiblingValue;
+            
+                
+            let clone = event.target.parentNode.parentNode.cloneNode(true);
+            event.target.parentNode.parentNode.previousElementSibling.insertAdjacentHTML('beforebegin', clone.outerHTML);
+            
+            event.target.parentElement.parentElement.previousElementSibling.previousElementSibling.children[3].firstElementChild.value = newPhotoOrderNoValue;
+    
+            event.target.parentNode.parentNode.remove();
+            this.upBtnEvent();
+            this.upBtnDisable();
+            this.downBtnEvent();
+            this.downBtnDisable();
+        }
     },
+    // eventTargetDelete : function(event){
+    //     event.target.parentNode.parentNode.remove();
+    // },
     upBtnDisable : function(){
         let OrderNoInput = document.querySelectorAll('.photoOrderNoModifyItem_photoOrderNo_input');
         OrderNoInput.forEach(element => {
@@ -299,22 +307,26 @@ ModifyPhotoOrderNoBtnEvent.prototype = {
         });
     },
     downBtnFn :function(event){
-        let currentPhotoOrderNoNode = event.target.parentNode.nextElementSibling.firstElementChild;
-        let newPhotoOrderNoValue = parseInt(currentPhotoOrderNoNode.value)+1;
-        let currentNextSiblingNode = event.target.parentNode.parentNode.nextElementSibling.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.firstElementChild;
-        let newpnextSiblingValue = parseInt(currentNextSiblingNode.value)-1;
-        
-        currentNextSiblingNode.value=newpnextSiblingValue;
-        
-            
-        let clone = event.target.parentNode.parentNode.cloneNode(true);
-        event.target.parentNode.parentNode.nextElementSibling.insertAdjacentHTML('afterend', clone.innerHTML);
-        
-        event.target.parentElement.parentElement.nextElementSibling.nextElementSibling.children[3].firstElementChild.value = newPhotoOrderNoValue;
+        if(event.target.parentNode.parentNode.nextElementSibling != null){
 
-        event.target.parentNode.parentNode.remove();
-        this.downBtnEvent();
-        this.downBtnDisable();
+            let currentPhotoOrderNoNode = event.target.parentNode.nextElementSibling.firstElementChild;
+            let newPhotoOrderNoValue = parseInt(currentPhotoOrderNoNode.value)+1;
+            let currentNextSiblingNode = event.target.parentNode.parentNode.nextElementSibling.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.firstElementChild;
+            let newpnextSiblingValue = parseInt(currentNextSiblingNode.value)-1;
+            
+            currentNextSiblingNode.value=newpnextSiblingValue;
+            
+                
+            let clone = event.target.parentNode.parentNode.cloneNode(true);
+            event.target.parentNode.parentNode.nextElementSibling.insertAdjacentHTML('afterend', clone.outerHTML);
+            event.target.parentElement.parentElement.nextElementSibling.nextElementSibling.children[3].firstElementChild.value = newPhotoOrderNoValue;
+    
+            event.target.parentNode.parentNode.remove();
+            this.downBtnEvent();
+            this.downBtnDisable();
+            this.upBtnEvent();
+            this.upBtnDisable();
+        }
     },
     downBtnDisable : function(){
         let OrderNoInput = document.querySelectorAll('.photoOrderNoModifyItem_photoOrderNo_input');
@@ -335,6 +347,58 @@ ModifyPhotoOrderNoBtnEvent.prototype = {
         });
     }
 }
+
+//사진 순서 변경메뉴에 저장버튼 이벤트
+function GalleryPhotoOrderNoModifySendBtnEvent(){
+    // this.photoOrderNoItem = document.querySelectorAll('.photoOrderNoModifyItem');
+    this.eventListner();
+}
+GalleryPhotoOrderNoModifySendBtnEvent.prototype={
+    eventListner : function(){
+        $('.gallery_save_btn').off().on('click', function(){
+            this.makeFormData();
+            
+
+        }.bind(this));
+    },
+    makeFormData : function(){
+        let formData = new FormData();
+        let dataArr = new Array();
+        let photoOrderNoItem = document.querySelectorAll('.photoOrderNoModifyItem');
+        photoOrderNoItem.forEach(element => {
+            let elementGalleryId = parseInt(element.firstElementChild.innerText);
+            let elementPhotoOrderNo = parseInt(element.children[3].firstElementChild.value);
+            let dataObj = {
+                
+
+                    galleryId:elementGalleryId,
+                    photoOrderNo:elementPhotoOrderNo
+                
+            }
+            dataArr.push(dataObj);
+        });
+        let jsonDataArr = JSON.stringify(dataArr);
+        formData.append("photoOrderNoModifyData",jsonDataArr);
+        
+        this.sendAjax(formData);
+    },
+    sendAjax : function(formData){
+        var oReq = new XMLHttpRequest();
+        oReq.open("POST", "/photoOrderNoModify");
+        oReq.setRequestHeader('Content-type', false);
+        oReq.setRequestHeader('processData', false);
+        oReq.setRequestHeader('dataType', 'json');
+        oReq.onreadystatechange = function(){
+            if(oReq.readyState === 4 && oReq.status === 200){		
+                alert("사진 순서를 변경했습니다.");
+                // window.location.href='http://localhost:8080/update';
+            }
+        }
+        oReq.send(formData);
+    }
+}    
+    
+
 
 //갤러리 사진 삭제 버튼 이벤트
 function GalleryDeleteBtnEvent(){
@@ -360,7 +424,6 @@ GalleryDeleteBtnEvent.prototype={
                 }
             }
             oReq.open("GET", "/deleteGalleryData?galleryIdArr="+galleryIdArr);
-            console.log(galleryIdArr);
             oReq.send();
             
         }.bind(this));
@@ -664,6 +727,7 @@ GalleryDeleteSaveEvent.prototype = {
                 this.menuWrap.after(photoOrderNoModifyTableHtml);
                 this.saveBtn.style.display ='block';
                 new ModifyPhotoOrderNoBtnEvent();
+                new GalleryPhotoOrderNoModifySendBtnEvent();
             }
         }.bind(this)
         oReq.open("GET", "/getGalleryUpdateData?galleryMainMenu="+this.mainMenuValue+"&galleryGroupName="+this.submenuValue);

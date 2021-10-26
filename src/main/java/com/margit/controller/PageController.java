@@ -24,6 +24,8 @@ import com.margit.model.GalleryUpdateData;
 import com.margit.model.GalleryViewData;
 import com.margit.model.GetPhotoFormData;
 import com.margit.model.PhotoData;
+import com.margit.model.PhotoOrderNoModifyData;
+import com.margit.model.PhotoOrderNoModifyDataList;
 import com.margit.model.User;
 import com.margit.service.BiographyService;
 import com.margit.service.ContactService;
@@ -129,6 +131,15 @@ public class PageController {
 		
 		return result;
 	}
+
+	@ResponseBody
+	@PostMapping({"/photoOrderNoModify"})
+	public int updatePhotoOrderNo(PhotoOrderNoModifyDataList photoOrderNoModifyDataList) {
+		System.out.println(photoOrderNoModifyDataList);
+		
+		return 1;
+	}
+	
 	
 	@GetMapping({"/zeichnung"})
 	public String zeichnung() {

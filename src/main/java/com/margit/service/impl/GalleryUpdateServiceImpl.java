@@ -4,11 +4,16 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +24,7 @@ import com.margit.model.GalleryFile;
 import com.margit.model.GalleryGroupNameInterface;
 import com.margit.model.GalleryModifyData;
 import com.margit.model.GalleryUpdateData;
+import com.margit.model.PhotoOrderNoModifyData;
 import com.margit.service.GalleryUpdateService;
 
 @Service
@@ -138,4 +144,38 @@ public class GalleryUpdateServiceImpl implements GalleryUpdateService {
 		String saveFilename = dateStr+galleryUpdateData.getImgFile().getOriginalFilename();
 		return saveFilename;
 	}
+
+	@Override
+	@Transactional
+	public int updatePhotoOrderNo(String photoOrderNoModifyData) throws Throwable {
+		List<PhotoOrderNoModifyData> photoOrderNoModifyDataList = getPhotoOrderNoList(photoOrderNoModifyData);
+		for(int i=0; i<photoOrderNoModifyDataList.size(); i++) {
+			int photoOrderNo = photoOrderNoModifyDataList.get(i).getPhotoOrderNo();
+			int galleryId = photoOrderNoModifyDataList.get(i).getGalleryId();
+			
+			galleryDao.updatePhotoOrderNo(photoOrderNo,galleryId);
+		}
+		
+		return 1;
+	}
+	
+	private List<PhotoOrderNoModifyData> getPhotoOrderNoList(String photoOrderNoModifyData) throws Throwable {
+		JSONParser jsonParser = new JSONParser();
+		
+			List<PhotoOrderNoModifyData> photoOrderNoModifyDataList = new ArrayList<PhotoOrderNoModifyData>();
+			JSONArray jsonArray = (JSONArray)jsonParser.parse(photoOrderNoModifyData);
+			for(int i=0; i<jsonArray.size(); i++) {
+				PhotoOrderNoModifyData currentPhotoOrderNoModifyData = new PhotoOrderNoModifyData();
+				JSONObject jsonObject = (JSONObject)jsonArray.get(i);
+				int galleryId = Integer.parseInt(String.valueOf(jsonObject.get("galleryId")));
+				int photoOrderNo =Integer.parseInt(String.valueOf(jsonObject.get("photoOrderNo")));
+				currentPhotoOrderNoModifyData.setGalleryId(galleryId);
+				currentPhotoOrderNoModifyData.setPhotoOrderNo(photoOrderNo);
+				
+				photoOrderNoModifyDataList.add(currentPhotoOrderNoModifyData);
+			}
+			return photoOrderNoModifyDataList;
+	}
+	
+	
 }

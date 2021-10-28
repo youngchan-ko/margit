@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -22,10 +22,6 @@ import com.margit.model.GalleryModifyData;
 import com.margit.model.GallerySaveData;
 import com.margit.model.GalleryUpdateData;
 import com.margit.model.GalleryViewData;
-import com.margit.model.GetPhotoFormData;
-import com.margit.model.PhotoData;
-import com.margit.model.PhotoOrderNoModifyData;
-import com.margit.model.PhotoOrderNoModifyDataList;
 import com.margit.model.User;
 import com.margit.service.BiographyService;
 import com.margit.service.ContactService;
@@ -134,10 +130,12 @@ public class PageController {
 
 	@ResponseBody
 	@PostMapping({"/photoOrderNoModify"})
-	public int updatePhotoOrderNo(PhotoOrderNoModifyDataList photoOrderNoModifyDataList) {
-		System.out.println(photoOrderNoModifyDataList);
+	public int updatePhotoOrderNo(@RequestParam(required=false) String photoOrderNoModifyData) throws Throwable {
+		System.out.println("pageCon.updatePhotoOrderNo()"+photoOrderNoModifyData);
+
+		int updatePhotoOrderNo = galleryUpdateService.updatePhotoOrderNo(photoOrderNoModifyData);
 		
-		return 1;
+		return updatePhotoOrderNo;
 	}
 	
 	

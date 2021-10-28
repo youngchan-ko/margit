@@ -10,4 +10,5 @@ public interface GalleryUpdateService {
 	public List<GalleryGroupNameInterface> getGallerygroupName (String galleryCategory);
 	public GalleryModifyData getPhotoDetailData(int galleryId);
 	public int updatePhotoData(GalleryUpdateData galleryUpdateData);
+	public int updatePhotoOrderNo(String photoOrderNoModifyData) throws Throwable;
 }

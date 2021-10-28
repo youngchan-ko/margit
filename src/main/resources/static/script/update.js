@@ -362,36 +362,46 @@ GalleryPhotoOrderNoModifySendBtnEvent.prototype={
         }.bind(this));
     },
     makeFormData : function(){
-        let formData = new FormData();
-        let dataArr = new Array();
+        // let formData = new FormData();
+        // let dataArr = new Array();
         let photoOrderNoItem = document.querySelectorAll('.photoOrderNoModifyItem');
+        
+        // for (let i=0; i<photoOrderNoItem.length; i++) {
+
+        //     formData.append("listDto["+i+"].photoOrderNoModifyData", photoOrderNoItem[i].prod_nm);
+         
+        //  }
+
+
+        let dataArr = new Array();
+        let formData = new FormData();
         photoOrderNoItem.forEach(element => {
+            // let dataArr = new Array();
             let elementGalleryId = parseInt(element.firstElementChild.innerText);
             let elementPhotoOrderNo = parseInt(element.children[3].firstElementChild.value);
             let dataObj = {
-                
-
-                    galleryId:elementGalleryId,
-                    photoOrderNo:elementPhotoOrderNo
-                
+                galleryId:elementGalleryId,
+                photoOrderNo:elementPhotoOrderNo
             }
+            // dataArr.push(dataObj);
+            // dataObj={};
+            // let jsonDataArr = JSON.stringify(dataArr);
+            // formData.append("photoOrderNoModifyData",jsonDataArr);
+
             dataArr.push(dataObj);
         });
-        let jsonDataArr = JSON.stringify(dataArr);
-        formData.append("photoOrderNoModifyData",jsonDataArr);
-        
+            
+            let jsonDataArr = JSON.stringify(dataArr);
+            formData.append("photoOrderNoModifyData",jsonDataArr);
         this.sendAjax(formData);
     },
     sendAjax : function(formData){
         var oReq = new XMLHttpRequest();
         oReq.open("POST", "/photoOrderNoModify");
-        oReq.setRequestHeader('Content-type', false);
-        oReq.setRequestHeader('processData', false);
-        oReq.setRequestHeader('dataType', 'json');
         oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
                 alert("사진 순서를 변경했습니다.");
-                // window.location.href='http://localhost:8080/update';
+                window.location.href='http://localhost:8080/update';
             }
         }
         oReq.send(formData);
@@ -742,6 +752,9 @@ GalleryDeleteSaveEvent.prototype = {
         
         if($('.menu_wrap').nextAll('div').length > 0){
             $('.menu_wrap').nextAll('div').css("display", "none");
+        }
+        if($('.menu_wrap').nextAll('table').length > 0){
+            $('.menu_wrap').nextAll('table').css("display", "none");
         }
     }
 }

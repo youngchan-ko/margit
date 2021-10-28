@@ -86,9 +86,7 @@ public class GallerySaveServiceImpl implements GallerySaveService{
 			currentGroupOrderNo = galleryDao.getCurrentGroupOderNo(
 					gallerySaveData.getGalleryCategory(), gallerySaveData.getGroupName());
 			
-			System.out.println("currentGroupOrderNo(oben) : "+currentGroupOrderNo);
 		}else {
-			System.out.println("currentGroupOrderNo(unten) : "+currentGroupOrderNo);
 			Integer nextGroupOrderNo = galleryDao.getMaxGroupOderNo(gallerySaveData.getGalleryCategory());
 			if(nextGroupOrderNo == null) {
 				nextGroupOrderNo = 0;

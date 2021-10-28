@@ -93,14 +93,6 @@
         
 
         
-        
-        
-        
-        
-        
-        
-        <!-- <a class="save_btn" href="" style="display: none;"><span>Datei speichern</span></a>
-        <a class="delete_btn" href="" style="display: none;"><span>löschen</span></a> -->
         <button class="gallery_save_btn" style="display: none;">
             <span>Gallery Datei speichern</span>
         </button>
@@ -452,6 +444,39 @@
                     <img class="photoOrderNoModifySample" src="download/{galleryFileId}">
                 </td>
                 <td style="width:30%; word-break:break-all;">{photoName}</td>
+            </tr>
+        </script>
+
+        <!-- 갤러리 그룹 순서변경 랩 -->
+        <script type="rv-template" id="groupOrderNoModifyWrap">
+            <table class="table table-striped table-hover groupOrderNoTable">
+                <thead>
+                    <tr>
+                        <th style="width:10%">Up</th>
+                        <th style="width:10%">Down</th>
+                        <th style="width:10%">Num</th>
+                        <th style="width:70%">GroupName</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {groupItems}
+                </tbody> 
+            </table>
+        </script>
+
+        <!-- 갤러리 그룹순서 변경 테이블 채워줄 아이템 -->
+        <script type="rv-template" id="groupOrderNoModifyTableItem">
+            <tr class="groupOrderNoModifyItem">
+                <td style="width:10%">
+                    <button class="groupOrderNoModifyItem_upBtn" {upBtnDisabled}>Up</button>
+                </td>
+                <td style="width:10%">
+                    <button class="groupOrderNoModifyItem_downBtn" {downBtnDisabled}>Down</button>
+                </td>
+                <td style="width:10%" class="groupOrderNoModifyItem_groupOrderNo">
+                    <input type="number" class="groupOrderNoModifyItem_groupOrderNo_input" readonly value="{groupOrderNo}">
+                </td>
+                <td style="width:70%; word-break:break-all;">{groupName}</td>
             </tr>
         </script>
     </body>

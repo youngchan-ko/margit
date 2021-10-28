@@ -131,11 +131,20 @@ public class PageController {
 	@ResponseBody
 	@PostMapping({"/photoOrderNoModify"})
 	public int updatePhotoOrderNo(@RequestParam(required=false) String photoOrderNoModifyData) throws Throwable {
-		System.out.println("pageCon.updatePhotoOrderNo()"+photoOrderNoModifyData);
 
 		int updatePhotoOrderNo = galleryUpdateService.updatePhotoOrderNo(photoOrderNoModifyData);
 		
 		return updatePhotoOrderNo;
+	}
+	
+	@ResponseBody
+	@PostMapping({"/groupOrderNoModify"})
+	public int updateGroupOrderNo(@RequestParam(required=false) String groupOrderNoModifyData) throws Throwable {
+		System.out.println("pageCon.updateGroupOrderNo()"+groupOrderNoModifyData);
+		
+		int updateGroupOrderNo = galleryUpdateService.updateGroupOrderNo(groupOrderNoModifyData);
+		
+		return updateGroupOrderNo;
 	}
 	
 	

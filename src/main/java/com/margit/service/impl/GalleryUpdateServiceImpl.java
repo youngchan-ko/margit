@@ -24,6 +24,7 @@ import com.margit.model.GalleryFile;
 import com.margit.model.GalleryGroupNameInterface;
 import com.margit.model.GalleryModifyData;
 import com.margit.model.GalleryUpdateData;
+import com.margit.model.GroupOrderNoModifyData;
 import com.margit.model.PhotoOrderNoModifyData;
 import com.margit.service.GalleryUpdateService;
 
@@ -161,21 +162,55 @@ public class GalleryUpdateServiceImpl implements GalleryUpdateService {
 	
 	private List<PhotoOrderNoModifyData> getPhotoOrderNoList(String photoOrderNoModifyData) throws Throwable {
 		JSONParser jsonParser = new JSONParser();
+	
+		List<PhotoOrderNoModifyData> photoOrderNoModifyDataList = new ArrayList<PhotoOrderNoModifyData>();
+		JSONArray jsonArray = (JSONArray)jsonParser.parse(photoOrderNoModifyData);
+		for(int i=0; i<jsonArray.size(); i++) {
+			PhotoOrderNoModifyData currentPhotoOrderNoModifyData = new PhotoOrderNoModifyData();
+			JSONObject jsonObject = (JSONObject)jsonArray.get(i);
+			int galleryId = Integer.parseInt(String.valueOf(jsonObject.get("galleryId")));
+			int photoOrderNo =Integer.parseInt(String.valueOf(jsonObject.get("photoOrderNo")));
+			currentPhotoOrderNoModifyData.setGalleryId(galleryId);
+			currentPhotoOrderNoModifyData.setPhotoOrderNo(photoOrderNo);
+			
+			photoOrderNoModifyDataList.add(currentPhotoOrderNoModifyData);
+		}
+		return photoOrderNoModifyDataList;
+	}
+
+	@Override
+	@Transactional
+	public int updateGroupOrderNo(String groupOrderNoModifyData)  throws Throwable {
+		List<GroupOrderNoModifyData> groupOrderNoModifyDataList = getGroupOrderNoModifyDataList(groupOrderNoModifyData);
 		
-			List<PhotoOrderNoModifyData> photoOrderNoModifyDataList = new ArrayList<PhotoOrderNoModifyData>();
-			JSONArray jsonArray = (JSONArray)jsonParser.parse(photoOrderNoModifyData);
-			for(int i=0; i<jsonArray.size(); i++) {
-				PhotoOrderNoModifyData currentPhotoOrderNoModifyData = new PhotoOrderNoModifyData();
-				JSONObject jsonObject = (JSONObject)jsonArray.get(i);
-				int galleryId = Integer.parseInt(String.valueOf(jsonObject.get("galleryId")));
-				int photoOrderNo =Integer.parseInt(String.valueOf(jsonObject.get("photoOrderNo")));
-				currentPhotoOrderNoModifyData.setGalleryId(galleryId);
-				currentPhotoOrderNoModifyData.setPhotoOrderNo(photoOrderNo);
-				
-				photoOrderNoModifyDataList.add(currentPhotoOrderNoModifyData);
-			}
-			return photoOrderNoModifyDataList;
+		for(int i=0; i<groupOrderNoModifyDataList.size(); i++) {
+			String groupName = groupOrderNoModifyDataList.get(i).getGroupName();
+			int groupOrderNo = groupOrderNoModifyDataList.get(i).getGroupOrderNo();
+			
+			galleryDao.updateGroupOrderNo(groupOrderNo, groupName);
+		}
+		
+		return 1;
 	}
 	
+	private List<GroupOrderNoModifyData> getGroupOrderNoModifyDataList(String groupOrderNoModifyData) throws Throwable{
+		JSONParser jsonParser = new JSONParser();
+		
+		List<GroupOrderNoModifyData> groupOrderNoModifyDataList = new ArrayList<GroupOrderNoModifyData>();
+		JSONArray jsonArray = (JSONArray)jsonParser.parse(groupOrderNoModifyData);
+		for(int i=0; i<jsonArray.size(); i++) {
+			GroupOrderNoModifyData currentGroupOrderNoModifyData = new GroupOrderNoModifyData();
+			JSONObject jsonObject = (JSONObject)jsonArray.get(i);
+			String groupName = (String) jsonObject.get("groupName");
+			int groupOrderNo =Integer.parseInt(String.valueOf(jsonObject.get("groupOrderNo")));
+			currentGroupOrderNoModifyData.setGroupName(groupName);
+			currentGroupOrderNoModifyData.setGroupOrderNo(groupOrderNo);
+			
+			groupOrderNoModifyDataList.add(currentGroupOrderNoModifyData);
+		}
+		
+		return groupOrderNoModifyDataList;
+		
+	}
 	
 }

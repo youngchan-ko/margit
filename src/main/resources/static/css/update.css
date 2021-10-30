@@ -10085,7 +10085,7 @@ h3 {
   max-height: 230px;
 }
 
-.gallery_delete_btn,
+.delete_btn,
 .text_delete_btn,
 .biography_delete_btn,
 .contact_delete_btn,
@@ -10096,7 +10096,7 @@ h3 {
   background-color: gray;
 }
 
-.gallery_save_btn,
+.save_btn,
 .text_save_btn,
 .biography_save_btn,
 .contact_save_btn,
@@ -10172,4 +10172,8 @@ h3 {
 .photoOrderNoModifySample{
   max-width: 100%;
   max-height: 150px;
+}
+
+.biography_insert_wrap div label{
+  text-align: center;
 }

@@ -10033,6 +10033,7 @@ h3 {
 
 .biography_text{
   display: inline-block;
+  max-width: 70%;
 }
 
 .accordion-header button{
@@ -10062,6 +10063,7 @@ h3 {
   
   .biography_text{
     display: block;
+    max-width: 100%;
   }
 
   .accordion-header button{
@@ -10090,6 +10092,7 @@ h3 {
   .biography_text{
     line-height: 40px;
     display: block;
+    max-width: 100%;
   }
 
   .accordion-header button{

@@ -93,11 +93,11 @@
         
 
         
-        <button class="gallery_save_btn" style="display: none;">
-            <span>Gallery Datei speichern</span>
+        <button class="save_btn" style="display: none;">
+            <span>Datei speichern</span>
         </button>
-        <button class="gallery_delete_btn" style="display: none;">
-            <span>Gallery löschen</span>
+        <button class="delete_btn" style="display: none;">
+            <span>löschen</span>
         </button>
         <button class="text_save_btn" style="display: none;">
             <span>Datei speichern</span>
@@ -277,21 +277,19 @@
                     <label for="start_year_input">
                         von : 
                     </label>
-                    <input type="number" name="" id="start_year_input">
+                    <input type="number" id="start_year_input">
                 </div>
                 <div class="end_year_wrap">
                     <label for="end_year_input">
                         bis : 
                     </label>
-                    <input type="number" name="" id="end_year_input">
+                    <input type="number" id="end_year_input">
                 </div>
                 <div class="biography_text_input_wrap">
                     <label for="biography_text_input">
                         Text :
-                    </label>
-                    <textarea name="" id="biography_text_input" cols="70" rows="3">
-    
-                    </textarea>
+                    </label> 
+                    <textarea id="biography_text_input" cols="70" rows="3"></textarea>
                 </div>
             </div>
         </script>
@@ -313,7 +311,7 @@
                     <option value="insert">einfügen</option>
                     <option value="delete">löschen</option>
                     <option value="modify">ändern</option>
-                    <option value="photoOrderNoModify">die Foto-Reihenfolge ändern</option>
+                    <option value="photoOrderNoModify" class="photoOrderNoModifyOption" style="display: none;">die Foto-Reihenfolge ändern</option>
                 </select>
             </div>
             <div class="new_subtitle_input_wrap" style="display: none;">

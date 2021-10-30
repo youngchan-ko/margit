@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.margit.model.Biography;
 import com.margit.model.BiographyCategory;
 import com.margit.model.BiographyData;
 import com.margit.model.Contact;
@@ -23,6 +24,7 @@ import com.margit.model.GallerySaveData;
 import com.margit.model.GalleryUpdateData;
 import com.margit.model.GalleryViewData;
 import com.margit.model.User;
+import com.margit.service.BiographySaveService;
 import com.margit.service.BiographyService;
 import com.margit.service.ContactService;
 import com.margit.service.GalleryDeleteService;
@@ -41,6 +43,8 @@ public class PageController {
 	private ContactService contactService;
 	@Autowired
 	private BiographyService biographyService;
+	@Autowired
+	private BiographySaveService biographySaveService;
 	@Autowired
 	private GallerySaveService gallerySaveService;
 	@Autowired
@@ -181,6 +185,14 @@ public class PageController {
 	@GetMapping({"/biography"})
 	public String biography() {
 		return "biography";
+	}
+	
+	@ResponseBody
+	@PostMapping({"/saveBiography"})
+	public Biography saveBiography(BiographyData biographyData) {
+		System.out.println("PageCon-saveBiography : "+biographyData);
+		Biography biography = biographySaveService.saveBiography(biographyData);
+		return biography;
 	}
 	
 	@ResponseBody

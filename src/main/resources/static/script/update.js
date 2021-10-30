@@ -117,6 +117,11 @@ BiographyDeleteSaveEvent.prototype = {
                 this.menuWrap.after(this.biographyInputTemplate);
                 this.saveBtn.style.display = 'block';
                 this.deleteBtn.style.display = 'none';
+                new BiographySaveEvent();
+                break;
+
+            case'modify' :
+
                 break;
         }
     },
@@ -150,6 +155,86 @@ BiographyDeleteSaveEvent.prototype = {
     }
 }
 
+//바이오그라피 서브메뉴 'new_subtitle' 선택시 이벤트
+function BiographySaveEvent(){
+    this.saveBtn = document.querySelector('.save_btn');
+    this.newSubtitleInput = document.querySelector('#new_subtitle_input');
+    this.startYearInput = document.querySelector('#start_year_input');
+    this.endYearInput = document.querySelector('#end_year_input');
+    this.bioTextInput = document.querySelector('#biography_text_input')
+    this.submenu =document.querySelector('#submenu');
+    this.saveBtnAddEventListner();
+}
+BiographySaveEvent.prototype = {
+    saveBtnAddEventListner : function(){
+        $('.save_btn').off().on('click', function(){
+            if(this.submenu ==="new_subtitle"){
+                let newSubtitleResult = this.checkNewSubtitleValue();
+                let startYearResult = this.checkStartYearValue();
+                let textResult = this.checkTextInputValue();
+                if(newSubtitleResult+startYearResult+textResult === 3){
+                    this.makeFormData();
+                }
+
+            }else{
+                let startYearResult = this.checkStartYearValue();
+                let textResult = this.checkTextInputValue();
+                if(startYearResult+textResult === 2){
+                    this.makeFormData();
+                }
+            }
+        }.bind(this));
+
+    },
+    makeFormData : function(){
+        var formData = new FormData();
+        if(this.submenu.value==="new_subtitle"){
+            formData.append("biography_category", this.newSubtitleInput.value);
+
+        }else{
+            formData.append("biography_category", this.submenu.value)
+        }
+        formData.append("start_year", this.startYearInput.value);
+        formData.append("end_year", this.endYearInput.value);
+        var filteredtext = this.bioTextInput.value.replace(/(\n|\r\n)/g, '<br>');
+        formData.append("biography_text", filteredtext);
+        this.sendAjax(formData);
+    },
+    sendAjax :function(formData){
+        var oReq = new XMLHttpRequest();
+	    oReq.onreadystatechange = function(){
+            if(oReq.readyState === 4 && oReq.status === 200){		
+                var serverData = JSON.parse(this.responseText);
+                alert("파일저장에 성공했습니다.");
+            }
+        }
+        oReq.open("POST", "/saveBiography");
+        oReq.send(formData);
+    },
+    checkNewSubtitleValue : function(){
+        if(this.newSubtitleInput.value.length === 0){
+            alert('새로운 그룹이름을 확인하세요.')
+        }else{
+            return 1;
+        }
+    },
+    checkStartYearValue : function(){
+        if(this.startYearInput.value.length === 0){
+            alert('시작년 입력값을 확인하세요.')
+        }else{
+            return 1;
+        }
+    },
+    checkTextInputValue : function(){
+        if(this.bioTextInput.value.length === 0){
+            alert('텍스트 입력값을 확인하세요.')
+        }else{
+            return 1;
+        }
+    }
+
+}
+
 // 바이오그라피 서브메뉴 선택에따른 뷰
 function BiographySubMenuEvent(){
     this.menuWrap = $('.menu_wrap');
@@ -166,17 +251,22 @@ BiographySubMenuEvent.prototype = {
         if(this.menuWrap.nextAll('div').length > 0){
             this.menuWrap.nextAll('div').remove();
         }
+        if(this.menuWrap.nextAll('table').length > 0){
+            this.menuWrap.nextAll('table').remove();
+        }
         if(this.biographySubtitle === 'new_subtitle'){
             this.newSubtitleInput.style.display = 'inline-block';
             this.selectDeleteInsert.style.display = 'none';
             this.menuWrap.after(this.biographyInputTemplate);
             this.saveBtn.style.display = 'block';
-            
+            new BiographySaveEvent();
         }else if(this.biographySubtitle === 'default'){
             this.newSubtitleInput.style.display = 'none';
             this.saveBtn.style.display = 'none';
             this.deleteBtn.style.display = 'none';
             this.selectDeleteInsert.style.display = 'none';
+        }else if(this.biographySubtitle === 'goupOrderNoModify'){
+
         }else{
             this.newSubtitleInput.style.display = 'none';
             this.selectDeleteInsert.style.display = 'inline-block';
@@ -351,7 +441,7 @@ function GalleryPhotoOrderNoModifySendBtnEvent(){
 }
 GalleryPhotoOrderNoModifySendBtnEvent.prototype={
     eventListner : function(){
-        $('.gallery_save_btn').off().on('click', function(){
+        $('.save_btn').off().on('click', function(){
             this.makeFormData();
         }.bind(this));
     },
@@ -394,7 +484,7 @@ function GalleryDeleteBtnEvent(){
 }
 GalleryDeleteBtnEvent.prototype={
     eventListner : function(){
-        $('.gallery_delete_btn').off().on('click', function(){
+        $('.delete_btn').off().on('click', function(){
             var galleryIdArr = new Array();
             
             this.checkList.forEach(function (element) {
@@ -433,7 +523,7 @@ function GallerySendBtnEvent(){
 }
 GallerySendBtnEvent.prototype = {
     eventListener : function(){
-        $('.gallery_save_btn').off().on('click', function() {
+        $('.save_btn').off().on('click', function() {
             
             let imgNameResult = this.checkImgTitle();
             let imgFileResult = this.checkImgFile();
@@ -510,7 +600,7 @@ GallerySendBtnEvent.prototype = {
         oReq.send(formData);
     }
 }
-
+// 지금 이거 사용하지 않음 사용하게되면 주석 바꿔주고 이 주석이 남아있다면 이거 전체 지우기
 function CheckPhotoName(){
     this.photoName = document.querySelector('#img_title');
     this.photoNameInputBlurEvent();
@@ -539,11 +629,11 @@ function GalleryDeleteSaveEvent(){
     this.modifyMenuWrap = $('.modify_img_wrap');
     this.deleteList = $('#delete_preview')[0].innerHTML;
     this.modifyList = $('#modify_preview')[0].innerHTML;
-    this.deleteBtn = $('.gallery_delete_btn')[0];
+    this.deleteBtn = $('.delete_btn')[0];
     this.imgTitle = $('.img_title_wrap')[0];
     this.imgExpl = $('.img_expl_wrap')[0];
     this.fileInput = $('.file_wrap')[0];
-    this.saveBtn = $('.gallery_save_btn')[0];
+    this.saveBtn = $('.save_btn')[0];
     this.thumListTarget = document.querySelector('.item');
     this.thumImgTarget = document.querySelector('.item_thumb');
     this.galleryIdInput = document.querySelector('#gallery_id');
@@ -781,7 +871,7 @@ function GalleryGroupOrderNoModifySendBtnEvent(){
 }
 GalleryGroupOrderNoModifySendBtnEvent.prototype = {
     eventListner : function(){
-        $('.gallery_save_btn').off().on('click', function(){
+        $('.save_btn').off().on('click', function(){
             this.makeFormData();
         }.bind(this));
     },
@@ -993,8 +1083,9 @@ function GallerySubMenuEvent(){
     this.imgTextareaTemplate = $('#gallery_img_expl')[0].innerHTML;
     this.selectDeleteInsert = $('.delete_insert_wrap')[0];
     this.fileInput = $('#file_wrap_template')[0].innerHTML;
-    this.gallerySaveBtn = $('.gallery_save_btn')[0];
-    this.galleryDeleteBtn = $('.gallery_delete_btn')[0];
+    this.gallerySaveBtn = $('.save_btn')[0];
+    this.galleryDeleteBtn = $('.delete_btn')[0];
+    this.photoOrderNoOption =$('.photoOrderNoModifyOption')[0];
     this.checkSubtitle();
 }
 GallerySubMenuEvent.prototype = {
@@ -1023,12 +1114,15 @@ GallerySubMenuEvent.prototype = {
         }else if(this.gallerySubtitle === 'goupOrderNoModify'){
             new InitBtn();
             this.gallerySaveBtn.style.display = 'block';
+            this.selectDeleteInsert.style.display = 'none';
+            this.newSubtitleInput.style.display = 'none';
             new WriteGalleryGoupOrderNoModifyHtml();
         }else{
             this.newSubtitleInput.style.display = 'none';
             this.selectDeleteInsert.style.display = 'inline-block';
             this.menuWrap.after(this.imgTextareaTemplate + this.fileInput);
             this.gallerySaveBtn.style.display = 'block';
+            this.photoOrderNoOption.style.display = 'inline-block';
             new GalleryDeleteSaveEvent();
             new CheckFileType();
         }
@@ -1038,8 +1132,8 @@ GallerySubMenuEvent.prototype = {
 
 // -------------------------------------공통 로직------------------
 function InitBtn(){
-    this.gallerySaveBtn = document.querySelector('.gallery_save_btn');
-    this.galleryDeleteBtn = document.querySelector('.gallery_delete_btn');
+    this.gallerySaveBtn = document.querySelector('.save_btn');
+    this.galleryDeleteBtn = document.querySelector('.delete_btn');
     this.textSaveBtn = document.querySelector('.text_save_btn');
     this.textDeleteBtn = document.querySelector('.text_delete_btn');
     this.biographySaveBtn = document.querySelector('.biography_save_btn');
@@ -1089,6 +1183,12 @@ WriteSubmenu.prototype = {
             var galleryGroupOrderNoOption = this.submenuOption
                                             .replace('{options}', "goupOrderNoModify")
                                             .replace('{upper_options}', "die Gruppen-Reihenfolge ändern");
+            options += galleryGroupOrderNoOption;                            
+        }
+        if(this.mainValue === 'biography'){
+            var galleryGroupOrderNoOption = this.submenuOption
+                                            .replace('{options}', "goupOrderNoModify")
+                                            .replace('{upper_options}', "die Gruppen-Reihenfolge & Name ändern");
             options += galleryGroupOrderNoOption;                            
         }
         $(".option_target").after(options);
@@ -1161,8 +1261,20 @@ function mainMenuEvent(){
             break;
         
         case 'biography':
-            var examBiographySubmenu = ['Vita','einzelausstellungen','gruppenausstellungen','lesungen','ankäufe - Stipendien'];
-            new WriteSubmenu(examBiographySubmenu,mainMenu.value);
+            var oReq = new XMLHttpRequest();
+            oReq.onreadystatechange = function(){
+                if(oReq.readyState === 4 && oReq.status === 200){		
+                    var serverData = JSON.parse(this.responseText);
+                    console.log(serverData);
+                    let biographySubtitle = [];
+                    serverData.biographyCategoryList.forEach(function(currentDataEliment){
+                        biographySubtitle.push(currentDataEliment.biography_category); 
+                    });
+                    new WriteSubmenu(biographySubtitle,mainMenu.value);
+                }
+            }
+            oReq.open("GET", "/biography.ajax");
+            oReq.send();
             break;
         
         case 'contact':

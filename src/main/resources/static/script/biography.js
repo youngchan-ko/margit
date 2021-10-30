@@ -14,7 +14,7 @@ WriteCategory.prototype = {
 		this.category.forEach(function(currentElement){
 			let biographyText = "";
 			let categoryName = currentElement.biography_category;
-			if(categoryName != "basic"){
+			if(categoryName != "Vita"){
 				let randomId = Math.floor(Math.random() * 1010);
 				let categoryAccordion = this.categoryWrap
 				.replaceAll("{category}", categoryName)
@@ -58,7 +58,7 @@ WriteBasicContents.prototype = {
 	//기본 프로필 작성
 	writeBasicContents : function(){
 		this.contentsData.forEach(function(currentElement){ 
-			if(currentElement.biography_category === "basic"){
+			if(currentElement.biography_category === "Vita"){
 				let withYearHtml = "";
 				let basicContentsHtml = "";
 				basicContentsHtml = this.contentsWrap.replace("{text}",currentElement.biography_text);
@@ -72,21 +72,14 @@ WriteBasicContents.prototype = {
 			}
 		}.bind(this))
 	}
-	// findCategory : function(){
-	// 	let biographyCategory = this.serverData.map(function (val, index) {
-	// 		return val['biography_category'];
-	// 	}).filter(function (val, index, arr) {
-	// 		return arr.indexOf(val) === index;
-	// 	});
-	// 	console.log(biographyCategory);
-	// }
+	
 }
 document.addEventListener("DOMContentLoaded", function(){
 	var oReq = new XMLHttpRequest();
 	oReq.onreadystatechange = function(){
 		if(oReq.readyState === 4 && oReq.status === 200){	
 			let serverData = JSON.parse(this.responseText);
-			
+			console.log(serverData);
             new WriteBasicContents(serverData);	
 			new WriteCategory(serverData);
 		}

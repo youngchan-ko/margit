@@ -249,10 +249,10 @@
                 <thead>
                     <tr>
                         <th style="width:10%">CheckBox</th>
-                        <th style="width:10%">Id</th>
+                        <th style="display:none;">Id</th>
                         <th style="width:10%">von</th>
                         <th style="width:10%">bis</th>
-                        <th style="width:60%">Text</th>
+                        <th style="width:70%">Text</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -265,10 +265,10 @@
         <script type="rv-template" id="biography_table_item">
             <tr>
                 <td style="width:10%"><input type="checkbox" name="biography_item_check" class="biography_item_check"></td>
-                <td style="width:10%">{id}</td>
+                <td style="display:none;">{id}</td>
                 <td style="width:10%">{start_year}</td>
                 <td style="width:10%">{end_year}</td>
-                <td style="width:60%; word-break:break-all;">{bio_text}</td>
+                <td style="width:70%; word-break:break-all;">{bio_text}</td>
               </tr>
         </script>
 
@@ -427,6 +427,7 @@
                 </tbody> 
             </table>
         </script>
+        
         <!-- 갤러리 사진순서 변경 테이블 채워줄 아이템 -->
         <script type="rv-template" id="photoOrderNoModifyTableItem">
             <tr class="photoOrderNoModifyItem">
@@ -500,7 +501,7 @@
 
         <!-- 바이오그라피 그룹순서 변경 테이블 채워줄 아이템 -->
         <script type="rv-template" id="biographyGroupModifyTableItem">
-            <tr class="photoOrderNoModifyItem">
+            <tr class="biographyGroupModifyItem">
                 <td style="display:none;" class="biographyGroupModifyItem_biographyCategoryId">{biographyCategoryId}</td>
                 <td style="width:10%">
                     <button class="biographyGroupModifyItem_upBtn" {upBtnDisabled}>Up</button>

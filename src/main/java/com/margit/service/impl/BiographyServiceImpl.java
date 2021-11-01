@@ -19,7 +19,6 @@ public class BiographyServiceImpl implements BiographyService{
 	
 	@Autowired
 	private BiographyCategoryDao biographyCategoryDao;
-	
 	@Autowired
 	private BiographyDao biographyDao;
 	

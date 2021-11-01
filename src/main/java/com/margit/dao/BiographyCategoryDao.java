@@ -1,6 +1,7 @@
 package com.margit.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.margit.model.BiographyCategory;
@@ -19,5 +20,10 @@ public interface BiographyCategoryDao extends JpaRepository<BiographyCategory, I
 	@Query(value = "SELECT * FROM biographycategory WHERE biography_category = ?1", 
 			nativeQuery = true)
 	BiographyCategory getBiographyCategory(String biographyCategory);
+	
+	@Modifying
+	@Query(value = "UPDATE biographycategory SET biography_category = ?1, turn = ?2 WHERE id= ?3", nativeQuery = true)
+	void updateBiographyCategory(String categoryName, int turn, int id);
+	
 	
 }

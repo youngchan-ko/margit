@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.margit.model.Biography;
 import com.margit.model.BiographyCategory;
 import com.margit.model.BiographyData;
+import com.margit.model.BiographyDeleteItem;
 import com.margit.model.Contact;
 import com.margit.model.Gallery;
 import com.margit.model.GalleryFile;
@@ -26,6 +27,7 @@ import com.margit.model.GalleryViewData;
 import com.margit.model.User;
 import com.margit.service.BiographySaveService;
 import com.margit.service.BiographyService;
+import com.margit.service.BiographyUpdateService;
 import com.margit.service.ContactService;
 import com.margit.service.GalleryDeleteService;
 import com.margit.service.GallerySaveService;
@@ -45,6 +47,8 @@ public class PageController {
 	private BiographyService biographyService;
 	@Autowired
 	private BiographySaveService biographySaveService;
+	@Autowired
+	private BiographyUpdateService biographyUpdateService;
 	@Autowired
 	private GallerySaveService gallerySaveService;
 	@Autowired
@@ -207,6 +211,20 @@ public class PageController {
 		lists.put("biographyData", biographyData);
 		
 		return lists;
+	}
+	
+	@ResponseBody
+	@PostMapping({"/biographyGroupModify"})
+	public int updatebiographyGroup(@RequestParam(required=false) String biographyGroupModifyData) throws Throwable {
+		int updatePhotoOrderNo = biographyUpdateService.updateBiographyGroup(biographyGroupModifyData);
+		return updatePhotoOrderNo;
+	}
+
+	@ResponseBody
+	@GetMapping({"/getBiographyDeleteItem"})
+	public BiographyDeleteItem getBiographyDeleteItem(@RequestParam(required=false) String biographyCategory) {
+		BiographyDeleteItem biographyDeleteItem = biographyUpdateService.getBiographyDeleteItem(biographyCategory);
+		return biographyDeleteItem;
 	}
 
 	@GetMapping({"/contact"})

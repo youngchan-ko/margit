@@ -85,61 +85,46 @@ ContactEvent.prototype = {
 
 // ---------------------------------------Biography---------------------
 
-function BiographyDeleteSaveEvent(){
+//바이오그라피 삭제버튼 이벤트
+function BiographyDeleteBtnEvent(){
+    this.deleteBtn = document.querySelector('.delete_btn');
+}
+
+//바이오그라피 삭제 선택시 뷰 만들기
+function WriteBiographyDeleteView(){
     this.menuWrap = $('.menu_wrap');
-    this.deleteSaveValue = $('#delete_insert')[0].value;
     this.biographyDeleteWrap = $('#biography_table_wrap')[0].innerHTML;
     this.biographyDeleteItem = $('#biography_table_item')[0].innerHTML;
-    this.biographyInputTemplate = $('#biography_input_template')[0].innerHTML;
-    this.saveBtn = $('.save_btn')[0];
+    this.categoryName = document.querySelector('#submenu').value;
     this.deleteBtn = $('.delete_btn')[0];
-    this.makeDeleteMenu();
+    this.getDeleteItems();
 }
-BiographyDeleteSaveEvent.prototype = {
-    makeDeleteMenu : function(){
-        if(this.menuWrap.nextAll('div').length > 0){
-            this.menuWrap.nextAll('div').remove();
-        }
-        if(this.menuWrap.nextAll('table').length > 0){
-            this.menuWrap.nextAll('table').remove();
-        }
-       
-        switch(this.deleteSaveValue){
-            case 'delete':
-                var biographyDeleteTable = this.makeTable();
-                this.menuWrap.after(biographyDeleteTable);
-                this.saveBtn.style.display = 'none';
-                this.deleteBtn.style.display = 'block';
-                this.checkboxEvent();
-                break;
-                
-            case'insert' : 
-                this.menuWrap.after(this.biographyInputTemplate);
-                this.saveBtn.style.display = 'block';
-                this.deleteBtn.style.display = 'none';
-                new BiographySaveEvent();
-                break;
-
-            case'modify' :
-
-                break;
-        }
+WriteBiographyDeleteView.prototype = {
+    getDeleteItems : function(){
+        var oReq = new XMLHttpRequest();
+        oReq.onreadystatechange = function(){
+            if(oReq.readyState === 4 && oReq.status === 200){		
+                var serverData = JSON.parse(oReq.responseText);
+                console.log(serverData);
+                this.makeDeleteTable(serverData);
+            }
+        }.bind(this);
+        oReq.open("GET", "/getBiographyDeleteItem?biographyCategory="+this.categoryName);
+        oReq.send();
     },
-    makeTable : function(){
-        let testArray = [
-            {"id": 1, "start_year": 2000, "end_year": 2000, "bio_text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
-            {"id": 2, "start_year": 2002, "end_year": 2004, "bio_text": "bbbbbbbbbbbbbbbbbbbbbbbbbbb"},
-            {"id": 3, "start_year": 2020, "end_year": 2021, "bio_text": "ccccccccccccccccccccccccccc"}
-        ];
+    makeDeleteTable : function(deleteItems){
         let tableItems = "";
-        for(i=0; i<testArray.length; i++){
-            tableItems += this.biographyDeleteItem.replace('{id}', testArray[i].id)
-                                    .replace('{start_year}', testArray[i].start_year)
-                                    .replace('{end_year}', testArray[i].end_year)
-                                    .replace('{bio_text}', testArray[i].bio_text);
+        for(i=0; i<deleteItems.biography.length; i++){
+            tableItems += this.biographyDeleteItem
+                .replace('{id}', deleteItems.biography[i].id)
+                .replace('{start_year}', deleteItems.biography[i].start_year)
+                .replace('{end_year}', deleteItems.biography[i].end_year)
+                .replace('{bio_text}', deleteItems.biography[i].biography_text);
         }
         let biographyDeleteTable = this.biographyDeleteWrap.replace('{item_tr}', tableItems);
-        return(biographyDeleteTable);
+        this.menuWrap.after(biographyDeleteTable);
+        this.checkboxEvent();
+        // new BiographyDeleteBtnEvent();
     },
     checkboxEvent : function(){
         let biographyCheckbox = $('.biography_item_check');
@@ -155,7 +140,51 @@ BiographyDeleteSaveEvent.prototype = {
     }
 }
 
-//바이오그라피 서브메뉴 'new_subtitle' 선택시 이벤트
+//바이오그라피 추가, 삭제, 변경 이벤트
+function BiographyDeleteSaveEvent(){
+    this.menuWrap = $('.menu_wrap');
+    this.deleteSaveValue = $('#delete_insert')[0].value;
+    this.biographyDeleteWrap = $('#biography_table_wrap')[0].innerHTML;
+    this.biographyDeleteItem = $('#biography_table_item')[0].innerHTML;
+    this.biographyInputTemplate = $('#biography_input_template')[0].innerHTML;
+    this.saveBtn = $('.save_btn')[0];
+    this.deleteBtn = $('.delete_btn')[0];
+    this.writeHtml();
+}
+BiographyDeleteSaveEvent.prototype = {
+    writeHtml : function(){
+        switch(this.deleteSaveValue){
+            case 'delete':
+                this.initHtml();
+                this.deleteBtn.style.display = 'block';
+                new WriteBiographyDeleteView();
+                break;
+                
+            case'insert' : 
+                this.initHtml();
+                this.menuWrap.after(this.biographyInputTemplate);
+                this.saveBtn.style.display = 'block';
+                new BiographySaveEvent();
+                break;
+
+            case'modify' :
+                this.initHtml();
+                break;
+        }
+    },
+    initHtml : function(){
+        if(this.menuWrap.nextAll('div').length > 0){
+            this.menuWrap.nextAll('div').remove();
+        }
+        if(this.menuWrap.nextAll('table').length > 0){
+            this.menuWrap.nextAll('table').remove();
+        }
+        this.saveBtn.style.display = 'none';
+        this.deleteBtn.style.display = 'none';
+    }
+}
+
+//바이오그라피 새로만들때 세이브버튼 이벤트
 function BiographySaveEvent(){
     this.saveBtn = document.querySelector('.save_btn');
     this.newSubtitleInput = document.querySelector('#new_subtitle_input');
@@ -196,8 +225,8 @@ BiographySaveEvent.prototype = {
         }
         formData.append("start_year", this.startYearInput.value);
         formData.append("end_year", this.endYearInput.value);
-        var filteredtext = this.bioTextInput.value.replace(/(\n|\r\n)/g, '<br>');
-        formData.append("biography_text", filteredtext);
+        var filteredText = this.bioTextInput.value.replace(/(\n|\r\n)/g, '<br>');
+        formData.append("biography_text", filteredText);
         this.sendAjax(formData);
     },
     sendAjax :function(formData){
@@ -340,6 +369,49 @@ BiographyGroupModifyBtnEvent.prototype = {
     }
 }
 
+//바이오그라피 그룹 순서 변경메뉴에 저장버튼 이벤트
+function BiographyGroupModifySendBtnEvent(){
+    this.eventListner();
+}
+BiographyGroupModifySendBtnEvent.prototype={
+    eventListner : function(){
+        $('.save_btn').off().on('click', function(){
+            this.makeFormData();
+        }.bind(this));
+    },
+    makeFormData : function(){
+        let photoOrderNoItem = document.querySelectorAll('.biographyGroupModifyItem');
+        let dataArr = new Array();
+        let formData = new FormData();
+        photoOrderNoItem.forEach(element => {
+            let elementBiographyCategoryId = parseInt(element.firstElementChild.innerText);
+            let elementGroupOrderNo = parseInt(element.children[3].firstElementChild.value);
+            let elementGroupName = element.children[4].firstElementChild.value
+
+            let dataObj = {
+                biographyCategoryId:elementBiographyCategoryId,
+                categoryTurn:elementGroupOrderNo,
+                biographyCategory:elementGroupName
+            }
+            dataArr.push(dataObj);
+        });
+        let jsonDataArr = JSON.stringify(dataArr);
+        formData.append("biographyGroupModifyData",jsonDataArr);
+        this.sendAjax(formData);
+    },
+    sendAjax : function(formData){
+        var oReq = new XMLHttpRequest();
+        oReq.open("POST", "/biographyGroupModify");
+        oReq.onreadystatechange = function(){
+            if(oReq.readyState === 4 && oReq.status === 200){		
+                alert("그룹 순서와 이름을 변경했습니다.");
+                window.location.href='http://localhost:8080/update';
+            }
+        }
+        oReq.send(formData);
+    }
+}    
+
 //바이오그라피 그룹변경 뷰 만들어주기
 function WriteBiographyGroupModifyHtml(){
     this.menuWrap = $('.menu_wrap');
@@ -403,7 +475,7 @@ WriteBiographyGroupModifyHtml.prototype={
 
         this.menuWrap.after(groupModifyHtml);
         new BiographyGroupModifyBtnEvent();
-        // new GalleryGroupOrderNoModifySendBtnEvent();
+        new BiographyGroupModifySendBtnEvent();
     }
 }
 

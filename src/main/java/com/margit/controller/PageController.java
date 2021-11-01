@@ -142,7 +142,7 @@ public class PageController {
 	}
 	
 	@ResponseBody
-	@PostMapping({"/groupOrderNoModify"})
+	@PostMapping({"/galleryGroupOrderNoModify"})
 	public int updateGroupOrderNo(@RequestParam(required=false) String groupOrderNoModifyData) throws Throwable {
 		System.out.println("pageCon.updateGroupOrderNo()"+groupOrderNoModifyData);
 		

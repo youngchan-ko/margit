@@ -10177,3 +10177,7 @@ h3 {
 .biography_insert_wrap div label{
   text-align: center;
 }
+
+#biographyGroupNameInput{
+  width: 100%;
+}

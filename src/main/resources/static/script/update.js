@@ -235,6 +235,178 @@ BiographySaveEvent.prototype = {
 
 }
 
+//바이오그라피 그룹 순서, 이름변경 메뉴 버튼 이벤트
+function BiographyGroupModifyBtnEvent(){
+    this.upBtnEvent();
+    this.downBtnEvent();
+}
+BiographyGroupModifyBtnEvent.prototype = {
+    upBtnEvent : function(){
+        let upBtn=document.querySelectorAll('.biographyGroupModifyItem_upBtn');
+        upBtn.forEach(element => {
+            element.addEventListener('click', function(){
+                this.upBtnFn(event);
+                this.upBtnDisable();
+            }.bind(this))
+        });
+    },
+    upBtnFn : function(event){
+        if(event.target.parentNode.parentNode.previousElementSibling != null){
+            
+            let currentGroupOrderNoInput = event.target.parentNode.nextElementSibling.nextElementSibling.firstElementChild;
+            let newPhotoOrderNoValue = parseInt(currentGroupOrderNoInput.value)-1;
+            let currentpreviousSiblingInput = event.target.parentNode.parentNode.previousElementSibling.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.firstElementChild;
+            let newpreviousSiblingValue = parseInt(currentpreviousSiblingInput.value)+1;
+            currentpreviousSiblingInput.value=newpreviousSiblingValue;
+            
+                
+            let clone = event.target.parentNode.parentNode.cloneNode(true);
+            event.target.parentNode.parentNode.previousElementSibling.insertAdjacentHTML('beforebegin', clone.outerHTML);
+            
+            event.target.parentElement.parentElement.previousElementSibling.previousElementSibling.children[3].firstElementChild.value = newPhotoOrderNoValue;
+    
+            event.target.parentNode.parentNode.remove();
+            this.upBtnEvent();
+            this.upBtnDisable();
+            this.downBtnEvent();
+            this.downBtnDisable();
+        }
+    },
+    upBtnDisable : function(){
+        let OrderNoInput = document.querySelectorAll('.biographyGroupModifyItem_groupOrderNo_input');
+        OrderNoInput.forEach(element => {
+            let upBtnTarget = element.parentNode.previousElementSibling.previousElementSibling.firstElementChild;
+            let downBtnTarget = element.parentNode.previousElementSibling.firstElementChild;
+            let firstCheckValue = parseInt(element.value);
+            let LastCheckPoint = element.parentNode.parentNode.nextElementSibling;
+            if(firstCheckValue === 1){
+                upBtnTarget.disabled = true;
+            }else if(LastCheckPoint === null){
+                downBtnTarget.disabled = true;
+            }else{
+                upBtnTarget.disabled = false;
+                downBtnTarget.disabled = false;
+            }
+            
+        });
+    },
+    downBtnEvent : function(){
+        let downBtn=document.querySelectorAll('.biographyGroupModifyItem_downBtn');
+        downBtn.forEach(element => {
+            element.addEventListener('click', function(){
+                this.downBtnFn(event);
+                this.downBtnDisable();
+            }.bind(this))
+        });
+    },
+    downBtnFn :function(event){
+        if(event.target.parentNode.parentNode.nextElementSibling != null){
+
+            let currentGroupOrderNoNode = event.target.parentNode.nextElementSibling.firstElementChild;
+            let newGroupOrderNoValue = parseInt(currentGroupOrderNoNode.value)+1;
+            let currentNextSiblingInput = event.target.parentNode.parentNode.nextElementSibling.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.firstElementChild;
+            let newpnextSiblingValue = parseInt(currentNextSiblingInput.value)-1;
+            
+            currentNextSiblingInput.value=newpnextSiblingValue;
+            
+                
+            let clone = event.target.parentNode.parentNode.cloneNode(true);
+            event.target.parentNode.parentNode.nextElementSibling.insertAdjacentHTML('afterend', clone.outerHTML);
+            event.target.parentElement.parentElement.nextElementSibling.nextElementSibling.children[3].firstElementChild.value = newGroupOrderNoValue;
+    
+            event.target.parentNode.parentNode.remove();
+            this.downBtnEvent();
+            this.downBtnDisable();
+            this.upBtnEvent();
+            this.upBtnDisable();
+        }
+    },
+    downBtnDisable : function(){
+        let OrderNoInput = document.querySelectorAll('.biographyGroupModifyItem_groupOrderNo_input');
+        OrderNoInput.forEach(element => {
+            let downBtnTarget = element.parentNode.previousElementSibling.firstElementChild;
+            let upBtnTarget = element.parentNode.previousElementSibling.previousElementSibling.firstElementChild;
+            let LastCheckPoint = element.parentNode.parentNode.nextElementSibling;
+            let firstCheckValue = parseInt(element.value);
+            if(LastCheckPoint === null){
+                downBtnTarget.disabled = true;
+            }else if(firstCheckValue === 1){
+                upBtnTarget.disabled = true;
+            }else{
+                downBtnTarget.disabled = false;
+                upBtnTarget.disabled = false;
+            }
+        });
+    }
+}
+
+//바이오그라피 그룹변경 뷰 만들어주기
+function WriteBiographyGroupModifyHtml(){
+    this.menuWrap = $('.menu_wrap');
+    this.mainMenuValue = document.querySelector('#main_menu').value;
+    this.groupModifyWrap = document.querySelector('#biographyGroupModifyWrap').innerText;
+    this.groupModyfyItemWrap = document.querySelector('#biographyGroupModifyTableItem').innerText;
+    this.getGroupName();
+}
+WriteBiographyGroupModifyHtml.prototype={
+    getGroupName : function(){
+        var oReq = new XMLHttpRequest();
+	    oReq.onreadystatechange = function(){
+            if(oReq.readyState === 4 && oReq.status === 200){		
+                var serverData = JSON.parse(oReq.responseText);
+                this.writeHtml(serverData.biographyCategoryList);
+            }
+        }.bind(this);
+        oReq.open("GET", "/biography.ajax");
+        oReq.send();
+    },
+    writeHtml : function(serverData){
+        let items = '';
+        for(i=0; i<serverData.length; i++){
+            let currentItemHtml = '';
+            if(i===0){
+                currentItemHtml = this.groupModyfyItemWrap
+                                .replace("{biographyCategoryId}", serverData[i].id)
+                                .replace("{upBtnDisabled}", 'disabled')
+                                .replace("{downBtnDisabled}", '')
+                                .replace("{groupOrderNo}", serverData[i].turn)
+                                .replace("{groupName}", serverData[i].biography_category);
+                items +=currentItemHtml;
+            }else if(i===serverData.length-1){
+                currentItemHtml = this.groupModyfyItemWrap
+                                .replace("{biographyCategoryId}", serverData[i].id)
+                                .replace("{upBtnDisabled}", '')
+                                .replace("{downBtnDisabled}", 'disabled')
+                                .replace("{groupOrderNo}", serverData[i].turn)
+                                .replace("{groupName}", serverData[i].biography_category);
+                items +=currentItemHtml;
+            }else{
+                currentItemHtml = this.groupModyfyItemWrap
+                                .replace("{biographyCategoryId}", serverData[i].id)
+                                .replace("{upBtnDisabled}", '')
+                                .replace("{downBtnDisabled}", '')
+                                .replace("{groupOrderNo}", serverData[i].turn)
+                                .replace("{groupName}", serverData[i].biography_category);
+                items +=currentItemHtml;
+            }
+        }
+        
+        let groupModifyHtml = this.groupModifyWrap
+                                    .replace("{groupItems}",items);
+
+        if($('.menu_wrap').nextAll('div').length > 0){
+            $('.menu_wrap').nextAll('div').css("display", "none");
+        }
+        if($('.menu_wrap').nextAll('table').length > 0){
+            $('.menu_wrap').nextAll('table').css("display", "none");
+        }
+
+        this.menuWrap.after(groupModifyHtml);
+        new BiographyGroupModifyBtnEvent();
+        // new GalleryGroupOrderNoModifySendBtnEvent();
+    }
+}
+
 // 바이오그라피 서브메뉴 선택에따른 뷰
 function BiographySubMenuEvent(){
     this.menuWrap = $('.menu_wrap');
@@ -265,8 +437,12 @@ BiographySubMenuEvent.prototype = {
             this.saveBtn.style.display = 'none';
             this.deleteBtn.style.display = 'none';
             this.selectDeleteInsert.style.display = 'none';
-        }else if(this.biographySubtitle === 'goupOrderNoModify'){
-
+        }else if(this.biographySubtitle === 'groupOrderNoModify'){
+            this.newSubtitleInput.style.display = 'none';
+            this.saveBtn.style.display = 'block';
+            this.deleteBtn.style.display = 'none';
+            this.selectDeleteInsert.style.display = 'none';
+            new WriteBiographyGroupModifyHtml();
         }else{
             this.newSubtitleInput.style.display = 'none';
             this.selectDeleteInsert.style.display = 'inline-block';
@@ -894,7 +1070,7 @@ GalleryGroupOrderNoModifySendBtnEvent.prototype = {
     },
     sendAjax : function(formData){
         var oReq = new XMLHttpRequest();
-        oReq.open("POST", "/groupOrderNoModify");
+        oReq.open("POST", "/galleryGroupOrderNoModify");
         oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
                 alert("그룹 순서를 변경했습니다.");
@@ -1011,14 +1187,14 @@ ModifyGroupOrderNoBtnEvent.prototype = {
 }
 
 //갤러리 그룹변경 뷰 만들어주기
-function WriteGalleryGoupOrderNoModifyHtml(){
+function WriteGalleryGroupOrderNoModifyHtml(){
     this.menuWrap = $('.menu_wrap');
     this.mainMenuValue = document.querySelector('#main_menu').value;
     this.groupOrderNoModifyWrap = document.querySelector('#groupOrderNoModifyWrap').innerText;
     this.groupOrderNoModyfyItemWrap = document.querySelector('#groupOrderNoModifyTableItem').innerText;
     this.getGroupName();
 }
-WriteGalleryGoupOrderNoModifyHtml.prototype={
+WriteGalleryGroupOrderNoModifyHtml.prototype={
     getGroupName : function(){
         var oReq = new XMLHttpRequest();
 	    oReq.onreadystatechange = function(){
@@ -1116,7 +1292,7 @@ GallerySubMenuEvent.prototype = {
             this.gallerySaveBtn.style.display = 'block';
             this.selectDeleteInsert.style.display = 'none';
             this.newSubtitleInput.style.display = 'none';
-            new WriteGalleryGoupOrderNoModifyHtml();
+            new WriteGalleryGroupOrderNoModifyHtml();
         }else{
             this.newSubtitleInput.style.display = 'none';
             this.selectDeleteInsert.style.display = 'inline-block';
@@ -1181,13 +1357,13 @@ WriteSubmenu.prototype = {
         }
         if(this.mainValue === 'Gallery'){
             var galleryGroupOrderNoOption = this.submenuOption
-                                            .replace('{options}', "goupOrderNoModify")
+                                            .replace('{options}', "groupOrderNoModify")
                                             .replace('{upper_options}', "die Gruppen-Reihenfolge ändern");
             options += galleryGroupOrderNoOption;                            
         }
         if(this.mainValue === 'biography'){
             var galleryGroupOrderNoOption = this.submenuOption
-                                            .replace('{options}', "goupOrderNoModify")
+                                            .replace('{options}', "groupOrderNoModify")
                                             .replace('{upper_options}', "die Gruppen-Reihenfolge & Name ändern");
             options += galleryGroupOrderNoOption;                            
         }
@@ -1265,7 +1441,6 @@ function mainMenuEvent(){
             oReq.onreadystatechange = function(){
                 if(oReq.readyState === 4 && oReq.status === 200){		
                     var serverData = JSON.parse(this.responseText);
-                    console.log(serverData);
                     let biographySubtitle = [];
                     serverData.biographyCategoryList.forEach(function(currentDataEliment){
                         biographySubtitle.push(currentDataEliment.biography_category); 

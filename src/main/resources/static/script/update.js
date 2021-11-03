@@ -87,9 +87,33 @@ ContactEvent.prototype = {
 
 //바이오그라피 삭제버튼 이벤트
 function BiographyDeleteBtnEvent(){
-    this.deleteBtn = document.querySelector('.delete_btn');
+    this.checkList = document.querySelectorAll("input[class=biography_item_check]:checked");
+    this.eventListner();
 }
+BiographyDeleteBtnEvent.prototype = {
+    eventListner : function(){
+        $('.delete_btn').off().on('click', function(){
+            var biographyIdArr = new Array();
 
+            this.checkList.forEach(function(element){
+                var idNum = Number(element.dataset.biographyid);
+                biographyIdArr.push(idNum);
+            });
+
+            var oReq = new XMLHttpRequest();
+            oReq.onreadystatechange = function(){
+                if(oReq.readyState === 4 && oReq.status === 200){		
+                    alert("파일삭제에 성공했습니다.");
+                    window.location.href='http://localhost:8080/update';
+                }
+            }
+            oReq.open("GET", "/deleteBiographyData?biographyIdArr="+biographyIdArr);
+            oReq.send();
+
+        }.bind(this)); 
+    
+    }
+}
 //바이오그라피 삭제 선택시 뷰 만들기
 function WriteBiographyDeleteView(){
     this.menuWrap = $('.menu_wrap');
@@ -124,7 +148,7 @@ WriteBiographyDeleteView.prototype = {
         let biographyDeleteTable = this.biographyDeleteWrap.replace('{item_tr}', tableItems);
         this.menuWrap.after(biographyDeleteTable);
         this.checkboxEvent();
-        // new BiographyDeleteBtnEvent();
+        
     },
     checkboxEvent : function(){
         let biographyCheckbox = $('.biography_item_check');
@@ -132,11 +156,86 @@ WriteBiographyDeleteView.prototype = {
             if(biographyCheckbox.is(':checked')===true){
                 this.deleteBtn.disabled = false;
                 this.deleteBtn.style.backgroundColor="#F7381A";
+                new BiographyDeleteBtnEvent();
             }else{
                 this.deleteBtn.disabled = true;
                 this.deleteBtn.style.backgroundColor="grey";
             }
         }.bind(this))
+    }
+}
+
+//바이오그라피 변경메뉴 선택시 뷰 만들기
+function WriteBiographyModifyView(){
+    this.menuWrap = $('.menu_wrap');
+    this.submenuValue = document.querySelector('#submenu').value;
+    this.biographyModifyTableWrap = document.querySelector('#biography_modify_table_wrap').innerHTML;
+    this.biographyModifyItemWrap = document.querySelector('#biography_modify_table_item').innerHTML;
+    this.saveBtn = document.querySelector('.save_btn');
+    this.deleteBtn = document.querySelector('.delete_btn');
+    this.insertWrap = document.querySelector('#biography_input_template').innerHTML;
+    this.getModifyData();
+}
+WriteBiographyModifyView.prototype = {
+    getModifyData : function(){
+        var oReq = new XMLHttpRequest();
+	    oReq.onreadystatechange = function(){
+            if(oReq.readyState === 4 && oReq.status === 200){		
+                var serverData = JSON.parse(oReq.responseText);
+                console.log(serverData);
+                this.writeHtml(serverData);
+            }
+        }.bind(this)
+        oReq.open("GET", "/getBiographyDeleteItem?biographyCategory="+this.submenuValue);
+        oReq.send();
+    },
+    writeHtml : function(itemData){
+        let itemHtml = '';
+        itemData.biography.forEach(element => {
+            let currentItemHtml = this.biographyModifyItemWrap
+            .replace("{id}", element.id)
+            .replace("{start_year}", element.start_year)
+            .replace("{end_year}", element.end_year)
+            .replace("{bio_text}", element.biography_text)
+            itemHtml +=currentItemHtml
+        });
+        let biographyModifyHtml = this.biographyModifyTableWrap.replace("{item_tr}", itemHtml);
+        this.menuWrap.after(biographyModifyHtml);
+        this.itemClickEvent();
+    },
+    itemClickEvent : function(){
+        let eventTarget = document.querySelectorAll('.biography_modify_item');
+        eventTarget.forEach(element => {
+            element.addEventListener('click', function(){
+                console.log(element);
+                this.writeModifyItemHtml(element);
+                
+            }.bind(this))
+            
+        });
+    },
+    writeModifyItemHtml : function(element){
+        this.initHtml();
+        this.saveBtn.style.display = 'block';
+        this.menuWrap.after(this.insertWrap);
+        let startYearInput = document.querySelector('#start_year_input');
+        let endYearInput = document.querySelector('#end_year_input');
+        let textInput = document.querySelector('#biography_text_input');
+        startYearInput.value = Number(element.children[1].innerText);
+        if(element.children[2].innerText != 'null'){
+            endYearInput.value = Number(element.children[2].innerText);
+        }
+        textInput.innerText = element.children[3].innerText;
+    },
+    initHtml : function(){
+        if(this.menuWrap.nextAll('div').length > 0){
+            this.menuWrap.nextAll('div').remove();
+        }
+        if(this.menuWrap.nextAll('table').length > 0){
+            this.menuWrap.nextAll('table').remove();
+        }
+        this.saveBtn.style.display = 'none';
+        this.deleteBtn.style.display = 'none';
     }
 }
 
@@ -169,6 +268,7 @@ BiographyDeleteSaveEvent.prototype = {
 
             case'modify' :
                 this.initHtml();
+                new WriteBiographyModifyView();
                 break;
         }
     },
@@ -996,7 +1096,7 @@ GalleryDeleteSaveEvent.prototype = {
                         new CheckFileType();
                         this.thumListTarget.style.display = 'inline-block';
                         this.thumImgTarget.src ='download/'+photoDetailData.gallery.galleryFileId;
-                        document.querySelector('.gallery_upload_file').value ='download/'+photoDetailData.gallery.galleryFileId;
+                        // document.querySelector('.gallery_upload_file').value ='download/'+photoDetailData.gallery.galleryFileId;
                         new CheckFileType().cancelEvent();
                         this.galleryIdInput.value = photoDetailData.gallery.id;
                     }

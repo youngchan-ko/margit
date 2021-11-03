@@ -25,6 +25,7 @@ import com.margit.model.GallerySaveData;
 import com.margit.model.GalleryUpdateData;
 import com.margit.model.GalleryViewData;
 import com.margit.model.User;
+import com.margit.service.BiographyDeleteService;
 import com.margit.service.BiographySaveService;
 import com.margit.service.BiographyService;
 import com.margit.service.BiographyUpdateService;
@@ -49,6 +50,8 @@ public class PageController {
 	private BiographySaveService biographySaveService;
 	@Autowired
 	private BiographyUpdateService biographyUpdateService;
+	@Autowired
+	private BiographyDeleteService biographyDeleteService;
 	@Autowired
 	private GallerySaveService gallerySaveService;
 	@Autowired
@@ -119,6 +122,7 @@ public class PageController {
 		return 1;
 		
 	}
+	
 	
 	@ResponseBody
 	@PostMapping({"/save_gallery"})
@@ -225,6 +229,15 @@ public class PageController {
 	public BiographyDeleteItem getBiographyDeleteItem(@RequestParam(required=false) String biographyCategory) {
 		BiographyDeleteItem biographyDeleteItem = biographyUpdateService.getBiographyDeleteItem(biographyCategory);
 		return biographyDeleteItem;
+	}
+	
+	@ResponseBody
+	@GetMapping({"/deleteBiographyData"})
+	public int deleteBiographyData(
+			@RequestParam(required = false, value = "biographyIdArr") List<Integer> biographyId) 
+	{
+		biographyDeleteService.deleteBiography(biographyId);
+		return 1;
 	}
 
 	@GetMapping({"/contact"})

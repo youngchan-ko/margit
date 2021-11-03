@@ -219,9 +219,16 @@ public class PageController {
 	
 	@ResponseBody
 	@PostMapping({"/biographyGroupModify"})
-	public int updatebiographyGroup(@RequestParam(required=false) String biographyGroupModifyData) throws Throwable {
-		int updatePhotoOrderNo = biographyUpdateService.updateBiographyGroup(biographyGroupModifyData);
-		return updatePhotoOrderNo;
+	public int updateBiographyGroup(@RequestParam(required=false) String biographyGroupModifyData) throws Throwable {
+		int updateBiographyGroup = biographyUpdateService.updateBiographyGroup(biographyGroupModifyData);
+		return updateBiographyGroup;
+	}
+	
+	@ResponseBody
+	@PostMapping({"/biographyModify"})
+	public Biography updateBiography(Biography biography){
+		Biography updateBiography = biographyUpdateService.updateBiography(biography);
+		return updateBiography;
 	}
 
 	@ResponseBody
@@ -242,7 +249,6 @@ public class PageController {
 
 	@GetMapping({"/contact"})
 	public String contact() {
-		
 		return "contact";
 	}
 	
@@ -250,8 +256,14 @@ public class PageController {
 	@GetMapping({"/contact.ajax"})
 	public Contact contact_ajax(){
 		Contact contactData = contactService.getContact();
-
 		return contactData;
+	}
+
+	@ResponseBody
+	@PostMapping({"/updateContact"})
+	public Contact updateContact(Contact contact){
+		Contact updateResult = contactService.updateContact(contact);
+		return updateResult;
 	}
 	
 	

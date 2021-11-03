@@ -31,55 +31,117 @@ ExhibitionEvent.prototype = {
 
 
 // ---------------------------------------Contact-------------------------
-//ContactEvent.connectAjax ajax로 데이터 받아와서 뿌리는걸로 바꿔주기
+//컨택트 변경 저장버튼 이벤트
+function UpdateContactSaveBtnEvent(){
+    this.eventListner();
+
+}
+UpdateContactSaveBtnEvent.prototype = {
+    eventListner : function(){
+        $('.save_btn').off().on('click', function(){
+            this.makeFormData();
+        }.bind(this))
+    },
+    makeFormData : function(){
+        let formData = new FormData();
+
+        let street = document.querySelector('#contact_street_input').value;
+        let houseNumber = document.querySelector('#contact_housenumber_input').value;
+        let postcode = document.querySelector('#contact_postcode_input').value;
+        let city = document.querySelector('#contact_city_input').value;
+        let email = document.querySelector('#contact_email_input').value;
+        let phone = document.querySelector('#contact_phone_input').value;
+        let homepageOwner = document.querySelector('#contact_homepage_owner_input').value;
+        let homepageProducer = document.querySelector('#contact_homepage_producer_input').value;
+        let homepageCategory = document.querySelector('#contact_Homepage_category_input').value;
+        let liabilityText = document.querySelector('#contact_liability_text_input').value;
+        let filteredLiabilityText = liabilityText.replace(/(\n|\r\n)/g, '<br>');
+        
+        let linksText = document.querySelector('#contact_links_text_input').value;
+        let filteredLinksText = linksText.replace(/(\n|\r\n)/g, '<br>');
+        
+        formData.append("id", 1);
+        formData.append("street", street);
+        formData.append("houseNumber", houseNumber);
+        formData.append("postcode", postcode);
+        formData.append("city", city);
+        formData.append("email", email);
+        formData.append("phone", phone);
+        formData.append("homepageOwner", homepageOwner);
+        formData.append("homepageProducer", homepageProducer);
+        formData.append("homepageCategory", homepageCategory);
+        formData.append("liabilityText", filteredLiabilityText);
+        formData.append("linksText", filteredLinksText);
+        
+        this.sendAjax(formData);
+    },
+    sendAjax : function(formData){
+        var oReq = new XMLHttpRequest();
+        oReq.onreadystatechange = function(){
+            if(oReq.readyState === 4 && oReq.status === 200){		
+                var serverData = JSON.parse(oReq.responseText);
+                alert("파일 저장을 완료했습니다.")
+                window.location.href='http://localhost:8080/update';
+            }
+        }.bind(this);
+        oReq.open("POST", "/updateContact");
+        oReq.send(formData);
+    }
+}
+
+//컨택트 선택시 변경창 만들어주기
 function ContactEvent(){
     this.menuWrap = $('.menu_wrap');
     this.mainMenuWrap = $('.main_menu_wrap');
     this.contactWrap = $('#contact_wrap')[0].innerHTML;
-    this.saveBtn = $('.contact_save_btn');
-    this.deleteBtn = $('.contact_delete_btn');
+    this.saveBtn = $('.save_btn')[0];
+    this.deleteBtn = $('.delete_btn')[0];
     this.connectAjax();
     
 }
 ContactEvent.prototype = {
     connectAjax : function(){
-        let testArray = [
-            {"Street":"Humboldtstraße", 
-            "HouseNumber":"15", 
-            "postcode":"A-4020", 
-            "City":"Linz",
-            "Email":"fey.flei@aon.at",
-            "TelephonNumber":"+43 650 389 4710",
-            "homepage_owner":"Margit Feyerer-Fleischanderl",
-            "homepage_producer":"Youngchan Kim",
-            "Homepage_category":"Persönliche Homepage der Künstlerin",
-            "liability_text":"Sämtliche Texte auf der Website wurden sorgfältig geprüft. Dessen ungeachtet kann keine Garantie für Richtigkeit, Vollständigkeit und Aktualität der Angaben übernommen werden.",
-            "links_text":"Links auf diese Website - auch auf Seiten in der Tiefe - sind erwünscht. Eine Übernahme des Hauptfensters in ein Frame-Set des Linksetzers ist unzulässig. Eigene Links auf fremde Seiten stellen nur Wegweiser zu diesen Seiten dar; sie werden deshalb regelmäßig mittels externem Link in einem eigenen Browserfenster dargestellt. Der Herausgeber identifiziert sich nicht mit dem Inhalt der Seiten, auf die gelinkt wird und übernimmt dafür keine Haftung; er setzt bewusst auch Links auf Seiten, auf denen andere Meinungen vertreten werden, um dem Leser ein möglichst breites Spektrum zu bieten. Sollte eine der Seiten, auf die gelinkt wird, bedenkliche oder rechtswidrige Inhalte aufweisen, wird um Mitteilung ersucht; in einem solchen Falle wird der Link sofort gelöscht."
+        var oReq = new XMLHttpRequest();
+        oReq.onreadystatechange = function(){
+            if(oReq.readyState === 4 && oReq.status === 200){		
+                var serverData = JSON.parse(oReq.responseText);
+                console.log(serverData);
+                this.writeContactWrap(serverData);
+                
             }
-        ];
-        this.writeContactWrap(testArray);
+        }.bind(this);
+        oReq.open("GET", "/contact.ajax");
+        oReq.send();
     },
-
     writeContactWrap : function(contactData){
-        if(this.mainMenuWrap.nextAll('div').length > 0){
-            this.mainMenuWrap.nextAll('div').css('display','none');
-        }
-        
+        this.initHtml();
+        let filteredLiabilityText = contactData.liabilityText.replace(/<br\s*[\/]?>/gi, '\r\n');
+        let filteredLinksText = contactData.linksText.replace(/<br\s*[\/]?>/gi, '\r\n');
         let editContactHtml = this.contactWrap
-            .replace('{street}',contactData[0].Street)
-            .replace('{housenumber}',contactData[0].HouseNumber)
-            .replace('{postcode}',contactData[0].postcode)
-            .replace('{city}',contactData[0].City)
-            .replace('{phone}',contactData[0].TelephonNumber)
-            .replace('{email}',contactData[0].Email)
-            .replace('{homepage_owner}',contactData[0].homepage_owner)
-            .replace('{homepage_producer}',contactData[0].homepage_producer)
-            .replace('{Homepage_category}',contactData[0].Homepage_category)
-            .replace('{liability_text}',contactData[0].liability_text)
-            .replace('{links_text}',contactData[0].links_text);
-        this.deleteBtn.css('display', 'none');
-        this.saveBtn.css('display', 'block');
+            .replace('{street}',contactData.street)
+            .replace('{housenumber}',contactData.houseNumber)
+            .replace('{postcode}',contactData.postcode)
+            .replace('{city}',contactData.city)
+            .replace('{phone}',contactData.phone)
+            .replace('{email}',contactData.email)
+            .replace('{homepage_owner}',contactData.homepageOwner)
+            .replace('{homepage_producer}',contactData.homepageProducer)
+            .replace('{Homepage_category}',contactData.homepageCategory)
+            .replace('{liability_text}',filteredLiabilityText)
+            .replace('{links_text}',filteredLinksText);
+            this.saveBtn.style.display = 'block';
         this.menuWrap.after(editContactHtml);
+        new UpdateContactSaveBtnEvent();
+    },
+    initHtml : function(){
+        if(this.menuWrap.nextAll('div').length > 0){
+            this.menuWrap.nextAll('div').remove();
+        }
+        if(this.menuWrap.nextAll('table').length > 0){
+            this.menuWrap.nextAll('table').remove();
+        }
+        this.saveBtn.style.display = 'none';
+        this.deleteBtn.style.display = 'none';
     }
 }
 
@@ -164,6 +226,47 @@ WriteBiographyDeleteView.prototype = {
         }.bind(this))
     }
 }
+//바이오그라피 변경메뉴 세이브버튼 이벤트
+function BiographyModifySaveBtnEvent(biographyId, biographyCategoryId){
+    this.biographyId = biographyId;
+    this.biographyCategoryId = biographyCategoryId;
+    this.eventListner();
+}
+BiographyModifySaveBtnEvent.prototype = {
+    eventListner : function(){
+        $('.save_btn').off().on('click', function(){
+            this.makeFormData();
+        }.bind(this))
+    },
+    makeFormData : function(){
+        let formData = new FormData();
+        
+        let startYearInput = document.querySelector('#start_year_input');
+        let endYearInput = document.querySelector('#end_year_input');
+        let textInput = document.querySelector('#biography_text_input');
+        var filteredText = textInput.value.replace(/(\n|\r\n)/g, '<br>');
+        
+        formData.append("id", this.biographyId);
+        formData.append("biographycategory_id", this.biographyCategoryId);
+        formData.append("start_year", startYearInput.value);
+        formData.append("end_year", endYearInput.value);
+        formData.append("biography_text", filteredText);
+
+        this.sendAjax(formData);
+    },
+    sendAjax : function(formData){
+        var oReq = new XMLHttpRequest();
+	    oReq.onreadystatechange = function(){
+            if(oReq.readyState === 4 && oReq.status === 200){		
+                var serverData = JSON.parse(this.responseText);
+                alert("파일저장에 성공했습니다.");
+                window.location.href='http://localhost:8080/update';
+            }
+        }
+        oReq.open("POST", "/biographyModify");
+        oReq.send(formData);
+    }
+}
 
 //바이오그라피 변경메뉴 선택시 뷰 만들기
 function WriteBiographyModifyView(){
@@ -182,7 +285,6 @@ WriteBiographyModifyView.prototype = {
 	    oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
                 var serverData = JSON.parse(oReq.responseText);
-                console.log(serverData);
                 this.writeHtml(serverData);
             }
         }.bind(this)
@@ -201,31 +303,32 @@ WriteBiographyModifyView.prototype = {
         });
         let biographyModifyHtml = this.biographyModifyTableWrap.replace("{item_tr}", itemHtml);
         this.menuWrap.after(biographyModifyHtml);
-        this.itemClickEvent();
+        this.itemClickEvent(itemData.biographyCategoryId);
     },
-    itemClickEvent : function(){
+    itemClickEvent : function(biographyCategoryId){
         let eventTarget = document.querySelectorAll('.biography_modify_item');
         eventTarget.forEach(element => {
             element.addEventListener('click', function(){
-                console.log(element);
-                this.writeModifyItemHtml(element);
+                this.writeModifyItemHtml(element, biographyCategoryId);
                 
             }.bind(this))
             
         });
     },
-    writeModifyItemHtml : function(element){
+    writeModifyItemHtml : function(element, biographyCategoryId){
         this.initHtml();
         this.saveBtn.style.display = 'block';
         this.menuWrap.after(this.insertWrap);
         let startYearInput = document.querySelector('#start_year_input');
         let endYearInput = document.querySelector('#end_year_input');
         let textInput = document.querySelector('#biography_text_input');
+        let filteredTextInput = element.children[3].innerHTML.replace(/<br\s*[\/]?>/gi, '\r\n');
         startYearInput.value = Number(element.children[1].innerText);
         if(element.children[2].innerText != 'null'){
             endYearInput.value = Number(element.children[2].innerText);
         }
-        textInput.innerText = element.children[3].innerText;
+        textInput.innerHTML = filteredTextInput;
+        new BiographyModifySaveBtnEvent(element.children[0].innerText,biographyCategoryId);
     },
     initHtml : function(){
         if(this.menuWrap.nextAll('div').length > 0){

@@ -28,4 +28,10 @@ public class ContactServiceImpl implements ContactService{
 		return contactData;
 	}
 
+	@Override
+	public Contact updateContact(Contact contact) {
+		Contact updateResult = contactDao.save(contact);
+		return updateResult;
+	}
+
 }

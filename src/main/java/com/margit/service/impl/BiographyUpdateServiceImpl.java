@@ -82,4 +82,11 @@ public class BiographyUpdateServiceImpl implements BiographyUpdateService{
 		
 		return biographyDeleteItem;
 	}
+
+	@Override
+	public Biography updateBiography(Biography biography) {
+		
+		Biography updateBiographyResult = biographyDao.save(biography);
+		return updateBiographyResult;
+	}
 }

@@ -731,6 +731,20 @@ BiographySubMenuEvent.prototype = {
 
 
 // ---------------------------------------Text---------------------
+
+//저장버튼 이벤트
+function NewsSaveBtnEvent(){
+    this.saveBtn = $('.save_btn')[0];
+}
+NewsSaveBtnEvent.prototype = {
+    eventListner : function(){
+        this.saveBtn.addEventListener('click', function(){
+            
+            debugger;
+        })
+    }
+}
+
 //뉴스 서브메뉴 선택에 따른 뷰 보여주기
 //수정 선택시에 데이터 받아서 채워주기 변경해야함.
 function NewsSubMenuEvent(){
@@ -759,6 +773,7 @@ NewsSubMenuEvent.prototype = {
                 this.menuWrap.after(this.textInsertWrap);
                 this.saveBtn.style.display ='block';
                 this.deleteBtn.style.display ='none';
+                new NewsSaveBtnEvent();
                 break;
 
             case 'Änderung(modify)':
@@ -1583,30 +1598,14 @@ GallerySubMenuEvent.prototype = {
 
 // -------------------------------------공통 로직------------------
 function InitBtn(){
-    this.gallerySaveBtn = document.querySelector('.save_btn');
-    this.galleryDeleteBtn = document.querySelector('.delete_btn');
-    this.textSaveBtn = document.querySelector('.text_save_btn');
-    this.textDeleteBtn = document.querySelector('.text_delete_btn');
-    this.biographySaveBtn = document.querySelector('.biography_save_btn');
-    this.biographyDeleteBtn = document.querySelector('.biography_delete_btn');
-    this.contactSaveBtn = document.querySelector('.contact_save_btn');
-    this.contactDeleteBtn = document.querySelector('.contact_delete_btn');
-    this.exhibitionSaveBtn = document.querySelector('.exhibition_save_btn');
-    this.exhibitionDeleteBtn = document.querySelector('.exhibition_delete_btn');
+    this.SaveBtn = document.querySelector('.save_btn');
+    this.DeleteBtn = document.querySelector('.delete_btn');
     this.deactivateBtn();
 }
 InitBtn.prototype = {
     deactivateBtn : function(){
-        this.gallerySaveBtn.style.display = 'none';
-        this.galleryDeleteBtn.style.display = 'none';
-        this.textSaveBtn.style.display = 'none';
-        this.textDeleteBtn.style.display = 'none';
-        this.biographySaveBtn.style.display = 'none';
-        this.biographyDeleteBtn.style.display = 'none';
-        this.contactSaveBtn.style.display = 'none';
-        this.contactDeleteBtn.style.display = 'none';
-        this.exhibitionSaveBtn.style.display = 'none';
-        this.exhibitionDeleteBtn.style.display = 'none';
+        this.SaveBtn.style.display = 'none';
+        this.DeleteBtn.style.display = 'none';
     }
 }
 //서브메뉴 갱신하기
@@ -1654,7 +1653,7 @@ WriteSubmenu.prototype = {
         var upperMainValue =this.mainValue.charAt(0).toUpperCase() + this.mainValue.slice(1);
         var submenuHtml = this.submenuTemplate.replaceAll('{main_value}',upperMainValue);
         this.mainMenuWrap.after(submenuHtml);
-        if(this.mainValue === "news"){
+        if(this.mainValue === "news"||"press"){
             $(".option_target").next().remove();
         }
         this.makeOptions();
@@ -1665,7 +1664,7 @@ WriteSubmenu.prototype = {
 }
 
 //메인메뉴 선택 이벤트
-//ajax로 Submenu받아와서 바꿔주기
+
 //--------------------------------------------log지우기
 function mainMenuEvent(){
     var mainMenu = document.querySelector('#main_menu');
@@ -1707,8 +1706,10 @@ function mainMenuEvent(){
             break;
 
         case 'news':
+        case 'press':
             var examNewsSubmenu = ['neue Text(new text)','Änderung(modify)','Löschung(delete)'];
             new WriteSubmenu(examNewsSubmenu,mainMenu.value);
+            new NewsSubMenuEvent();
             break;
         
         case 'biography':

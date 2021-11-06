@@ -24,6 +24,7 @@ import com.margit.model.GalleryModifyData;
 import com.margit.model.GallerySaveData;
 import com.margit.model.GalleryUpdateData;
 import com.margit.model.GalleryViewData;
+import com.margit.model.TextImgSaveData;
 import com.margit.model.User;
 import com.margit.service.BiographyDeleteService;
 import com.margit.service.BiographySaveService;
@@ -184,6 +185,14 @@ public class PageController {
 	public String text() {
 		return "text";
 	}
+
+	@ResponseBody
+	@PostMapping({"/testTextImgUpload"})
+	public String testTextImgUpload(TextImgSaveData textImgSaveData) {
+		System.out.println("upload : "+textImgSaveData);
+//		return "http://localhost:8080/download/65";
+		return "{ \"uploaded\" : true, \"url\" : \"http://localhost:8080/download/65\"}";
+		}
 
 	@GetMapping({"/presse"})
 	public String presse() {

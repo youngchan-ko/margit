@@ -84,6 +84,7 @@
                     <option value="zeichnung">ZEICHNUNG</option>
                     <option value="objekt">OBJEKT</option>
                     <option value="news">TEXT</option>
+                    <option value="press">PRESSE</option>
                     <option value="biography">BIOGRAFIE</option>
                     <option value="contact">KONTAKT</option>
                     <option value="exhibition">Aktuell</option>
@@ -116,6 +117,7 @@
         <script src="script/jquery3_5_1.js"></script>
         <script src="script/bootstrap4_6_0.js"></script>
         <script src="script/update.js"></script>
+        <script src="script/uploadAdapter.js"></script>
         
         <!-- 전시공지 -->
         <script type="rv-template" id="exhibition_wrap">
@@ -209,15 +211,19 @@
                 
                 <div id="news_update_textarea">
                 </div>
-                
+                <!-- <script src="script/uploadAdapter.js"></script> -->
                 <script>
                     ClassicEditor
-                    .create( document.querySelector( '#news_update_textarea' ) )
+                    .create( document.querySelector( '#news_update_textarea' ), {
+                       
+                        extraPlugins: [MyCustomUploadAdapterPlugin]
+                    })
                     .catch( error => {
                         console.error( error );
                     } );
                 </script>
             </div>
+            
         </template>
 
         <!-- 바이오그라피 삭제 선택시 테이블 템플릿 -->

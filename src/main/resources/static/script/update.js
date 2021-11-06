@@ -735,6 +735,7 @@ BiographySubMenuEvent.prototype = {
 //저장버튼 이벤트
 function NewsSaveBtnEvent(){
     this.saveBtn = $('.save_btn')[0];
+    this.eventListner();
 }
 NewsSaveBtnEvent.prototype = {
     eventListner : function(){

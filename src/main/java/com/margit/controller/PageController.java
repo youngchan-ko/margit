@@ -37,6 +37,7 @@ import com.margit.service.GalleryService;
 import com.margit.service.GalleryUpdateService;
 import com.margit.service.HomeService;
 import com.margit.service.JoinService;
+import com.margit.service.TextImgSaveService;
 
 @Controller
 public class PageController {
@@ -61,6 +62,8 @@ public class PageController {
 	private GalleryDeleteService galleryDeleteService;
 	@Autowired
 	private GalleryService galleryService;
+	@Autowired
+	private TextImgSaveService textImgSaveService;
 	@Autowired
 	private HomeService homeService;
 	
@@ -189,9 +192,12 @@ public class PageController {
 	@ResponseBody
 	@PostMapping({"/testTextImgUpload"})
 	public String testTextImgUpload(TextImgSaveData textImgSaveData) {
-		System.out.println("upload : "+textImgSaveData);
-//		return "http://localhost:8080/download/65";
-		return "{ \"uploaded\" : true, \"url\" : \"http://localhost:8080/download/65\"}";
+		
+		String retunUrl = textImgSaveService.saveTextImgFile(textImgSaveData);
+		
+		return retunUrl;
+//		return "{ \"uploaded\" : true, \"url\" : \"http://localhost:8080/download/65\"}";
+//		return "{ \"url\" : \"/download/63\"}";
 		}
 
 	@GetMapping({"/presse"})

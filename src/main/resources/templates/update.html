@@ -118,6 +118,7 @@
         <script src="script/bootstrap4_6_0.js"></script>
         <script src="script/update.js"></script>
         <script src="script/uploadAdapter.js"></script>
+        <!-- <script type="module" src="script/imgResizing.js"></script> -->
         
         <!-- 전시공지 -->
         <script type="rv-template" id="exhibition_wrap">
@@ -201,6 +202,7 @@
             </div>
         </script>
         
+        <!-- , ImageResizeEditing, ImageResizeHandles -->
         <!-- text, presse 인풋템플릿 -->
         <template id="text_textarea">
             <div class="news_update_wrap">
@@ -211,12 +213,14 @@
                 
                 <div id="news_update_textarea">
                 </div>
-                <!-- <script src="script/uploadAdapter.js"></script> -->
                 <script>
+                    // import Image from '@ckeditor/ckeditor5-image/src/image';
+                    // import ImageResize from '@ckeditor/ckeditor5-image/src/imageresize';
+
                     ClassicEditor
                     .create( document.querySelector( '#news_update_textarea' ), {
-                       
-                        extraPlugins: [MyCustomUploadAdapterPlugin]
+                        extraPlugins: [MyCustomUploadAdapterPlugin],
+                        // ,Image, ImageResizeEditing, ImageResizeHandles
                     })
                     .catch( error => {
                         console.error( error );

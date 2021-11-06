@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class GalleryFile {
+public class TextImgFile {
 
 	@Id //primary key
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,5 +19,4 @@ public class GalleryFile {
 	private String fileType;
 	private String regDate;
 	private String updateDate;
-	
 }

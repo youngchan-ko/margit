@@ -13,7 +13,7 @@
         <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
         <link href="css/bootstrap5.0.2.min.css" rel="stylesheet" />
         <link href="css/update.css" rel="stylesheet" />
-        <script src="script/ckeditor5-build-classic-29.1.0/ckeditor5-build-classic/ckeditor.js"></script>
+        <script src="script\ckeditor5-31.0.0\build/ckeditor.js"></script>
     </head>
     <body>
         <!-- Navigation-->
@@ -118,7 +118,6 @@
         <script src="script/bootstrap4_6_0.js"></script>
         <script src="script/update.js"></script>
         <script src="script/uploadAdapter.js"></script>
-        <!-- <script type="module" src="script/imgResizing.js"></script> -->
         
         <!-- 전시공지 -->
         <script type="rv-template" id="exhibition_wrap">
@@ -202,7 +201,6 @@
             </div>
         </script>
         
-        <!-- , ImageResizeEditing, ImageResizeHandles -->
         <!-- text, presse 인풋템플릿 -->
         <template id="text_textarea">
             <div class="news_update_wrap">
@@ -211,16 +209,16 @@
                     <input type="text" name="news_title" id="news_title_input">
                 </div>
                 
-                <div id="news_update_textarea">
-                </div>
+                <textarea id="news_update_textarea">
+                </textarea>
                 <script>
-                    // import Image from '@ckeditor/ckeditor5-image/src/image';
-                    // import ImageResize from '@ckeditor/ckeditor5-image/src/imageresize';
-
+                    
+                    
                     ClassicEditor
                     .create( document.querySelector( '#news_update_textarea' ), {
-                        extraPlugins: [MyCustomUploadAdapterPlugin],
-                        // ,Image, ImageResizeEditing, ImageResizeHandles
+                        extraPlugins: [MyCustomUploadAdapterPlugin]
+                        
+                        
                     })
                     .catch( error => {
                         console.error( error );

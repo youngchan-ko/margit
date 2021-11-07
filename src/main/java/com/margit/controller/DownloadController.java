@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.margit.model.GalleryFile;
+import com.margit.model.TextImgFile;
 import com.margit.service.DownloadService;
 
 
@@ -52,5 +53,38 @@ public class DownloadController {
         }catch(Exception ex){
             throw new RuntimeException("file Save Error");
         }
+	}
+	
+	
+	@GetMapping("/downloadTextImgFile/{textImgFileId}")
+	public void downloadTextImg(HttpServletResponse response, 
+			@PathVariable("textImgFileId") int textImgFileId) {
+		
+		TextImgFile textImgFile = downloadService.getTextImgFile(textImgFileId);
+		
+		String fileName = textImgFile.getFileName();
+		String saveFileName = basePath + textImgFile.getFileName();
+		String contentType = textImgFile.getFileType();
+		long fileLength = new File(saveFileName).length();
+		
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\";");
+		response.setHeader("Content-Transfer-Encoding", "binary");
+		response.setHeader("Content-Type", contentType);
+		response.setHeader("Content-Length", "" + fileLength);
+		response.setHeader("Pragma", "no-cache;");
+		response.setHeader("Expires", "-1;");
+		
+		try(
+				FileInputStream fis = new FileInputStream(saveFileName);
+				OutputStream out = response.getOutputStream();
+				){
+			int readCount = 0;
+			byte[] buffer = new byte[1024];
+			while((readCount = fis.read(buffer)) != -1){
+				out.write(buffer,0,readCount);
+			}
+		}catch(Exception ex){
+			throw new RuntimeException("file Save Error");
+		}
 	}
 }

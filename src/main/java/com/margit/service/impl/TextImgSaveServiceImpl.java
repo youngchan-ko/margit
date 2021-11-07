@@ -35,7 +35,7 @@ public class TextImgSaveServiceImpl implements TextImgSaveService{
 		String saveFileName = makeFileName(textImgSaveData);
 		TextImgFile TextImgFile = saveTextImgFile(textImgSaveData, saveFileName);
 		
-		String returnString = "{ \"url\" : \"/textImgDownload/"+TextImgFile.getId()+"\"}";
+		String returnString = "{ \"url\" : \"/downloadTextImgFile/"+TextImgFile.getId()+"\"}";
 		
 		//파일 쓰기
 		WriteFile(saveFileName, textImgSaveData);

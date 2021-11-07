@@ -735,6 +735,8 @@ BiographySubMenuEvent.prototype = {
 //저장버튼 이벤트
 function NewsSaveBtnEvent(){
     this.saveBtn = $('.save_btn')[0];
+    this.titleInput = document.querySelector('#news_title_input');
+    this.textContent = document.querySelector('.ck-content');
     this.eventListner();
 }
 NewsSaveBtnEvent.prototype = {

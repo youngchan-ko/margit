@@ -735,16 +735,37 @@ BiographySubMenuEvent.prototype = {
 //저장버튼 이벤트
 function NewsSaveBtnEvent(){
     this.saveBtn = $('.save_btn')[0];
-    this.titleInput = document.querySelector('#news_title_input');
-    this.textContent = document.querySelector('.ck-content');
     this.eventListner();
 }
 NewsSaveBtnEvent.prototype = {
     eventListner : function(){
         this.saveBtn.addEventListener('click', function(){
-            
+            this.makeFormData();
             debugger;
-        })
+        }.bind(this))
+    },
+    makeFormData : function(){
+        let formData = new FormData();
+        let title = document.querySelector('#news_title_input').value;
+        let fileTarget = document.querySelector('.gallery_upload_file');
+        let textContent = document.querySelector('.ck-content').innerHTML;
+        
+        formData.append("title", title);
+        formData.append("titleImgFile", fileTarget.files[0]);
+        formData.append("textContent", textContent);
+        
+        this.sendAjax(formData);
+    },
+    sendAjax : function(formData){
+        var oReq = new XMLHttpRequest();
+        oReq.onreadystatechange = function(){
+            if(oReq.readyState === 4 && oReq.status === 200){		
+                alert("저장 성공");
+                window.location.href='http://localhost:8080/update';
+            }
+        }
+        oReq.open("POST", "/saveText");
+        oReq.send(formData);
     }
 }
 
@@ -756,6 +777,7 @@ function NewsSubMenuEvent(){
     this.textInsertWrap = $('#text_textarea')[0].innerHTML;
     this.saveBtn = $('.save_btn')[0];
     this.deleteBtn = $('.delete_btn')[0];
+    this.fileInputWrap = document.querySelector('#file_wrap_template').innerText;
     this.writeHtml();
 }
 NewsSubMenuEvent.prototype = {
@@ -773,9 +795,11 @@ NewsSubMenuEvent.prototype = {
                 break;
 
             case 'neue Text(new text)': 
-                this.menuWrap.after(this.textInsertWrap);
+                let textInsertHtml = this.textInsertWrap.replace("{fileInput}", this.fileInputWrap);
+                this.menuWrap.after(textInsertHtml);
                 this.saveBtn.style.display ='block';
                 this.deleteBtn.style.display ='none';
+                new CheckFileType();
                 new NewsSaveBtnEvent();
                 break;
 

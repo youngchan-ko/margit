@@ -24,6 +24,8 @@ import com.margit.model.GalleryModifyData;
 import com.margit.model.GallerySaveData;
 import com.margit.model.GalleryUpdateData;
 import com.margit.model.GalleryViewData;
+import com.margit.model.TextContents;
+import com.margit.model.TextContentsData;
 import com.margit.model.TextImgSaveData;
 import com.margit.model.User;
 import com.margit.service.BiographyDeleteService;
@@ -37,6 +39,7 @@ import com.margit.service.GalleryService;
 import com.margit.service.GalleryUpdateService;
 import com.margit.service.HomeService;
 import com.margit.service.JoinService;
+import com.margit.service.TextContentsService;
 import com.margit.service.TextImgSaveService;
 
 @Controller
@@ -64,6 +67,8 @@ public class PageController {
 	private GalleryService galleryService;
 	@Autowired
 	private TextImgSaveService textImgSaveService;
+	@Autowired
+	private TextContentsService textContentsService;
 	@Autowired
 	private HomeService homeService;
 	
@@ -190,15 +195,24 @@ public class PageController {
 	}
 
 	@ResponseBody
-	@PostMapping({"/testTextImgUpload"})
+	@PostMapping({"/textImgUpload"})
 	public String testTextImgUpload(TextImgSaveData textImgSaveData) {
 		
 		String retunUrl = textImgSaveService.saveTextImgFile(textImgSaveData);
 		
 		return retunUrl;
-//		return "{ \"uploaded\" : true, \"url\" : \"http://localhost:8080/download/65\"}";
-//		return "{ \"url\" : \"/download/63\"}";
 		}
+	
+	@ResponseBody
+	@PostMapping({"/saveText"})
+	public TextContents saveText(TextContentsData textContentsData) {
+		
+		TextContents textContents = textContentsService.saveText(textContentsData);
+		
+		return textContents;
+	}
+	
+	
 
 	@GetMapping({"/presse"})
 	public String presse() {

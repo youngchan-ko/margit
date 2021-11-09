@@ -13,7 +13,7 @@ class UploadAdapter {
 
     _initRequest() {
         const xhr = this.xhr = new XMLHttpRequest();
-        xhr.open('POST', '/testTextImgUpload', true);
+        xhr.open('POST', '/textImgUpload', true);
         xhr.responseType = 'json';
     }
 

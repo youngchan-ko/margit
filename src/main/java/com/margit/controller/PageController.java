@@ -39,6 +39,7 @@ import com.margit.service.GalleryService;
 import com.margit.service.GalleryUpdateService;
 import com.margit.service.HomeService;
 import com.margit.service.JoinService;
+import com.margit.service.TextContentsSaveService;
 import com.margit.service.TextContentsService;
 import com.margit.service.TextImgSaveService;
 
@@ -69,6 +70,8 @@ public class PageController {
 	private TextImgSaveService textImgSaveService;
 	@Autowired
 	private TextContentsService textContentsService;
+	@Autowired
+	private TextContentsSaveService textContentsSaveService;
 	@Autowired
 	private HomeService homeService;
 	
@@ -194,6 +197,23 @@ public class PageController {
 		return "text";
 	}
 
+	@GetMapping({"/text.ajax"})
+	@ResponseBody
+	public List<TextContents> getText() {
+		List<TextContents> textContentsList = textContentsService.getTextContents();
+		return textContentsList;
+	}
+
+	@ResponseBody
+	@GetMapping({"/getTextContent"})
+	public TextContents getTextContent(
+			@RequestParam(required=false) int textContentsId) {
+		TextContents textContents = textContentsService.getTextContent(textContentsId);
+		return textContents;
+		
+	}
+
+
 	@ResponseBody
 	@PostMapping({"/textImgUpload"})
 	public String testTextImgUpload(TextImgSaveData textImgSaveData) {
@@ -206,8 +226,8 @@ public class PageController {
 	@ResponseBody
 	@PostMapping({"/saveText"})
 	public TextContents saveText(TextContentsData textContentsData) {
-		
-		TextContents textContents = textContentsService.saveText(textContentsData);
+		System.out.println(textContentsData);
+		TextContents textContents = textContentsSaveService.saveText(textContentsData);
 		
 		return textContents;
 	}

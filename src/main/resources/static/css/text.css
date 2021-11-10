@@ -10011,7 +10011,7 @@ h3 {
   text-align: left;
   line-height: 20px;
   max-height:80px;
-  word-wrap:break-word
+  word-wrap:break-word;
   display:block;
   display:-webkit-box;
   -webkit-line-clamp:4;

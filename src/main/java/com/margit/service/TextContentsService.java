@@ -1,8 +1,10 @@
 package com.margit.service;
 
+import java.util.List;
+
 import com.margit.model.TextContents;
-import com.margit.model.TextContentsData;
 
 public interface TextContentsService {
-	public TextContents saveText(TextContentsData textContentsData);
+	public List<TextContents> getTextContents();
+	public TextContents getTextContent(int textContentsId);
 }

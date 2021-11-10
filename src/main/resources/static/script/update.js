@@ -740,9 +740,28 @@ function NewsSaveBtnEvent(){
 NewsSaveBtnEvent.prototype = {
     eventListner : function(){
         this.saveBtn.addEventListener('click', function(){
-            this.makeFormData();
-            debugger;
+            let valideTitle = this.valideTitle();
+            let valideText = this.valideText();
+            
+            if(valideTitle+valideText === 2){
+
+                this.makeFormData();
+            }
         }.bind(this))
+    },
+    valideText : function(){
+        if(document.querySelector('.ck-content').innerText.length < 2){
+            alert('본문을 확인해주세요.');
+        }else{
+            return 1;
+        }
+    },
+    valideTitle : function(){
+        if(document.querySelector('#news_title_input').value.length === 0){
+            alert('제목을 확인해주세요.');
+        }else{
+            return 1;
+        }
     },
     makeFormData : function(){
         let formData = new FormData();
@@ -751,8 +770,10 @@ NewsSaveBtnEvent.prototype = {
         let textContent = document.querySelector('.ck-content').innerHTML;
         
         formData.append("title", title);
-        formData.append("titleImgFile", fileTarget.files[0]);
         formData.append("textContent", textContent);
+        if(fileTarget.files[0] != undefined){
+            formData.append("titleImgFile", fileTarget.files[0]);
+        }
         
         this.sendAjax(formData);
     },

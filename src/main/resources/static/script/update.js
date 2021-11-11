@@ -731,6 +731,21 @@ BiographySubMenuEvent.prototype = {
 
 
 // ---------------------------------------Text---------------------
+// function upload_img()
+// {
+//   // 원하는 에디터의 인스턴스를 가져온다.   
+//   var oEditor = CKEDITOR.instances.content;   
+//   var value = "<img src='sub_images/sub4/board_title6.gif'>";    
+//   // Check the active editing mode.   
+//   if ( oEditor.mode == 'wysiwyg' )   
+//    {       
+//    // Insert the desired HTML.       
+//    oEditor.insertHtml( value );   
+//    }   
+//    else       
+//     alert( '위지윅 모드여야 가능합니다!' );
+// }
+
 
 //저장버튼 이벤트
 function NewsSaveBtnEvent(){
@@ -768,7 +783,8 @@ NewsSaveBtnEvent.prototype = {
         let title = document.querySelector('#news_title_input').value;
         let fileTarget = document.querySelector('.gallery_upload_file');
         let textContent = document.querySelector('.ck-content').innerHTML;
-        
+        debugger;
+
         formData.append("title", title);
         formData.append("textContent", textContent);
         if(fileTarget.files[0] != undefined){

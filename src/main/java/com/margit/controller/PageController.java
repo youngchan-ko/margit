@@ -1,9 +1,13 @@
 package com.margit.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -218,14 +222,23 @@ public class PageController {
 
 	@ResponseBody
 	@PostMapping({"/textImgUpload"})
-	public String testTextImgUpload(@RequestPart MultipartFile upload
+	public String testTextImgUpload(@RequestPart MultipartFile upload,
+			HttpServletResponse response,
+			
+			HttpServletRequest request
 //			TextImgSaveData textImgSaveData
-			) {
+			) throws IOException {
 		System.out.println(upload.getOriginalFilename());
-		String retunUrl = textImgSaveService.saveTextImgFile(upload);
+		String returnUrl = textImgSaveService.saveTextImgFile(upload);
 		
-		return retunUrl;
-//		반환하는 형식은
+		
+		
+		PrintWriter printWriter = response.getWriter();
+		printWriter.println(returnUrl); 
+//		String callback=request.getParameter("CKEditorFuncNum");
+//		String returnString = "<script>window.parent.CKEDITOR.tools.callFunction("+callback+",'"+"/downloadTextImgFile/40"+"','이미지가 업로드되었습니다.')"+"</script>";
+		return null;
+		//		반환하는 형식은
 //		{
 //		"uploaded" : 0 ,
 //		"filename" : "aaaa.jpg" ,

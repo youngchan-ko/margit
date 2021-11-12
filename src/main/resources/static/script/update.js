@@ -1,4 +1,8 @@
 
+
+
+
+
 //---------------------------------------Exhibition------------------------
 function ExhibitionEvent(){
     this.exhibitionWrap = document.querySelector('#exhibition_wrap').innerText;
@@ -837,6 +841,7 @@ NewsSubMenuEvent.prototype = {
                 this.menuWrap.after(textInsertHtml);
                 this.saveBtn.style.display ='block';
                 this.deleteBtn.style.display ='none';
+                
                 
                 
                 new CheckFileType();

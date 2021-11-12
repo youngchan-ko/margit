@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.margit.dao.TextImgFileDao;
 import com.margit.model.TextImgFile;
@@ -31,7 +32,7 @@ public class TextImgSaveServiceImpl implements TextImgSaveService{
 	
 	@Override
 	@Transactional
-	public String saveTextImgFile(TextImgSaveData textImgSaveData) {
+	public String saveTextImgFile(MultipartFile textImgSaveData) {
 		String saveFileName = makeFileName(textImgSaveData);
 		TextImgFile TextImgFile = saveTextImgFile(textImgSaveData, saveFileName);
 		
@@ -45,14 +46,14 @@ public class TextImgSaveServiceImpl implements TextImgSaveService{
 	}
 	
 	//파일 쓰기
-	private void WriteFile(String saveFileName, TextImgSaveData textImgSaveData) {
+	private void WriteFile(String saveFileName, MultipartFile textImgSaveData) {
 		File f = new File(formattedDir);
 		if(!f.exists()){ // 저장 디렉토리 확인
 			f.mkdirs(); // 해당 디렉토리 만들기
 		}
 		try(
                 FileOutputStream fos = new FileOutputStream(formattedDir + File.separator + saveFileName);
-                InputStream is = textImgSaveData.getTextImgFile().getInputStream();
+                InputStream is = textImgSaveData.getInputStream();
         ){
         	    int readCount = 0;
         	    byte[] buffer = new byte[1024];
@@ -65,14 +66,14 @@ public class TextImgSaveServiceImpl implements TextImgSaveService{
 	}
 	
 	//TextImgFile테이블 저장
-	private TextImgFile saveTextImgFile(TextImgSaveData textImgSaveData, String saveFileName) {
+	private TextImgFile saveTextImgFile(MultipartFile textImgSaveData, String saveFileName) {
 		
 		
 		TextImgFile textImgFile = new TextImgFile();
 		
-		textImgFile.setOriginalFileName(textImgSaveData.getTextImgFile().getOriginalFilename());
+		textImgFile.setOriginalFileName(textImgSaveData.getOriginalFilename());
 		textImgFile.setFileName(savedDir + File.separator + saveFileName);
-		textImgFile.setFileType(textImgSaveData.getTextImgFile().getContentType());
+		textImgFile.setFileType(textImgSaveData.getContentType());
 		textImgFile.setRegDate(now);
 		textImgFile.setUpdateDate(now);
 		
@@ -82,9 +83,9 @@ public class TextImgSaveServiceImpl implements TextImgSaveService{
 	}
 	
 	//이미지파일 이름 새로 만들기
-	private String makeFileName(TextImgSaveData textImgSaveData) {
+	private String makeFileName(MultipartFile textImgSaveData) {
 		String dateStr = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-		String saveFilename = dateStr+textImgSaveData.getTextImgFile().getOriginalFilename();
+		String saveFilename = dateStr+textImgSaveData.getOriginalFilename();
 		return saveFilename;
 	}
 }

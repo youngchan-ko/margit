@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.margit.model.Biography;
 import com.margit.model.BiographyCategory;
@@ -216,11 +218,22 @@ public class PageController {
 
 	@ResponseBody
 	@PostMapping({"/textImgUpload"})
-	public String testTextImgUpload(TextImgSaveData textImgSaveData) {
-		
-		String retunUrl = textImgSaveService.saveTextImgFile(textImgSaveData);
+	public String testTextImgUpload(@RequestPart MultipartFile upload
+//			TextImgSaveData textImgSaveData
+			) {
+		System.out.println(upload.getOriginalFilename());
+		String retunUrl = textImgSaveService.saveTextImgFile(upload);
 		
 		return retunUrl;
+//		반환하는 형식은
+//		{
+//		"uploaded" : 0 ,
+//		"filename" : "aaaa.jpg" ,
+//		"url" : "/file/aaaa/jpg"
+//		"error" : { "message":"업로드가 성공적으로 이루어졌습니다." , "file" : "~~~                   }             
+//		}
+//		uploaded 가 0 이면 실패 , 1:이면 성공
+//		filename , url  까지는 기본으로 넣어주야 하고 나머지는 json 형식에 맞추어서 넣어줍니다.
 		}
 	
 	@ResponseBody

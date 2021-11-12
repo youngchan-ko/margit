@@ -13,7 +13,7 @@
         <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
         <link href="css/bootstrap5.0.2.min.css" rel="stylesheet" />
         <link href="css/update.css" rel="stylesheet" />
-        <script src="script/ckeditor5-31.0.0/build/ckeditor.js"></script>
+        <script src="script/ckeditor/ckeditor.js"></script>
     </head>
     <body>
         <!-- Navigation-->
@@ -213,13 +213,34 @@
                 <textarea id="news_update_textarea">
                 </textarea>
                 <script>
-                    ClassicEditor
-                    .create( document.querySelector( '#news_update_textarea' ), {
-                        extraPlugins: [MyCustomUploadAdapterPlugin]
-                    })
-                    .catch( error => {
-                        console.error( error );
-                    } );
+                    CKEDITOR.replace('news_update_textarea' , {
+                    filebrowserImageUploadUrl : '/textImgUpload'
+                    
+                });
+                CKEDITOR.on('dialogDefinition', function(e){
+                    var dialogName = e.data.name;
+                    var dialogDefinition = e.data.definition;
+
+                    switch (dialogName) {
+                        case 'image':
+                            dialogDefinition.removeContents('advanced');
+                            dialogDefinition.removeContents('Link');
+                            break;
+                    
+                    }
+                });
+                    
+
+                    //CKEditor5
+
+
+                    // ClassicEditor
+                    // .create( document.querySelector( '#news_update_textarea' ), {
+                    //     extraPlugins: [MyCustomUploadAdapterPlugin]
+                    // })
+                    // .catch( error => {
+                    //     console.error( error );
+                    // } );
                 </script>
             </div>
         </template>

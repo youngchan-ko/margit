@@ -32,5 +32,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.loginPage("/loginForm")
 			.loginProcessingUrl("/login")
 			.defaultSuccessUrl("/update");
+		http.headers().frameOptions().sameOrigin();
 	}
 }

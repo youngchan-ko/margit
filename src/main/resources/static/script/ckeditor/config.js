@@ -7,5 +7,6 @@ CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here. For example:
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
-	 config.filebrowserUploadMethod = 'form';
+	config.filebrowserUploadMethod = 'form';
+	config.removePlugins ='exportpdf';
 };

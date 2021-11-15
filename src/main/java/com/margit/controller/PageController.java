@@ -228,25 +228,18 @@ public class PageController {
 			HttpServletRequest request
 //			TextImgSaveData textImgSaveData
 			) throws IOException {
-		System.out.println(upload.getOriginalFilename());
+		System.out.println();
 		String returnUrl = textImgSaveService.saveTextImgFile(upload);
-		
+
 		
 		
 		PrintWriter printWriter = response.getWriter();
+		String callback=request.getParameter("CKEditorFuncNum");
+		System.out.println("callback"+callback);
+		String returnString = "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction("+1+",'"+"/downloadTextImgFile/59"+"','이미지가 업로드되었습니다.')</script>";
 		printWriter.println(returnUrl); 
-//		String callback=request.getParameter("CKEditorFuncNum");
-//		String returnString = "<script>window.parent.CKEDITOR.tools.callFunction("+callback+",'"+"/downloadTextImgFile/40"+"','이미지가 업로드되었습니다.')"+"</script>";
-		return null;
-		//		반환하는 형식은
-//		{
-//		"uploaded" : 0 ,
-//		"filename" : "aaaa.jpg" ,
-//		"url" : "/file/aaaa/jpg"
-//		"error" : { "message":"업로드가 성공적으로 이루어졌습니다." , "file" : "~~~                   }             
-//		}
-//		uploaded 가 0 이면 실패 , 1:이면 성공
-//		filename , url  까지는 기본으로 넣어주야 하고 나머지는 json 형식에 맞추어서 넣어줍니다.
+		printWriter.flush();	
+		return returnString;
 		}
 	
 	@ResponseBody

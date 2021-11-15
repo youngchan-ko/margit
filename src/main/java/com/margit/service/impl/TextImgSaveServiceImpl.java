@@ -36,6 +36,7 @@ public class TextImgSaveServiceImpl implements TextImgSaveService{
 		String saveFileName = makeFileName(textImgSaveData);
 		TextImgFile TextImgFile = saveTextImgFile(textImgSaveData, saveFileName);
 		
+		
 //		반환하는 형식은
 //		{
 //		"uploaded" : 0 ,
@@ -45,9 +46,29 @@ public class TextImgSaveServiceImpl implements TextImgSaveService{
 //		}
 //		uploaded 가 0 이면 실패 , 1:이면 성공
 //		filename , url  까지는 기본으로 넣어주야 하고 나머지는 json 형식에 맞추어서 넣어줍니다.
-		String returnString = "{uploaded : 1, "
-				+ "filename : "+TextImgFile.getOriginalFileName()+", "
-				+ "url : /downloadTextImgFile/"+TextImgFile.getId()+"}";
+		String returnString = "{\"fileName\" : \""
+				+TextImgFile.getOriginalFileName()
+				+ "\", \"uploaded\" : 1 ,"+"\"url\" :\"/downloadTextImgFile/"+TextImgFile.getId()+ "\","
+						+ "\"error\": {\r\n" + 
+						"        \"message\": \"good!!!\"}";
+
+				//			{
+//			    "uploaded": 1,
+//			    "fileName": "foo.jpg",
+//			    "url": "/files/foo.jpg"
+//			};
+				
+				
+//				"{"uploaded" : "1, "
+//				+ "fileName : "+TextImgFile.getOriginalFileName()+", "
+//				+ "url" : "/downloadTextImgFile/"+TextImgFile.getId()+"}";
+
+
+		
+
+
+
+
 		
 		//파일 쓰기
 		WriteFile(saveFileName, textImgSaveData);

@@ -114,7 +114,7 @@
         <script src="script/jquery3_5_1.js"></script>
         <script src="script/bootstrap4_6_0.js"></script>
         <script src="script/update.js"></script>
-        <script src="script/uploadAdapter.js"></script>
+        <!-- <script src="script/uploadAdapter.js"></script> -->
         
         <!-- 전시공지 -->
         <script type="rv-template" id="exhibition_wrap">
@@ -211,21 +211,25 @@
                 </textarea>
                 <script>
                     CKEDITOR.replace('news_update_textarea' , {
-                    filebrowserImageUploadUrl : '/textImgUpload'
+                        filebrowserImageUploadUrl : '/textImgUpload'
+                    });
                     
-                });
-                CKEDITOR.on('dialogDefinition', function(e){
-                    var dialogName = e.data.name;
-                    var dialogDefinition = e.data.definition;
+                    CKEDITOR.on('dialogDefinition', function(e){
+                        var dialogName = e.data.name;
+                        var dialog = e.data.definition.dialog;
+                        var dialogDefinition = e.data.definition;
 
-                    switch (dialogName) {
-                        case 'image':
-                            dialogDefinition.removeContents('advanced');
-                            dialogDefinition.removeContents('Link');
-                            break;
-                    
-                    }
-                });
+                        switch (dialogName) {
+                            case 'image':
+                                dialogDefinition.removeContents('advanced');
+                                dialogDefinition.removeContents('Link');
+                                dialog.on('show', function(obj){
+                                    this.selectPage('Upload');
+                                });
+                                break;
+                        }
+                        
+                    });
                     
 
                     //CKEditor5

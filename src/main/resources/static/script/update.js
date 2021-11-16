@@ -760,6 +760,7 @@ function NewsSaveBtnEvent(){
 NewsSaveBtnEvent.prototype = {
     eventListner : function(){
         this.saveBtn.addEventListener('click', function(){
+            debugger;
             let valideTitle = this.valideTitle();
             let valideText = this.valideText();
             
@@ -770,7 +771,7 @@ NewsSaveBtnEvent.prototype = {
         }.bind(this))
     },
     valideText : function(){
-        if(document.querySelector('.ck-content').innerText.length < 2){
+        if(document.querySelector('.news_update_textarea').value < 2){
             alert('본문을 확인해주세요.');
         }else{
             return 1;
@@ -845,7 +846,7 @@ NewsSubMenuEvent.prototype = {
                 
                 
                 new CheckFileType();
-                new NewsSaveBtnEvent();
+                
                 break;
 
             case 'Änderung(modify)':

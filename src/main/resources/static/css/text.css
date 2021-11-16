@@ -10019,21 +10019,34 @@ h3 {
   overflow:hidden;
   text-overflow:ellipsis;
  }
- /* {
-  max-height:54px; // 보여줄 높이까지(3줄의 높이를 입력해야한다)
-  word-wrap:break-word //잘라버릴 글자 단어 단위로 만들어준다)
-  display:block;
-  display:-webkit-box;
-  -webkit-line-clamp:3; //보여줄 줄 갯수
-  -webkit-box-orient:vertical; //박스의 방향 설정
-  overflow:hidden;
-  text-overflow:ellipsis;
- } */
+
+.titleWrap{
+  font-size : 40px;
+  font-weight: bold;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.itemContaner{
+  max-height: 350px;
+}
+
+.card-img-top{
+  max-height: 50%;
+  object-fit: scale-down;
+}
+
+.textContentWrap{
+  padding: 60px;
+}
 
 @media screen and (max-width: 768px){
   .navbar-brand{
     font-size: 20px;
     line-height: 50px;
     padding: 0;
+  }
+  .textContentWrap{
+    padding: 30px;
   }
 }

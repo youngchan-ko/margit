@@ -12,12 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.JsonObject;
 import com.margit.model.Biography;
 import com.margit.model.BiographyCategory;
 import com.margit.model.BiographyData;
@@ -202,18 +204,23 @@ public class PageController {
 	public String text() {
 		return "text";
 	}
-
+	
 	@GetMapping({"/text.ajax"})
 	@ResponseBody
 	public List<TextContents> getText() {
 		List<TextContents> textContentsList = textContentsService.getTextContents();
 		return textContentsList;
 	}
+	
+	@GetMapping({"/textDetail/{textContentsId}"})
+	public String textDetail() {
+		return "textDetail";
+	}
 
 	@ResponseBody
-	@GetMapping({"/getTextContent"})
+	@GetMapping({"/getTextContent.ajax/{textContentsId}"})
 	public TextContents getTextContent(
-			@RequestParam(required=false) int textContentsId) {
+			@PathVariable("textContentsId") int textContentsId) {
 		TextContents textContents = textContentsService.getTextContent(textContentsId);
 		return textContents;
 		
@@ -222,24 +229,11 @@ public class PageController {
 
 	@ResponseBody
 	@PostMapping({"/textImgUpload"})
-	public String testTextImgUpload(@RequestPart MultipartFile upload,
-			HttpServletResponse response,
-			
-			HttpServletRequest request
-//			TextImgSaveData textImgSaveData
+	public String testTextImgUpload(@RequestPart MultipartFile upload
 			) throws IOException {
 		System.out.println();
-		String returnUrl = textImgSaveService.saveTextImgFile(upload);
-
-		
-		
-		PrintWriter printWriter = response.getWriter();
-		String callback=request.getParameter("CKEditorFuncNum");
-		System.out.println("callback"+callback);
-		String returnString = "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction("+1+",'"+"/downloadTextImgFile/59"+"','이미지가 업로드되었습니다.')</script>";
-		printWriter.println(returnUrl); 
-		printWriter.flush();	
-		return returnString;
+		String returnUrl = textImgSaveService.saveTextImgFile(upload);	
+		return returnUrl;
 		}
 	
 	@ResponseBody

@@ -172,7 +172,6 @@ public class PageController {
 	@ResponseBody
 	@PostMapping({"/galleryGroupOrderNoModify"})
 	public int updateGroupOrderNo(@RequestParam(required=false) String groupOrderNoModifyData) throws Throwable {
-		System.out.println("pageCon.updateGroupOrderNo()"+groupOrderNoModifyData);
 		
 		int updateGroupOrderNo = galleryUpdateService.updateGroupOrderNo(groupOrderNoModifyData);
 		
@@ -231,7 +230,6 @@ public class PageController {
 	@PostMapping({"/textImgUpload"})
 	public String testTextImgUpload(@RequestPart MultipartFile upload
 			) throws IOException {
-		System.out.println();
 		String returnUrl = textImgSaveService.saveTextImgFile(upload);	
 		return returnUrl;
 		}
@@ -239,7 +237,6 @@ public class PageController {
 	@ResponseBody
 	@PostMapping({"/saveText"})
 	public TextContents saveText(TextContentsData textContentsData) {
-		System.out.println(textContentsData);
 		TextContents textContents = textContentsSaveService.saveText(textContentsData);
 		
 		return textContents;
@@ -260,7 +257,6 @@ public class PageController {
 	@ResponseBody
 	@PostMapping({"/saveBiography"})
 	public Biography saveBiography(BiographyData biographyData) {
-		System.out.println("PageCon-saveBiography : "+biographyData);
 		Biography biography = biographySaveService.saveBiography(biographyData);
 		return biography;
 	}
@@ -335,6 +331,11 @@ public class PageController {
 	@GetMapping({"/update"})
 	public String update() {
 		return "update";
+	}
+
+	@GetMapping({"/update/{textContentsId}"})
+	public String modifyTextDetail() {
+		return "modifyText";
 	}
 
 	@GetMapping({"/loginForm"})

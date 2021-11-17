@@ -10181,3 +10181,32 @@ h3 {
 #biographyGroupNameInput{
   width: 100%;
 }
+
+.card-text{
+  text-align: left;
+  line-height: 20px;
+  max-height:80px;
+  word-wrap:break-word;
+  display:block;
+  display:-webkit-box;
+  -webkit-line-clamp:4;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  text-overflow:ellipsis;
+ }
+
+.titleWrap{
+  font-size : 40px;
+  font-weight: bold;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.itemContaner{
+  max-height: 350px;
+}
+
+.card-img-top{
+  max-height: 50%;
+  object-fit: scale-down;
+}

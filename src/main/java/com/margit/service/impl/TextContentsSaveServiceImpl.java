@@ -37,7 +37,6 @@ public class TextContentsSaveServiceImpl implements TextContentsSaveService{
 	@Transactional
 	public TextContents saveText(TextContentsData textContentsData) {
 		TextContents textContents = new TextContents();
-		
 		if(textContentsData.getTitleImgFile() != null) {
 			String saveFileName = makeFileName(textContentsData);
 			TextImgFile TextImgFile = saveTextImgFile(textContentsData, saveFileName);
@@ -47,13 +46,22 @@ public class TextContentsSaveServiceImpl implements TextContentsSaveService{
 			textContents.setTitlePhotoId(TextImgFile.getId());
 		}
 		
-		Integer orderNo = textContentsDao.getCurrentOderNo();
-		if(orderNo == null) {
-			orderNo = 1;
+		Integer orderNo = 0;
+		if(textContentsData.getOrderNo() != 0) {
+			orderNo = textContentsData.getOrderNo();
 		}else {
-			orderNo++;
+			
+			orderNo = textContentsDao.getCurrentOderNo();
+			if(orderNo == null) {
+				orderNo = 1;
+			}else {
+				orderNo++;
+			}
 		}
 		
+		if(textContentsData.getId() != 0) {
+			textContents.setId(textContentsData.getId());
+		}
 		textContents.setTitle(textContentsData.getTitle());
 		textContents.setContentText(textContentsData.getTextContent());
 		textContents.setOrderNo(orderNo);

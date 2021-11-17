@@ -736,20 +736,7 @@ BiographySubMenuEvent.prototype = {
 
 
 // ---------------------------------------Text---------------------
-// function upload_img()
-// {
-//   // 원하는 에디터의 인스턴스를 가져온다.   
-//   var oEditor = CKEDITOR.instances.content;   
-//   var value = "<img src='sub_images/sub4/board_title6.gif'>";    
-//   // Check the active editing mode.   
-//   if ( oEditor.mode == 'wysiwyg' )   
-//    {       
-//    // Insert the desired HTML.       
-//    oEditor.insertHtml( value );   
-//    }   
-//    else       
-//     alert( '위지윅 모드여야 가능합니다!' );
-// }
+
 
 
 //저장버튼 이벤트
@@ -812,6 +799,90 @@ NewsSaveBtnEvent.prototype = {
     }
 }
 
+//text 변경 삭제 메뉴에서 아이템 선택시 이벤트
+function TextModifyItemClickEvent(){
+    this.items = document.querySelectorAll('.card');
+    this.itemClickEvent();
+}
+TextModifyItemClickEvent.prototype = {
+    itemClickEvent : function(){
+        this.items.forEach(element => {
+            element.addEventListener('click', function(){
+                event.preventDefault();
+                let textContentId = element.dataset.textcontentid;
+                window.location.href='http://localhost:8080/update/'+textContentId;
+                // this.getData(textContentId);
+            }.bind(this))
+        });
+    },
+    getData : function(textContentId){
+        var oReq = new XMLHttpRequest();
+        oReq.onreadystatechange = function(){
+            if(oReq.readyState === 4 && oReq.status === 200){	
+                let serverData = JSON.parse(oReq.responseText);
+                console.log(serverData);
+                // this.makeHtml(serverData);
+            }
+        }.bind(this);
+        oReq.open("GET", "/getTextContent.ajax/"+textContentId);
+        oReq.send();
+    }
+}
+
+//text 변경 삭제 메뉴선택시 전체 리스트 만들어주기
+function WriteTextModifyHtml(){
+    this.menuWrap = $('.menu_wrap');
+    this.textModifyWrap = document.querySelector('#textModifyWrap').innerHTML;
+    this.imgContentWrap = document.querySelector('#text_img_content').innerHTML;
+    this.textContentWrap = document.querySelector('#text_content').innerHTML;
+    this.initHtml();
+    this.getData();
+}
+WriteTextModifyHtml.prototype = {
+    initHtml : function(){
+        if(this.menuWrap.nextAll('div').length > 0){
+            this.menuWrap.nextAll('div').remove();
+        }
+        if(this.menuWrap.nextAll('table').length > 0){
+            this.menuWrap.nextAll('table').remove();
+        }
+    },
+    getData : function(){
+        var oReq = new XMLHttpRequest();
+        oReq.onreadystatechange = function(){
+            if(oReq.readyState === 4 && oReq.status === 200){	
+                let serverData = JSON.parse(oReq.responseText);
+                this.makeHtml(serverData);
+            }
+        }.bind(this);
+        oReq.open("GET", "/text.ajax");
+        oReq.send();
+    },
+    makeHtml : function(serverData){
+        let contentsHtml = "";
+        let extractTextPattern = /(<([^>]+)>)/gi;
+        serverData.forEach(element => {
+            if(element.titlePhotoId === 0){
+                let textContent = this.textContentWrap
+                .replaceAll("{textContentId}", element.id)
+                .replace("{title}", element.title)
+                .replace("{content}", element.contentText.replace(extractTextPattern, ""));
+                contentsHtml += textContent;
+            }else{
+                let textContent = this.imgContentWrap
+                .replaceAll("{textContentId}", element.id)
+                .replace("{textImgFileId}", element.titlePhotoId)
+                .replace("{title}", element.title)
+                .replace("{content}", element.contentText.replace(extractTextPattern, ""));
+                contentsHtml += textContent;
+            }
+        });
+        let textList = this.textModifyWrap.replace("{textContentList}", contentsHtml);
+        this.menuWrap.after(textList);
+        new TextModifyItemClickEvent();
+    }
+}
+
 //뉴스 서브메뉴 선택에 따른 뷰 보여주기
 //수정 선택시에 데이터 받아서 채워주기 변경해야함.
 function NewsSubMenuEvent(){
@@ -837,29 +908,19 @@ NewsSubMenuEvent.prototype = {
                 this.deleteBtn.style.display ='none';
                 break;
 
-            case 'neue Text(new text)': 
+            case 'neue Text': 
                 let textInsertHtml = this.textInsertWrap.replace("{fileInput}", this.fileInputWrap);
                 this.menuWrap.after(textInsertHtml);
                 this.saveBtn.style.display ='block';
                 this.deleteBtn.style.display ='none';
-                
-                
-                
                 new CheckFileType();
-                
                 break;
 
-            case 'Änderung(modify)':
-                this.menuWrap.after(this.textInsertWrap);
-                this.saveBtn.style.display ='block';
-                this.deleteBtn.style.display ='none';
+            case 'Änderung und Löschung':
+                this.saveBtn.style.display ='inline-block';
+                this.deleteBtn.style.display ='inline-block';
+                new WriteTextModifyHtml();
                 break;
-
-            case 'Löschung(delete)':
-                this.saveBtn.style.display ='none';
-                this.deleteBtn.style.display ='block';
-                break;
-            
         }
     }
 }
@@ -1780,7 +1841,7 @@ function mainMenuEvent(){
 
         case 'news':
         case 'press':
-            var examNewsSubmenu = ['neue Text(new text)','Änderung(modify)','Löschung(delete)'];
+            var examNewsSubmenu = ['neue Text','Änderung und Löschung'];
             new WriteSubmenu(examNewsSubmenu,mainMenu.value);
             new NewsSubMenuEvent();
             break;

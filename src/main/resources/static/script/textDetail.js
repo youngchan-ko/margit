@@ -8,7 +8,6 @@ GetData.prototype = {
 	    oReq.onreadystatechange = function(){
 		if(oReq.readyState === 4 && oReq.status === 200){	
 			let serverData = JSON.parse(oReq.responseText);
-			console.log(serverData);
             this.writeContent(serverData);  
             }
         }.bind(this)

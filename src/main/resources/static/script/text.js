@@ -37,18 +37,18 @@ WriteHtml.prototype = {
                 .replaceAll("{textContentId}", element.id)
                 .replace("{title}", element.title)
                 .replace("{content}", element.contentText.replace(extractTextPattern, ""));
-                contentsHtml += textContent
+                contentsHtml += textContent;
             }else{
                 let textContent = this.imgContentWrap
                 .replaceAll("{textContentId}", element.id)
                 .replace("{textImgFileId}", element.titlePhotoId)
                 .replace("{title}", element.title)
                 .replace("{content}", element.contentText.replace(extractTextPattern, ""));
-                contentsHtml += textContent
+                contentsHtml += textContent;
             }
             this.target.innerHTML = contentsHtml;
-            new ContentClickEvent();
         });
+        new ContentClickEvent();
     }
 }
 
@@ -59,7 +59,6 @@ document.addEventListener("DOMContentLoaded", function(){
 	oReq.onreadystatechange = function(){
 		if(oReq.readyState === 4 && oReq.status === 200){	
 			let serverData = JSON.parse(this.responseText);
-			console.log(serverData);
             new WriteHtml(serverData);
 		}
 	}

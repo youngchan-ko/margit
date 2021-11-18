@@ -26,4 +26,10 @@ public class TextContentsServiceImpl implements TextContentsService{
 		return textContent;
 	}
 
+	@Override
+	public int deleteText(int textContentsId) {
+		int deleteText = textContentsDao.deleteById(textContentsId);
+		return deleteText;
+	}
+
 }

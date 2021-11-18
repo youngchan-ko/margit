@@ -7,4 +7,5 @@ import com.margit.model.TextContents;
 public interface TextContentsService {
 	public List<TextContents> getTextContents();
 	public TextContents getTextContent(int textContentsId);
+	public int deleteText(int textContentsId);
 }

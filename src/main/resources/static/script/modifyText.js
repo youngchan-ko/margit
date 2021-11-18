@@ -51,6 +51,6 @@ WriteEditor.prototype = {
 }
 
 document.addEventListener("DOMContentLoaded", function(){
-
+    
     new WriteEditor();
 })

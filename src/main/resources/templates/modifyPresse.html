@@ -8,8 +8,8 @@
         <title>Margit Feyerer-Fleischanderl-UpdateText</title>
         <!-- Favicon-->
         <link rel="shortcut icon" href="#">
-        <link href="../css/bootstrap5.0.2.min.css" rel="stylesheet" />
-        <link href="../css/update.css" rel="stylesheet" />
+        <link href="../../css/bootstrap5.0.2.min.css" rel="stylesheet" />
+        <link href="../../css/update.css" rel="stylesheet" />
         
     </head>
     <body>
@@ -85,10 +85,10 @@
         </button>
         
         <!-- Bootstrap core JS-->
-        <script src="../script/ckeditor/ckeditor.js"></script>
-        <script src="../script/jquery3_5_1.js"></script>
-        <script src="../script/bootstrap4_6_0.js"></script>
-        <script src="../script/modifyText.js"></script>
+        <script src="../../script/ckeditor/ckeditor.js"></script>
+        <script src="../../script/jquery3_5_1.js"></script>
+        <script src="../../script/bootstrap4_6_0.js"></script>
+        <script src="../../script/modifyText.js"></script>
         
         <!-- text 수정 삭제 템플릿 -->
         <template id="text_modify_textarea">
@@ -122,7 +122,7 @@
                     
                     //수정할 데이터 채워주기
                     function SetData(){
-                        this.textContentId = window.location.pathname.split("/update/")[1];
+                        this.textContentId = window.location.pathname.split("/update/presse/")[1];
                         this.getData();
                     }
                     SetData.prototype = {
@@ -131,13 +131,12 @@
                         oReq.onreadystatechange = function(){
                             if(oReq.readyState === 4 && oReq.status === 200){	
                                 let serverData = JSON.parse(oReq.responseText);
-                                console.log(serverData);
                                 this.setData(serverData);
                                 new NewsSaveBtnEvent(serverData);
-                                new NewsDeleteBtnEvent(serverData);
+                                new PresseDeleteBtnEvent(serverData);
                             }
                         }.bind(this);
-                        oReq.open("GET", "/getTextContent.ajax/"+this.textContentId);
+                        oReq.open("GET", "/getPresseContent.ajax/"+this.textContentId);
                         oReq.send();
                     },
                     setData : function(data){
@@ -203,17 +202,17 @@
                                     window.location.href='http://localhost:8080/update';
                                 }
                             }
-                            oReq.open("POST", "/saveText");
+                            oReq.open("POST", "/savePresse");
                             oReq.send(formData);
                         }
                     }
-
-                    function NewsDeleteBtnEvent(serverData){
+                    
+                    function PresseDeleteBtnEvent(serverData){
                         this.deleteBtn = $('.delete_btn')[0];
                         this.serverData = serverData;
                         this.eventListner();
                     }
-                    NewsDeleteBtnEvent.prototype = {
+                    PresseDeleteBtnEvent.prototype = {
                         eventListner : function(){
                             this.deleteBtn.addEventListener('click', function(){
                                 if (window.confirm("이 글을 삭제 하시겠습니까?")){
@@ -224,7 +223,7 @@
                                             window.location.href='http://localhost:8080/update';
                                         }
                                     }
-                                    oReq.open("GET", "/deleteText/"+this.serverData.id);
+                                    oReq.open("GET", "/deletePresse/"+this.serverData.id);
                                     oReq.send()
                                 }
                             }.bind(this))

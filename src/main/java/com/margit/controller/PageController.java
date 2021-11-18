@@ -32,6 +32,7 @@ import com.margit.model.GalleryModifyData;
 import com.margit.model.GallerySaveData;
 import com.margit.model.GalleryUpdateData;
 import com.margit.model.GalleryViewData;
+import com.margit.model.PresseContents;
 import com.margit.model.TextContents;
 import com.margit.model.TextContentsData;
 import com.margit.model.TextImgSaveData;
@@ -47,6 +48,8 @@ import com.margit.service.GalleryService;
 import com.margit.service.GalleryUpdateService;
 import com.margit.service.HomeService;
 import com.margit.service.JoinService;
+import com.margit.service.PresseContentsSaveService;
+import com.margit.service.PresseContentsService;
 import com.margit.service.TextContentsSaveService;
 import com.margit.service.TextContentsService;
 import com.margit.service.TextImgSaveService;
@@ -80,6 +83,10 @@ public class PageController {
 	private TextContentsService textContentsService;
 	@Autowired
 	private TextContentsSaveService textContentsSaveService;
+	@Autowired
+	private PresseContentsSaveService presseContentsSaveService;
+	@Autowired
+	private PresseContentsService presseContentsService;
 	@Autowired
 	private HomeService homeService;
 	
@@ -225,7 +232,6 @@ public class PageController {
 		
 	}
 
-
 	@ResponseBody
 	@PostMapping({"/textImgUpload"})
 	public String testTextImgUpload(@RequestPart MultipartFile upload
@@ -242,11 +248,46 @@ public class PageController {
 		return textContents;
 	}
 	
-	
+	@ResponseBody
+	@GetMapping({"/deleteText/{textContentsId}"})
+	public int deleteText(@PathVariable("textContentsId") int textContentsId) {
+		int deleteTextContents = textContentsService.deleteText(textContentsId);
+		
+		return deleteTextContents;
+	}
 
 	@GetMapping({"/presse"})
 	public String presse() {
 		return "presse";
+	}
+	
+	@ResponseBody
+	@PostMapping({"/savePresse"})
+	public PresseContents savePresse(TextContentsData textContentsData) {
+		PresseContents presseContents = presseContentsSaveService.savePresse(textContentsData);
+		return presseContents;
+	}
+	
+	@GetMapping({"/presse.ajax"})
+	@ResponseBody
+	public List<PresseContents> getPresse() {
+		List<PresseContents> presseContents = presseContentsService.getPresseContents();
+		return presseContents;
+	}
+	
+	@ResponseBody
+	@GetMapping({"/getPresseContent.ajax/{textContentsId}"})
+	public PresseContents getPresseContent(
+			@PathVariable("textContentsId") int textContentsId) {
+		PresseContents presseContents = presseContentsService.getPresseContent(textContentsId);
+		return presseContents;
+	}
+	
+	@ResponseBody
+	@GetMapping({"/deletePresse/{presseContentsId}"})
+	public int deletePresse(@PathVariable("presseContentsId") int presseContentsId) {
+		int deletePresseContents = presseContentsService.deletePresse(presseContentsId);
+		return deletePresseContents;
 	}
 	
 	@GetMapping({"/biography"})
@@ -266,7 +307,6 @@ public class PageController {
 	public Map<String, Object> biography_ajax() {
 		List<BiographyCategory> biographyCategoryList = biographyService.biographyCategoryList();
 		List<BiographyData> biographyData =biographyService.getBiography();
-		
 		
 		Map<String, Object> lists = new HashMap<String, Object>();
 		lists.put("biographyCategoryList", biographyCategoryList);
@@ -325,9 +365,6 @@ public class PageController {
 	}
 	
 	
-	
-	
-	
 	@GetMapping({"/update"})
 	public String update() {
 		return "update";
@@ -336,6 +373,11 @@ public class PageController {
 	@GetMapping({"/update/{textContentsId}"})
 	public String modifyTextDetail() {
 		return "modifyText";
+	}
+	
+	@GetMapping({"/update/presse/{textContentsId}"})
+	public String modifyPresseDetail() {
+		return "modifyPresse";
 	}
 
 	@GetMapping({"/loginForm"})

@@ -733,71 +733,27 @@ BiographySubMenuEvent.prototype = {
         }
     }
 }
-
-
+//---------------------------------------Presse-------------------------
+function PresseModifyItemClickEvent(){
+    this.items = document.querySelectorAll('.card');
+    this.itemClickEvent();
+}
+PresseModifyItemClickEvent.prototype = {
+    itemClickEvent : function(){
+        this.items.forEach(element => {
+            element.addEventListener('click', function(){
+                event.preventDefault();
+                let textContentId = element.dataset.textcontentid;
+                window.location.href='http://localhost:8080/update/presse/'+textContentId;
+                
+            }.bind(this))
+        });
+    }
+}
 // ---------------------------------------Text---------------------
 
 
 
-//저장버튼 이벤트
-function NewsSaveBtnEvent(){
-    this.saveBtn = $('.save_btn')[0];
-    this.eventListner();
-}
-NewsSaveBtnEvent.prototype = {
-    eventListner : function(){
-        this.saveBtn.addEventListener('click', function(){
-            debugger;
-            let valideTitle = this.valideTitle();
-            let valideText = this.valideText();
-            
-            if(valideTitle+valideText === 2){
-
-                this.makeFormData();
-            }
-        }.bind(this))
-    },
-    valideText : function(){
-        if(document.querySelector('.news_update_textarea').value < 2){
-            alert('본문을 확인해주세요.');
-        }else{
-            return 1;
-        }
-    },
-    valideTitle : function(){
-        if(document.querySelector('#news_title_input').value.length === 0){
-            alert('제목을 확인해주세요.');
-        }else{
-            return 1;
-        }
-    },
-    makeFormData : function(){
-        let formData = new FormData();
-        let title = document.querySelector('#news_title_input').value;
-        let fileTarget = document.querySelector('.gallery_upload_file');
-        let textContent = document.querySelector('.ck-content').innerHTML;
-        debugger;
-
-        formData.append("title", title);
-        formData.append("textContent", textContent);
-        if(fileTarget.files[0] != undefined){
-            formData.append("titleImgFile", fileTarget.files[0]);
-        }
-        
-        this.sendAjax(formData);
-    },
-    sendAjax : function(formData){
-        var oReq = new XMLHttpRequest();
-        oReq.onreadystatechange = function(){
-            if(oReq.readyState === 4 && oReq.status === 200){		
-                alert("저장 성공");
-                window.location.href='http://localhost:8080/update';
-            }
-        }
-        oReq.open("POST", "/saveText");
-        oReq.send(formData);
-    }
-}
 
 //text 변경 삭제 메뉴에서 아이템 선택시 이벤트
 function TextModifyItemClickEvent(){
@@ -811,21 +767,8 @@ TextModifyItemClickEvent.prototype = {
                 event.preventDefault();
                 let textContentId = element.dataset.textcontentid;
                 window.location.href='http://localhost:8080/update/'+textContentId;
-                // this.getData(textContentId);
             }.bind(this))
         });
-    },
-    getData : function(textContentId){
-        var oReq = new XMLHttpRequest();
-        oReq.onreadystatechange = function(){
-            if(oReq.readyState === 4 && oReq.status === 200){	
-                let serverData = JSON.parse(oReq.responseText);
-                console.log(serverData);
-                // this.makeHtml(serverData);
-            }
-        }.bind(this);
-        oReq.open("GET", "/getTextContent.ajax/"+textContentId);
-        oReq.send();
     }
 }
 
@@ -835,8 +778,10 @@ function WriteTextModifyHtml(){
     this.textModifyWrap = document.querySelector('#textModifyWrap').innerHTML;
     this.imgContentWrap = document.querySelector('#text_img_content').innerHTML;
     this.textContentWrap = document.querySelector('#text_content').innerHTML;
+    this.saveBtn = $('.save_btn')[0];
+    this.deleteBtn = $('.delete_btn')[0];
     this.initHtml();
-    this.getData();
+    this.makeAjaxUrl();
 }
 WriteTextModifyHtml.prototype = {
     initHtml : function(){
@@ -846,8 +791,19 @@ WriteTextModifyHtml.prototype = {
         if(this.menuWrap.nextAll('table').length > 0){
             this.menuWrap.nextAll('table').remove();
         }
+        this.saveBtn.style.display ='none';
+        this.deleteBtn.style.display ='none';
     },
-    getData : function(){
+    makeAjaxUrl :function(){
+        let ajaxUrl = "";
+        if(document.querySelector('#main_menu').value === "news"){
+            ajaxUrl = "/text.ajax";
+        }else{
+            ajaxUrl = "/presse.ajax";
+        }
+        this.getData(ajaxUrl);
+    },
+    getData : function(ajaxUrl){
         var oReq = new XMLHttpRequest();
         oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){	
@@ -855,7 +811,7 @@ WriteTextModifyHtml.prototype = {
                 this.makeHtml(serverData);
             }
         }.bind(this);
-        oReq.open("GET", "/text.ajax");
+        oReq.open("GET", ajaxUrl);
         oReq.send();
     },
     makeHtml : function(serverData){
@@ -879,16 +835,20 @@ WriteTextModifyHtml.prototype = {
         });
         let textList = this.textModifyWrap.replace("{textContentList}", contentsHtml);
         this.menuWrap.after(textList);
-        new TextModifyItemClickEvent();
+        if(document.querySelector('#main_menu').value === "news"){
+            new TextModifyItemClickEvent();
+        }else{
+            new PresseModifyItemClickEvent();
+        }
     }
 }
 
 //뉴스 서브메뉴 선택에 따른 뷰 보여주기
-//수정 선택시에 데이터 받아서 채워주기 변경해야함.
 function NewsSubMenuEvent(){
     this.menuWrap = $('.menu_wrap');
     this.submenuValue = $('#submenu')[0].value;
     this.textInsertWrap = $('#text_textarea')[0].innerHTML;
+    this.presseInsertWrap = $('#presse_textarea')[0].innerHTML;
     this.saveBtn = $('.save_btn')[0];
     this.deleteBtn = $('.delete_btn')[0];
     this.fileInputWrap = document.querySelector('#file_wrap_template').innerText;
@@ -909,7 +869,12 @@ NewsSubMenuEvent.prototype = {
                 break;
 
             case 'neue Text': 
-                let textInsertHtml = this.textInsertWrap.replace("{fileInput}", this.fileInputWrap);
+                let textInsertHtml = '';
+                if(document.querySelector('#main_menu').value === "news"){
+                    textInsertHtml = this.textInsertWrap.replace("{fileInput}", this.fileInputWrap);
+                }else{
+                    textInsertHtml = this.presseInsertWrap.replace("{fileInput}", this.fileInputWrap);
+                }
                 this.menuWrap.after(textInsertHtml);
                 this.saveBtn.style.display ='block';
                 this.deleteBtn.style.display ='none';
@@ -917,8 +882,7 @@ NewsSubMenuEvent.prototype = {
                 break;
 
             case 'Änderung und Löschung':
-                this.saveBtn.style.display ='inline-block';
-                this.deleteBtn.style.display ='inline-block';
+                
                 new WriteTextModifyHtml();
                 break;
         }
@@ -1840,12 +1804,16 @@ function mainMenuEvent(){
             break;
 
         case 'news':
-        case 'press':
-            var examNewsSubmenu = ['neue Text','Änderung und Löschung'];
-            new WriteSubmenu(examNewsSubmenu,mainMenu.value);
+            var newsSubmenu = ['neue Text','Änderung und Löschung'];
+            new WriteSubmenu(newsSubmenu,mainMenu.value);
             new NewsSubMenuEvent();
             break;
-        
+
+        case 'press':
+            var newsSubmenu = ['neue Text','Änderung und Löschung'];
+            new WriteSubmenu(newsSubmenu,"News");
+            new NewsSubMenuEvent();
+            break;
         case 'biography':
             var oReq = new XMLHttpRequest();
             oReq.onreadystatechange = function(){

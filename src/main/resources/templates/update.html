@@ -226,7 +226,7 @@
                     }
                     NewsSaveBtnEvent.prototype = {
                         eventListner : function(){
-                            this.saveBtn.addEventListener('click', function(){
+                            $('.save_btn').off().on('click', function(){
                                 let valideTitle = this.valideTitle();
                                 let valideText = this.valideText();
                                 
@@ -325,7 +325,7 @@
         
         <!-- presse 새로운 글 템플릿 -->
         <template id="presse_textarea">
-            <div class="news_update_wrap">
+            <div class="presse_update_wrap">
                 <div class="new_title_wrap">
                     <label for="news_title_input">Titel : </label>
                     <input type="text" name="news_title" id="news_title_input">
@@ -357,14 +357,13 @@
                     });
                     
                     //저장버튼 이벤트
-                    function NewsSaveBtnEvent(){
+                    function PresseSaveBtnEvent(){
                         this.saveBtn = $('.save_btn')[0];
                         this.eventListner();
                     }
-                    NewsSaveBtnEvent.prototype = {
+                    PresseSaveBtnEvent.prototype = {
                         eventListner : function(){
-                            this.saveBtn.addEventListener('click', function(){
-                                debugger;
+                            $('.save_btn').off().on('click', function(){
                                 let valideTitle = this.valideTitle();
                                 let valideText = this.valideText();
                                 
@@ -393,7 +392,6 @@
                             let title = document.querySelector('#news_title_input').value;
                             let fileTarget = document.querySelector('.gallery_upload_file');
                             let textContent = CKEDITOR.instances.news_update_textarea.getData();
-                            debugger;
 
                             formData.append("title", title);
                             formData.append("textContent", textContent);
@@ -401,7 +399,9 @@
                                 formData.append("titleImgFile", fileTarget.files[0]);
                             }
                             
-                            this.sendAjax(formData);
+                            if (window.confirm("이대로 저장 하시겠습니까?")){
+                                this.sendAjax(formData);
+                            }
                         },
                         sendAjax : function(formData){
                             var oReq = new XMLHttpRequest();
@@ -415,7 +415,7 @@
                             oReq.send(formData);
                         }
                     }
-                    new NewsSaveBtnEvent();
+                    new PresseSaveBtnEvent();
                 </script>
             </div>
         </template>

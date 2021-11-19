@@ -25,6 +25,8 @@ import com.margit.model.BiographyCategory;
 import com.margit.model.BiographyData;
 import com.margit.model.BiographyDeleteItem;
 import com.margit.model.Contact;
+import com.margit.model.Exhibition;
+import com.margit.model.ExhibitionSaveData;
 import com.margit.model.Gallery;
 import com.margit.model.GalleryFile;
 import com.margit.model.GalleryGroupNameInterface;
@@ -32,6 +34,7 @@ import com.margit.model.GalleryModifyData;
 import com.margit.model.GallerySaveData;
 import com.margit.model.GalleryUpdateData;
 import com.margit.model.GalleryViewData;
+import com.margit.model.HomeViewData;
 import com.margit.model.PresseContents;
 import com.margit.model.TextContents;
 import com.margit.model.TextContentsData;
@@ -42,6 +45,7 @@ import com.margit.service.BiographySaveService;
 import com.margit.service.BiographyService;
 import com.margit.service.BiographyUpdateService;
 import com.margit.service.ContactService;
+import com.margit.service.ExhibitionService;
 import com.margit.service.GalleryDeleteService;
 import com.margit.service.GallerySaveService;
 import com.margit.service.GalleryService;
@@ -89,6 +93,8 @@ public class PageController {
 	private PresseContentsService presseContentsService;
 	@Autowired
 	private HomeService homeService;
+	@Autowired
+	private ExhibitionService exhibitionService;
 	
 
 	
@@ -99,9 +105,9 @@ public class PageController {
 	
 	@ResponseBody
 	@GetMapping({"/getMainImg.ajax"})
-	public GalleryFile getMainImg() {
-		GalleryFile mainImg = homeService.getmainImg();
-		return mainImg;
+	public HomeViewData getMainImg() {
+		HomeViewData homeViewData = homeService.getmainImg();
+		return homeViewData;
 	}
 	
 	@GetMapping({"/skulptur"})
@@ -396,5 +402,26 @@ public class PageController {
 		String aa = joinService.joinMember(user);
 		System.out.println(aa);
 		return "redirect:/loginForm";
+	}
+	
+	@ResponseBody
+	@GetMapping({"/getExhibition"})
+	public Exhibition getExhibition() {
+		Exhibition exhibition = exhibitionService.getExhibition();
+		return exhibition;
+	}
+	
+	@ResponseBody
+	@PostMapping({"/saveExhibition"})
+	public void saveExhibition(ExhibitionSaveData exhibitionSaveData) {
+		System.out.println(exhibitionSaveData);
+		exhibitionService.saveExhibition(exhibitionSaveData);
+		
+	}
+	
+	@ResponseBody
+	@GetMapping({"/deleteExhibition"})
+	public void deleteExhibition() {
+		exhibitionService.deleteExhibition();
 	}
 }

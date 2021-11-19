@@ -12,7 +12,6 @@ import lombok.Data;
 public class Exhibition {
 
 	@Id //primary key
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private int galleryFileId;
 	private String exhibitionTitle;

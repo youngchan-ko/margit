@@ -1,7 +1,7 @@
 package com.margit.service;
 
-import com.margit.model.GalleryFile;
+import com.margit.model.HomeViewData;
 
 public interface HomeService {
-	public GalleryFile getmainImg();
+	public HomeViewData getmainImg();
 }

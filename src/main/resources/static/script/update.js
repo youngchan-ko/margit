@@ -4,33 +4,120 @@
 
 
 //---------------------------------------Exhibition------------------------
+
+//전시정보 삭제 이벤트
+function ExhibitionDeleteBtnEvent(){
+    this.addEventListner();
+}
+ExhibitionDeleteBtnEvent.prototype = {
+    addEventListner : function(){
+        $('.delete_btn').off().on('click', function(){
+            if (window.confirm("삭제 하시겠습니까?")){
+                this.deleteExhibition();
+            } 
+        }.bind(this))
+    },
+    deleteExhibition : function(){
+        var oReq = new XMLHttpRequest();
+	    oReq.onreadystatechange = function(){
+            if(oReq.readyState === 4 && oReq.status === 200){		
+                alert("파일삭제에 성공했습니다.");
+                window.location.href='http://localhost:8080/update';
+            }
+        }
+        oReq.open("GET", "/deleteExhibition");
+        oReq.send();
+    }
+}
+
+//전시정보 세이브 버튼 이벤트
+function ExhibitionSaveBtnEvent(){
+    this.addEventListner(); 
+}
+ExhibitionSaveBtnEvent.prototype = {
+    addEventListner : function(){
+        $('.save_btn').off().on('click', function(){
+            this.makeFormData();
+        }.bind(this))
+    },
+    makeFormData : function(){
+        let img = document.querySelector('.gallery_upload_file').files[0];
+        let title = document.querySelector('#exhibition_title_input').value;
+        let place = document.querySelector('#exhibition_place_input').value;
+        let date = document.querySelector('#exhibition_date_input').value;
+        let link = document.querySelector('#exhibition_link_input').value;
+        
+        let formData = new FormData();
+
+        formData.append("imgFile", img);
+        formData.append("exhibitionTitle", title);
+        formData.append("exhibitionPlace", place);
+        formData.append("exhibitionDate", date);
+        formData.append("exhibitionLink", link);
+
+        this.sendAjax(formData);
+    },
+    sendAjax : function(formData){
+        var oReq = new XMLHttpRequest();
+	    oReq.onreadystatechange = function(){
+            if(oReq.readyState === 4 && oReq.status === 200){		
+                alert("파일저장에 성공했습니다.");
+                window.location.href='http://localhost:8080/update';
+            }
+        }
+        oReq.open("POST", "/saveExhibition");
+        oReq.send(formData);
+    }
+}
+
 function ExhibitionEvent(){
     this.exhibitionWrap = document.querySelector('#exhibition_wrap').innerText;
     this.fileInputWrap = document.querySelector('#file_wrap_template').innerText;
     this.menuWrap = document.querySelector('.menu_wrap');
     this.mainMenuWrap = document.querySelector('.main_menu_wrap');
-    this.saveBtn = document.querySelector('.exhibition_save_btn');
-    this.deleteBtn = document.querySelector('.exhibition_delete_btn');
-    this.writeModifyMenu();
+    this.saveBtn = document.querySelector('.save_btn');
+    this.deleteBtn = document.querySelector('.delete_btn');
+    this.checkServer();
 }
 ExhibitionEvent.prototype = {
     checkServer : function(){
-        if(this.mainMenuWrap.nextAll('div').length > 0){
-            this.mainMenuWrap.nextAll('div').style.display = 'none';
-        }
-        // 여기서 결과값에 따라서 버튼 보이기 해주면 좋을듯
-        // 현재는 this.writeNewInfo(),this.writeModifyMenu()에서 따로만들었음.
+        var oReq = new XMLHttpRequest();
+        oReq.onreadystatechange = function(){
+            if(oReq.readyState === 4 && oReq.status === 200){
+                this.initWrap();
+                this.writeModifyMenu();
+                if(oReq.responseText === ""){
+                    this.saveBtn.style.display = 'block';
+                }else{
+                    var serverData = JSON.parse(oReq.responseText);
+                    console.log(serverData);
+                    document.querySelector('#exhibition_title_input').value = serverData.exhibitionTitle;
+                    document.querySelector('#exhibition_place_input').value = serverData.exhibitionPlace;;
+                    document.querySelector('#exhibition_date_input').value = serverData.exhibitionDate;
+                    document.querySelector('#exhibition_link_input').value = serverData.exhibitionLink;
+
+                    this.saveBtn.style.display = 'inline-block';
+                    this.deleteBtn.style.display = 'inline-block';
+                    new ExhibitionDeleteBtnEvent();
+                }	
+            }
+        }.bind(this);
+        oReq.open("GET", "/getExhibition");
+        oReq.send();
+        
     },
-    writeNewInfo : function(){
-        this.menuWrap.insertAdjacentHTML('afterend', this.fileInputWrap + this.exhibitionWrap);
-        this.saveBtn.style.display = 'block';
-        new CheckFileType();
+    initWrap :function(){
+        if($('.menu_wrap').nextAll('div').length > 0){
+            $('.menu_wrap').nextAll('div').remove();
+        }
+        if($('.menu_wrap').nextAll('table').length > 0){
+            $('.menu_wrap').nextAll('table').remove();
+        }
     },
     writeModifyMenu : function(){
         this.menuWrap.insertAdjacentHTML('afterend', this.fileInputWrap + this.exhibitionWrap);
-        this.saveBtn.style.display = 'inline-block';
-        this.deleteBtn.style.display = 'inline-block';
         new CheckFileType();
+        new ExhibitionSaveBtnEvent();
     }
 }
 

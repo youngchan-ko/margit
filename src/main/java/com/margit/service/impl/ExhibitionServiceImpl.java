@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -27,7 +28,7 @@ public class ExhibitionServiceImpl implements ExhibitionService {
 	ExhibitionDao exhibitionDao;
 	
 	private String baseDir = File.separator + "margit_imgs" + File.separator;
-	private String savedDir = "gallery_img" + File.separator + new SimpleDateFormat("yyyy" + File.separator + "MM" + File.separator + "dd").format(new Date());
+	private String savedDir = "exhibition_img" + File.separator + new SimpleDateFormat("yyyy" + File.separator + "MM" + File.separator + "dd").format(new Date());
 	private String formattedDir = baseDir + savedDir;
 	private SimpleDateFormat dateFormat = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
 	private Date time = new Date();
@@ -43,6 +44,7 @@ public class ExhibitionServiceImpl implements ExhibitionService {
 		
 		Exhibition exhibition = new Exhibition();
 		
+		exhibition.setId(1);
 		exhibition.setGalleryFileId(saveGalleryFileResultModel.getId());
 		exhibition.setExhibitionTitle(exhibitionSaveData.getExhibitionTitle());
 		exhibition.setExhibitionPlace(exhibitionSaveData.getExhibitionPlace());
@@ -96,4 +98,18 @@ public class ExhibitionServiceImpl implements ExhibitionService {
 		String saveFilename = dateStr+exhibitionSaveData.getImgFile().getOriginalFilename();
 		return saveFilename;
 	}
+
+	@Override
+	public Exhibition getExhibition() {
+		Exhibition exhibition = exhibitionDao.findById(1).orElse(null);
+		return exhibition;
+	}
+
+	@Override
+	public void deleteExhibition() {
+		exhibitionDao.deleteById();
+		
+	}
+
+	
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -68,11 +68,14 @@
             </div>
         </nav>
         <!-- Page content-->
-        <div class="container img_contaner">
+        <div class="container img_container">
             
             <!-- <img class="img-responsive center-block" src="img/©PNTGM147807.jpg"/> -->
         </div>
-        
+        <div class="container exhibition_container">
+          
+
+        </div>
         
         
         
@@ -82,14 +85,37 @@
         <script src="script/index.js"></script>
 
         
-        <!-- 랜덤 이미지 넣어주기 
-        {file_path} 
-        설정해줘야 함-->
+        <!-- 랜덤 이미지 넣어주기-->
         <script type="rv-template" id="home_img_content">
             <img class="img-responsive center-block" src="download/{file_path}"/>
         </script>
         
-        
+        <!-- 전시정보 -->
+        <script type="rv-template" id="home_exhibition_content">
+            <img class="exhibition_img" src="download/{imgId}">
+            
+            <div class="exhibition_title_group">
+                der Titel von Margits Ausstellung
+            </div>
+            <div class="exhibition_title exhibition_value_group">{title}</div>
+            
+            <div class="exhibition_title_group">
+                Ausstellungsort
+            </div>
+            <div class="exhibition_place exhibition_value_group">{place}</div>
+            
+            <div class="exhibition_title_group">
+                Zeitraum
+            </div>
+            <div class="exhibition_date exhibition_value_group">{date}</div>
+            
+            <div class="exhibition_title_group">
+                Link
+            </div>
+            <div class="exhibition_link exhibition_value_group">
+                <a href="{link}">{link}</a>
+            </div>
+        </script>
         
     </body>
 </html>

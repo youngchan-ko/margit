@@ -281,11 +281,16 @@ public class PageController {
 		return presseContents;
 	}
 	
+	@GetMapping({"/presseDetail/{textContentsId}"})
+	public String presseDetail() {
+		return "presseDetail";
+	}
+	
 	@ResponseBody
-	@GetMapping({"/getPresseContent.ajax/{textContentsId}"})
+	@GetMapping({"/getPresseContent.ajax/{presseContentsId}"})
 	public PresseContents getPresseContent(
-			@PathVariable("textContentsId") int textContentsId) {
-		PresseContents presseContents = presseContentsService.getPresseContent(textContentsId);
+			@PathVariable("presseContentsId") int presseContentsId) {
+		PresseContents presseContents = presseContentsService.getPresseContent(presseContentsId);
 		return presseContents;
 	}
 	

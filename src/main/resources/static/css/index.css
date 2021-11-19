@@ -10007,18 +10007,33 @@ h3 {
   }
 }
 
-.img_contaner{
+.img_container{
   text-align: center;
 }
 
 .img-responsive{
   margin-top: -66px;
   max-height: 100vh;
-  /* padding-top: 62px; */
   max-width: 100%;
   padding-top: 96px;
 }
 
+.exhibition_container{
+  text-align: center;
+}
+
+.exhibition_title_group{
+  font-size: 17px;
+  color: #F7381A;
+}
+
+.exhibition_value_group{
+  font-size: 35px;
+}
+
+.exhibition_img{
+  margin-bottom: 20px;
+}
 
 @media screen and (max-width: 768px){
   .navbar-brand{

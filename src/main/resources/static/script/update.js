@@ -1919,6 +1919,10 @@ function mainMenuEvent(){
         
         case 'contact':
             new InitBtn();
+            $('.menu_wrap').nextAll('div').remove();
+            for(i=0; i<$('.main_menu_wrap').nextAll('div').length; i++){
+                $('.main_menu_wrap').nextAll('div')[i].style.display = 'none';
+            }
             new ContactEvent();
             break;
         

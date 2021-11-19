@@ -10,8 +10,8 @@
         <link rel="shortcut icon" href="#">
         <!-- Core theme CSS (includes Bootstrap)-->
         <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
-        <link href="css/bootstrap5.0.2.min.css" rel="stylesheet" />        
-        <link href="css/text.css" rel="stylesheet" />
+        <link href="../css/bootstrap5.0.2.min.css" rel="stylesheet" />        
+        <link href="../css/text.css" rel="stylesheet" />
     </head>
     <body>
         <!-- Navigation-->
@@ -69,57 +69,29 @@
                 </div>
             </div>
         </nav>
-
-        
-        <!-- Page content-->
-        <div class="container listWrap">
+        <div class="contentWrap">
+            <div class="titleWrap">
+                
+            </div>
             
-            <!-- Page Features-->
-            <div class="row text-center">
-                
-                
+            <div class="textContentWrap">
                 
             </div>
         </div>
         
-        <script src="script/jquery3_5_1.js"></script>
-        <script src="script/bootstrap4_6_0.js"></script>
-        <script src="script/presse.js"></script>
+        
+        <script src="../script/jquery3_5_1.js"></script>
+        <script src="../script/bootstrap4_6_0.js"></script>
+        <script src="../script/presseDetail.js"></script>
         
         
         
 
-        <!-- 컨텐츠 템플릿(이미지와 함께 있을경우)
-        {image_file_path},{title},{content} 
-        설정 해줘야함-->
+     
 
-        <script type="rv-template" id="news_img_content">
-            <div class="col-lg-3 col-md-6 mb-4 itemContaner">
-                    <a class="card h-100" data-textContentId="{textContentId}">
-                        <img class="card-img-top" src="/downloadTextImgFile/{textImgFileId}" />
-                        <div class="card-body">
-                            <h4 class="card-title">{title}</h4>
-                            <p class="card-text">{content}</p>
-                        </div>
-                        <!-- <div class="card-footer"><a class="btn btn-primary" href="#!">Find Out More!</a></div> -->
-                    </a>
-                </div>
-        </script>
+        
 
 
-        <!-- 컨텐츠 템플릿(텍스트만 있을경우)
-        {title},{content} 
-        설정 해줘야함-->
-        <script type="rv-template" id="news_text_content">
-            <div class="col-lg-3 col-md-6 mb-4 itemContaner">
-                    <a class="card h-100" data-textContentId="{textContentId}">
-                        <div class="card-body">
-                            <h4 class="card-title">{title}</h4>
-                            <p class="card-text">{content}</p>
-                        </div>
-                        <!-- <div class="card-footer"><a class="btn btn-primary" href="#!">Find Out More!</a></div> -->
-                    </a>
-                </div>
-        </script>
+        
     </body>
 </html>

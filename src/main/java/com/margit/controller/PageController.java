@@ -375,7 +375,6 @@ public class PageController {
 		return updateResult;
 	}
 	
-	
 	@GetMapping({"/update"})
 	public String update() {
 		return "update";

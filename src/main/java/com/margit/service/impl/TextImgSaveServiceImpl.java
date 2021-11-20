@@ -33,22 +33,21 @@ public class TextImgSaveServiceImpl implements TextImgSaveService{
 	@Override
 	@Transactional
 	public String saveTextImgFile(MultipartFile textImgSaveData) {
-		String saveFileName = makeFileName(textImgSaveData);
-		TextImgFile TextImgFile = saveTextImgFile(textImgSaveData, saveFileName);
 		
-		
-		String returnString = "{\"fileName\" : \""
-				+TextImgFile.getOriginalFileName()
-				+ "\", \"uploaded\" : 1 ,"+"\"url\" :\"/downloadTextImgFile/"+TextImgFile.getId()+ "\","
-				+ "\"error\": {\r\n" + 
-								"\"message\": \"ImageFile Upload Succese!!!\"}}";
+			String saveFileName = makeFileName(textImgSaveData);
+			TextImgFile TextImgFile = saveTextImgFile(textImgSaveData, saveFileName);
+			
+			String returnString = "{\"fileName\" : \""
+					+TextImgFile.getOriginalFileName()
+					+ "\", \"uploaded\" : 1 ,"+"\"url\" :\"/downloadTextImgFile/"+TextImgFile.getId()+ "\","
+					+ "\"error\": {\r\n" + 
+									"\"message\": \"ImageFile Upload Succese!!!\"}}";
 
-		
-		//파일 쓰기
-		WriteFile(saveFileName, textImgSaveData);
-		System.out.println(returnString);
-		return returnString;
-		
+			//파일 쓰기
+			WriteFile(saveFileName, textImgSaveData);
+			System.out.println(returnString);
+			
+			return returnString;
 	}
 	
 	//파일 쓰기

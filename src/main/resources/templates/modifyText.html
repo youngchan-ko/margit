@@ -199,7 +199,7 @@
                             var oReq = new XMLHttpRequest();
                             oReq.onreadystatechange = function(){
                                 if(oReq.readyState === 4 && oReq.status === 200){		
-                                    alert("저장 성공");
+                                    alert("Das Speichern der Datei war erfolgreich.저장 성공");
                                     window.location.href='http://localhost:8080/update';
                                 }
                             }
@@ -220,7 +220,7 @@
                                     var oReq = new XMLHttpRequest();
                                     oReq.onreadystatechange = function(){
                                         if(oReq.readyState === 4 && oReq.status === 200){		
-                                            alert("삭제 성공");
+                                            alert("Die Datei wurde erfolgreich gelöscht.삭제 성공");
                                             window.location.href='http://localhost:8080/update';
                                         }
                                     }

@@ -21,7 +21,7 @@ ExhibitionDeleteBtnEvent.prototype = {
         var oReq = new XMLHttpRequest();
 	    oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
-                alert("파일삭제에 성공했습니다.");
+                alert("Die Datei wurde erfolgreich gelöscht.파일삭제에 성공했습니다.");
                 window.location.href='http://localhost:8080/update';
             }
         }
@@ -61,7 +61,7 @@ ExhibitionSaveBtnEvent.prototype = {
         var oReq = new XMLHttpRequest();
 	    oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
-                alert("파일저장에 성공했습니다.");
+                alert("Das Speichern der Datei war erfolgreich.파일저장에 성공했습니다.");
                 window.location.href='http://localhost:8080/update';
             }
         }
@@ -172,7 +172,7 @@ UpdateContactSaveBtnEvent.prototype = {
         oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
                 var serverData = JSON.parse(oReq.responseText);
-                alert("파일 저장을 완료했습니다.")
+                alert("Das Speichern der Datei war erfolgreich.파일 저장을 완료했습니다.")
                 window.location.href='http://localhost:8080/update';
             }
         }.bind(this);
@@ -257,7 +257,7 @@ BiographyDeleteBtnEvent.prototype = {
             var oReq = new XMLHttpRequest();
             oReq.onreadystatechange = function(){
                 if(oReq.readyState === 4 && oReq.status === 200){		
-                    alert("파일삭제에 성공했습니다.");
+                    alert("Die Datei wurde erfolgreich gelöscht.파일삭제에 성공했습니다.");
                     window.location.href='http://localhost:8080/update';
                 }
             }
@@ -351,7 +351,7 @@ BiographyModifySaveBtnEvent.prototype = {
 	    oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
                 var serverData = JSON.parse(this.responseText);
-                alert("파일저장에 성공했습니다.");
+                alert("Das Speichern der Datei war erfolgreich.파일저장에 성공했습니다.");
                 window.location.href='http://localhost:8080/update';
             }
         }
@@ -529,7 +529,7 @@ BiographySaveEvent.prototype = {
 	    oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
                 var serverData = JSON.parse(this.responseText);
-                alert("파일저장에 성공했습니다.");
+                alert("Das Speichern der Datei war erfolgreich.파일저장에 성공했습니다.");
             }
         }
         oReq.open("POST", "/saveBiography");
@@ -551,7 +551,7 @@ BiographySaveEvent.prototype = {
     },
     checkTextInputValue : function(){
         if(this.bioTextInput.value.length === 0){
-            alert('텍스트 입력값을 확인하세요.')
+            alert('Überprüfen Sie die Texteingabe.텍스트 입력값을 확인하세요.')
         }else{
             return 1;
         }
@@ -699,7 +699,7 @@ BiographyGroupModifySendBtnEvent.prototype={
         oReq.open("POST", "/biographyGroupModify");
         oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
-                alert("그룹 순서와 이름을 변경했습니다.");
+                alert("Die Fotoreihenfolge und der Name wurden erfolgreich geändert.그룹 순서와 이름을 변경했습니다.");
                 window.location.href='http://localhost:8080/update';
             }
         }
@@ -1118,7 +1118,7 @@ GalleryPhotoOrderNoModifySendBtnEvent.prototype={
         oReq.open("POST", "/photoOrderNoModify");
         oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
-                alert("사진 순서를 변경했습니다.");
+                alert("Die Fotoreihenfolge wurde erfolgreich geändert.사진 순서를 변경했습니다.");
                 window.location.href='http://localhost:8080/update';
             }
         }
@@ -1147,7 +1147,7 @@ GalleryDeleteBtnEvent.prototype={
             var oReq = new XMLHttpRequest();
             oReq.onreadystatechange = function(){
                 if(oReq.readyState === 4 && oReq.status === 200){		
-                    alert("파일삭제에 성공했습니다.");
+                    alert("Die Datei wurde erfolgreich gelöscht. 파일삭제에 성공했습니다.");
                     window.location.href='http://localhost:8080/update';
                 }
             }
@@ -1196,14 +1196,14 @@ GallerySendBtnEvent.prototype = {
     },
     checkCategoryName : function(){
         if(this.newSubtitle.value.length === 0){
-            alert('그룹 이름을 확인해 주세요.');
+            alert('Bitte überprüfen Sie den Gruppennamen.그룹 이름을 확인해 주세요.');
         }else{
             return 1;
         }
     },
     checkImgTitle: function(){
         if(this.imgTitle.value.length === 0){
-            alert('사진 이름을 확인해 주세요.');
+            alert('Bitte überprüfen Sie den Fotonamen.사진 이름을 확인해 주세요.');
         }else{
             return 1;
         }
@@ -1244,7 +1244,7 @@ GallerySendBtnEvent.prototype = {
 	    oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
                 var serverData = JSON.parse(this.responseText);
-                alert("파일저장에 성공했습니다.");
+                alert("Das Speichern der Datei war erfolgreich. 파일저장에 성공했습니다.");
             }
         }
         oReq.open(this.ajaxMethod, this.ajaxUrl);
@@ -1262,7 +1262,7 @@ CheckPhotoName.prototype = {
             var textFilter = /^.{3}$/;
             var textValueCheck = (textFilter).test(this.photoName.value);
             if(!textValueCheck){
-                alert("사진 제목을 입력하세요.");
+                alert("Fototitel eingeben.사진 제목을 입력하세요.");
             }
         }.bind(this))
     }
@@ -1548,7 +1548,7 @@ GalleryGroupOrderNoModifySendBtnEvent.prototype = {
         oReq.open("POST", "/galleryGroupOrderNoModify");
         oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
-                alert("그룹 순서를 변경했습니다.");
+                alert("Die Gruppenreihenfolge wurde erfolgreich geändert.그룹 순서를 변경했습니다.");
                 window.location.href='http://localhost:8080/update';
             }
         }
@@ -1676,6 +1676,7 @@ WriteGalleryGroupOrderNoModifyHtml.prototype={
             if(oReq.readyState === 4 && oReq.status === 200){		
                 var serverData = JSON.parse(oReq.responseText);
                 this.writeHtml(serverData);
+                console.log();
             }
         }.bind(this);
         oReq.open("GET", "/getGalleryGroupName?galleryMainMenu="+this.mainMenuValue);
@@ -1762,7 +1763,7 @@ GallerySubMenuEvent.prototype = {
             this.gallerySaveBtn.style.display = 'none';
             this.galleryDeleteBtn.style.display = 'none';
             this.selectDeleteInsert.style.display = 'none';
-        }else if(this.gallerySubtitle === 'goupOrderNoModify'){
+        }else if(this.gallerySubtitle === 'groupOrderNoModify'){
             new InitBtn();
             this.gallerySaveBtn.style.display = 'block';
             this.selectDeleteInsert.style.display = 'none';
@@ -1818,13 +1819,15 @@ WriteSubmenu.prototype = {
             var galleryGroupOrderNoOption = this.submenuOption
                                             .replace('{options}', "groupOrderNoModify")
                                             .replace('{upper_options}', "die Gruppen-Reihenfolge ändern");
-            options += galleryGroupOrderNoOption;                            
+            options += galleryGroupOrderNoOption;  
+            options += "<option value=\"new_subtitle\">neue Gruppe</option>";                          
         }
         if(this.mainValue === 'biography'){
             var galleryGroupOrderNoOption = this.submenuOption
                                             .replace('{options}', "groupOrderNoModify")
                                             .replace('{upper_options}', "die Gruppen-Reihenfolge & Name ändern");
-            options += galleryGroupOrderNoOption;                            
+            options += galleryGroupOrderNoOption;    
+            options += "<option value=\"new_subtitle\">neue Gruppe</option>";                        
         }
         $(".option_target").after(options);
     },

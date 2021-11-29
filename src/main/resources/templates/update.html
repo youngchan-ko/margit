@@ -261,7 +261,7 @@
                             if(fileTarget.files[0] != undefined){
                                 formData.append("titleImgFile", fileTarget.files[0]);
                             }
-                            if (window.confirm("이대로 저장 하시겠습니까?")){
+                            if (window.confirm("Speichern?")){
                                 this.sendAjax(formData);
                             }
                         },
@@ -269,7 +269,7 @@
                             var oReq = new XMLHttpRequest();
                             oReq.onreadystatechange = function(){
                                 if(oReq.readyState === 4 && oReq.status === 200){		
-                                    alert("저장 성공");
+                                    alert("Das Speichern der Datei war erfolgreich.저장 성공");
                                     window.location.href='http://localhost:8080/update';
                                 }
                             }
@@ -399,7 +399,7 @@
                                 formData.append("titleImgFile", fileTarget.files[0]);
                             }
                             
-                            if (window.confirm("이대로 저장 하시겠습니까?")){
+                            if (window.confirm("Speichern?")){
                                 this.sendAjax(formData);
                             }
                         },
@@ -407,7 +407,7 @@
                             var oReq = new XMLHttpRequest();
                             oReq.onreadystatechange = function(){
                                 if(oReq.readyState === 4 && oReq.status === 200){		
-                                    alert("저장 성공");
+                                    alert("Das Speichern der Datei war erfolgreich.저장 성공");
                                     window.location.href='http://localhost:8080/update';
                                 }
                             }

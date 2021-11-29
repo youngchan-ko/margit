@@ -1,13 +1,9 @@
 package com.margit.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.google.gson.JsonObject;
 import com.margit.model.Biography;
 import com.margit.model.BiographyCategory;
 import com.margit.model.BiographyData;
@@ -28,7 +23,6 @@ import com.margit.model.Contact;
 import com.margit.model.Exhibition;
 import com.margit.model.ExhibitionSaveData;
 import com.margit.model.Gallery;
-import com.margit.model.GalleryFile;
 import com.margit.model.GalleryGroupNameInterface;
 import com.margit.model.GalleryModifyData;
 import com.margit.model.GallerySaveData;
@@ -38,7 +32,6 @@ import com.margit.model.HomeViewData;
 import com.margit.model.PresseContents;
 import com.margit.model.TextContents;
 import com.margit.model.TextContentsData;
-import com.margit.model.TextImgSaveData;
 import com.margit.model.User;
 import com.margit.service.BiographyDeleteService;
 import com.margit.service.BiographySaveService;

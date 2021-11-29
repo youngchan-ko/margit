@@ -34,7 +34,8 @@
 function WriteContents(galleryData){
     this.galleryCategory = document.location.pathname.slice(1);
     this.galleryData = galleryData;
-    this.groupWriteTarget = document.querySelector('.navbar');
+    this.groupWriteTarget = document.querySelector('.contentsWrap');
+    // this.groupWriteTarget = document.querySelector('.navbar');
     this.groupWrap = document.querySelector('#group_wrap').innerText;
     this.photoContentWrap = document.querySelector('#slide_item').innerText;
     this.a = this.writeContentsHtml();
@@ -61,7 +62,8 @@ WriteContents.prototype = {
             .replace("{photo_contents}",photoContents);
             galleryDataHtml += galleryGroupHtml;
         }.bind(this));
-        this.groupWriteTarget.insertAdjacentHTML('afterend', galleryDataHtml);
+        this.groupWriteTarget.insertAdjacentHTML('afterbegin', galleryDataHtml);
+        // this.groupWriteTarget.insertAdjacentHTML('afterend', galleryDataHtml);
     }
 }
 
@@ -89,6 +91,7 @@ var swiper = new Swiper(".mySwiper", {
     threshold: 20,
     direction: 'horizontal',
     roundLengths: true,
+    
     //setWrapperSize: true,
     loop: false,
     watchSlidesVisibility: true,

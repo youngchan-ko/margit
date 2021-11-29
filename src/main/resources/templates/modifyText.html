@@ -216,7 +216,7 @@
                     NewsDeleteBtnEvent.prototype = {
                         eventListner : function(){
                             this.deleteBtn.addEventListener('click', function(){
-                                if (window.confirm("이 글을 삭제 하시겠습니까?")){
+                                if (window.confirm("Möchten Sie löschen?")){
                                     var oReq = new XMLHttpRequest();
                                     oReq.onreadystatechange = function(){
                                         if(oReq.readyState === 4 && oReq.status === 200){		

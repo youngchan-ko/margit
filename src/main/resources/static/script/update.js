@@ -12,7 +12,7 @@ function ExhibitionDeleteBtnEvent(){
 ExhibitionDeleteBtnEvent.prototype = {
     addEventListner : function(){
         $('.delete_btn').off().on('click', function(){
-            if (window.confirm("삭제 하시겠습니까?")){
+            if (window.confirm("Möchten Sie löschen?")){
                 this.deleteExhibition();
             } 
         }.bind(this))
@@ -21,7 +21,7 @@ ExhibitionDeleteBtnEvent.prototype = {
         var oReq = new XMLHttpRequest();
 	    oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
-                alert("Die Datei wurde erfolgreich gelöscht.파일삭제에 성공했습니다.");
+                alert("Die Datei wurde gelöscht.파일삭제에 성공했습니다.");
                 window.location.href='http://localhost:8080/update';
             }
         }
@@ -257,7 +257,7 @@ BiographyDeleteBtnEvent.prototype = {
             var oReq = new XMLHttpRequest();
             oReq.onreadystatechange = function(){
                 if(oReq.readyState === 4 && oReq.status === 200){		
-                    alert("Die Datei wurde erfolgreich gelöscht.파일삭제에 성공했습니다.");
+                    alert("Die Datei wurde gelöscht.파일삭제에 성공했습니다.");
                     window.location.href='http://localhost:8080/update';
                 }
             }
@@ -537,21 +537,21 @@ BiographySaveEvent.prototype = {
     },
     checkNewSubtitleValue : function(){
         if(this.newSubtitleInput.value.length === 0){
-            alert('새로운 그룹이름을 확인하세요.')
+            alert('Der Gruppenname fehlt! 새로운 그룹이름을 확인하세요.')
         }else{
             return 1;
         }
     },
     checkStartYearValue : function(){
         if(this.startYearInput.value.length === 0){
-            alert('시작년 입력값을 확인하세요.')
+            alert('Die Zeitangabe fehlt! 시작년 입력값을 확인하세요.')
         }else{
             return 1;
         }
     },
     checkTextInputValue : function(){
         if(this.bioTextInput.value.length === 0){
-            alert('Überprüfen Sie die Texteingabe.텍스트 입력값을 확인하세요.')
+            alert('Text fehlt! 텍스트 입력값을 확인하세요.')
         }else{
             return 1;
         }
@@ -699,7 +699,7 @@ BiographyGroupModifySendBtnEvent.prototype={
         oReq.open("POST", "/biographyGroupModify");
         oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
-                alert("Die Fotoreihenfolge und der Name wurden erfolgreich geändert.그룹 순서와 이름을 변경했습니다.");
+                alert("Die Fotoreihenfolge und der Name wurden geändert.그룹 순서와 이름을 변경했습니다.");
                 window.location.href='http://localhost:8080/update';
             }
         }
@@ -1118,7 +1118,7 @@ GalleryPhotoOrderNoModifySendBtnEvent.prototype={
         oReq.open("POST", "/photoOrderNoModify");
         oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
-                alert("Die Fotoreihenfolge wurde erfolgreich geändert.사진 순서를 변경했습니다.");
+                alert("Die Fotoreihenfolge wurde geändert.사진 순서를 변경했습니다.");
                 window.location.href='http://localhost:8080/update';
             }
         }
@@ -1147,7 +1147,7 @@ GalleryDeleteBtnEvent.prototype={
             var oReq = new XMLHttpRequest();
             oReq.onreadystatechange = function(){
                 if(oReq.readyState === 4 && oReq.status === 200){		
-                    alert("Die Datei wurde erfolgreich gelöscht. 파일삭제에 성공했습니다.");
+                    alert("Die Datei wurde gelöscht. 파일삭제에 성공했습니다.");
                     window.location.href='http://localhost:8080/update';
                 }
             }
@@ -1196,21 +1196,21 @@ GallerySendBtnEvent.prototype = {
     },
     checkCategoryName : function(){
         if(this.newSubtitle.value.length === 0){
-            alert('Bitte überprüfen Sie den Gruppennamen.그룹 이름을 확인해 주세요.');
+            alert('Der Gruppenname fehlt!그룹 이름을 확인해 주세요.');
         }else{
             return 1;
         }
     },
     checkImgTitle: function(){
         if(this.imgTitle.value.length === 0){
-            alert('Bitte überprüfen Sie den Fotonamen.사진 이름을 확인해 주세요.');
+            alert('Titel des Fotos fehlt! 사진이름을 확인하세요');
         }else{
             return 1;
         }
     },
     checkImgFile: function(){
         if(this.fileTarget.files.length === 0){
-            alert('사진 파일을 확인해 주세요.');
+            alert('Ein Foto muss ausgewählt werden.');
         }else{
             return 1;
         }
@@ -1497,7 +1497,7 @@ CheckFileType.prototype = {
                 this.thumImgTarget.src = window.URL.createObjectURL(image);
                 this.cancelEvent();
             }else{
-                alert("Die Erweiterung der Bilddatei ist nur jpg und png.(이미지 파일의 확장자는 jpg와 png만 가능합니다.)");
+                alert("Die Bilddatei darf nur eine JPG- und PNG-Datei sein.(이미지 파일의 확장자는 jpg와 png만 가능합니다.)");
             }
         }.bind(this))
     },
@@ -1548,7 +1548,7 @@ GalleryGroupOrderNoModifySendBtnEvent.prototype = {
         oReq.open("POST", "/galleryGroupOrderNoModify");
         oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
-                alert("Die Gruppenreihenfolge wurde erfolgreich geändert.그룹 순서를 변경했습니다.");
+                alert("Die Gruppenreihenfolge wurde geändert.그룹 순서를 변경했습니다.");
                 window.location.href='http://localhost:8080/update';
             }
         }

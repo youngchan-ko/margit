@@ -20,6 +20,7 @@
 
         //bind all generic events here.
         bindEvents: function () {
+           
             var O = this;
             var S = O.settings;
 
@@ -101,7 +102,8 @@
                 O.SG.thumbs.append('<li><a style="background-image:url(\'' + imgs[i].thumb + '\')"></a></li>');
             }
 
-
+  //-----------사진 클릭했을때 body overflow 바꾸기
+            $('body').css('overflow', 'hidden');
             $('body').append(O.SG._SG);
             O.SG.init();
             O.SG._SG.fadeIn(300);
@@ -121,6 +123,8 @@
                         $('.SumoGallery').remove();
                     });
                     $(document).off('keydown.sg');
+       //----------------------사진보기 끌때 body overflow 바꾸기
+                    $('body').css('overflow', 'visible');
                 });
 
                 O.left.on('click.sg', function () {

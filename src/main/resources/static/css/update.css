@@ -10210,3 +10210,7 @@ h3 {
   max-height: 50%;
   object-fit: scale-down;
 }
+
+#textTitleInput {
+  width: 100%;
+}

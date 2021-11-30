@@ -21,7 +21,7 @@ ExhibitionDeleteBtnEvent.prototype = {
         var oReq = new XMLHttpRequest();
 	    oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
-                alert("Die Datei wurde gelöscht.파일삭제에 성공했습니다.");
+                alert("Die Datei wurde gelöscht.");
                 window.location.href='http://localhost:8080/update';
             }
         }
@@ -172,7 +172,7 @@ UpdateContactSaveBtnEvent.prototype = {
         oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
                 var serverData = JSON.parse(oReq.responseText);
-                alert("Das Speichern der Datei war erfolgreich.파일 저장을 완료했습니다.")
+                alert("Das Speichern der Datei war erfolgreich.")
                 window.location.href='http://localhost:8080/update';
             }
         }.bind(this);
@@ -257,7 +257,7 @@ BiographyDeleteBtnEvent.prototype = {
             var oReq = new XMLHttpRequest();
             oReq.onreadystatechange = function(){
                 if(oReq.readyState === 4 && oReq.status === 200){		
-                    alert("Die Datei wurde gelöscht.파일삭제에 성공했습니다.");
+                    alert("Die Datei wurde gelöscht.");
                     window.location.href='http://localhost:8080/update';
                 }
             }
@@ -351,7 +351,7 @@ BiographyModifySaveBtnEvent.prototype = {
 	    oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
                 var serverData = JSON.parse(this.responseText);
-                alert("Das Speichern der Datei war erfolgreich.파일저장에 성공했습니다.");
+                alert("Das Speichern der Datei war erfolgreich.");
                 window.location.href='http://localhost:8080/update';
             }
         }
@@ -529,7 +529,7 @@ BiographySaveEvent.prototype = {
 	    oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
                 var serverData = JSON.parse(this.responseText);
-                alert("Das Speichern der Datei war erfolgreich.파일저장에 성공했습니다.");
+                alert("Das Speichern der Datei war erfolgreich.");
             }
         }
         oReq.open("POST", "/saveBiography");
@@ -840,7 +840,198 @@ PresseModifyItemClickEvent.prototype = {
 // ---------------------------------------Text---------------------
 
 
+//text 순서변경 선택시 전체 테이블 만들어주시
+function WriteTextOrderNoModifyHtml(){
+    this.menuWrap = $('.menu_wrap');
+    this.saveBtn = $('.save_btn')[0];
+    this.deleteBtn = $('.delete_btn')[0];
+    this.textOrderNoModifyWrap = document.querySelector('#textOrderNoModifyWrap').innerText;
+    this.textOrderNoModyfyItemWrap = document.querySelector('#textOrderNoModifyTableItem').innerText;
+    this.initHtml();
+    this.makeAjaxUrl();
+}
+WriteTextOrderNoModifyHtml.prototype = {
+    initHtml : function(){
+        if(this.menuWrap.nextAll('div').length > 0){
+            this.menuWrap.nextAll('div').remove();
+        }
+        if(this.menuWrap.nextAll('table').length > 0){
+            this.menuWrap.nextAll('table').remove();
+        }
+        this.saveBtn.style.display ='none';
+        this.deleteBtn.style.display ='none';
+    },
+    makeAjaxUrl :function(){
+        let ajaxUrl = "";
+        if(document.querySelector('#main_menu').value === "news"){
+            ajaxUrl = "/text.ajax";
+        }else{
+            ajaxUrl = "/presse.ajax";
+        }
+        this.getData(ajaxUrl);
+    },
+    getData : function(ajaxUrl){
+        var oReq = new XMLHttpRequest();
+        oReq.onreadystatechange = function(){
+            if(oReq.readyState === 4 && oReq.status === 200){	
+                let serverData = JSON.parse(oReq.responseText);
+                console.log(serverData);
+                this.writeHtml(serverData);
+            }
+        }.bind(this);
+        oReq.open("GET", ajaxUrl);
+        oReq.send();
+    },
+    writeHtml : function(serverData){
+        let items = '';
+        for(i=0; i<serverData.length; i++){
+            let currentItemHtml = '';
+            if(i===0){
+                currentItemHtml = this.textOrderNoModyfyItemWrap
+                                .replace("{textId}", serverData[i].id)
+                                .replace("{upBtnDisabled}", 'disabled')
+                                .replace("{downBtnDisabled}", '')
+                                .replace("{orderNo}", serverData[i].orderNo)
+                                .replace("{textTitle}", serverData[i].title);
+                items +=currentItemHtml;
+            }else if(i===serverData.length-1){
+                currentItemHtml = this.textOrderNoModyfyItemWrap
+                                .replace("{textId}", serverData[i].id)
+                                .replace("{upBtnDisabled}", '')
+                                .replace("{downBtnDisabled}", 'disabled')
+                                .replace("{orderNo}", serverData[i].orderNo)
+                                .replace("{textTitle}", serverData[i].title);
+                items +=currentItemHtml;
+            }else{
+                currentItemHtml = this.textOrderNoModyfyItemWrap
+                                .replace("{textId}", serverData[i].id)
+                                .replace("{upBtnDisabled}", '')
+                                .replace("{downBtnDisabled}", '')
+                                .replace("{orderNo}", serverData[i].orderNo)
+                                .replace("{textTitle}", serverData[i].title);
+                items +=currentItemHtml;
+            }
+        }
+        
+        let textOrderNoModifyHtml = this.textOrderNoModifyWrap
+                                    .replace("{items}",items);
 
+       
+        this.menuWrap.after(textOrderNoModifyHtml);
+        this.saveBtn.style.display ='block';
+        new TextOrderNoModifyBtnEvent();
+        // new BiographyGroupModifySendBtnEvent();
+    }
+}
+
+//텍스트 순서변경 테이블에서 업다운 버튼 이벤트
+function TextOrderNoModifyBtnEvent(){
+    this.upBtnEvent();
+    this.downBtnEvent();
+}
+TextOrderNoModifyBtnEvent.prototype = {
+    upBtnEvent : function(){
+        let upBtn=document.querySelectorAll('.textOrderNoModifyItem_upBtn');
+        upBtn.forEach(element => {
+            element.addEventListener('click', function(){
+                this.upBtnFn(event);
+                this.upBtnDisable();
+            }.bind(this))
+        });
+    },
+    upBtnFn : function(event){
+        if(event.target.parentNode.parentNode.previousElementSibling != null){
+            
+            let currentGroupOrderNoInput = event.target.parentNode.nextElementSibling.nextElementSibling.firstElementChild;
+            let newPhotoOrderNoValue = parseInt(currentGroupOrderNoInput.value)+1;
+            let currentpreviousSiblingInput = event.target.parentNode.parentNode.previousElementSibling.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.firstElementChild;
+            let newpreviousSiblingValue = parseInt(currentpreviousSiblingInput.value)-1;
+            currentpreviousSiblingInput.value=newpreviousSiblingValue;
+            
+                
+            let clone = event.target.parentNode.parentNode.cloneNode(true);
+            event.target.parentNode.parentNode.previousElementSibling.insertAdjacentHTML('beforebegin', clone.outerHTML);
+            
+            event.target.parentElement.parentElement.previousElementSibling.previousElementSibling.children[3].firstElementChild.value = newPhotoOrderNoValue;
+    
+            event.target.parentNode.parentNode.remove();
+            this.upBtnEvent();
+            this.upBtnDisable();
+            this.downBtnEvent();
+            this.downBtnDisable();
+        }
+    },
+    downBtnDisable : function(){
+        let OrderNoInput = document.querySelectorAll('.textOrderNoModifyItem_OrderNo_input');
+        OrderNoInput.forEach(element => {
+            let upBtnTarget = element.parentNode.previousElementSibling.previousElementSibling.firstElementChild;
+            let downBtnTarget = element.parentNode.previousElementSibling.firstElementChild;
+            let lastCheckValue = element.parentNode.parentNode.nextElementSibling;
+            let firstCheckPoint = element.parentNode.parentNode.previousElementSibling;
+            if(lastCheckValue === null){
+                downBtnTarget.disabled = true;
+                upBtnTarget.disabled = false;
+            }else if(firstCheckPoint === null){
+                upBtnTarget.disabled = true;
+                downBtnTarget.disabled = false;
+            }else{
+                upBtnTarget.disabled = false;
+                downBtnTarget.disabled = false;
+            }
+            
+        });
+    },
+    downBtnEvent : function(){
+        let downBtn=document.querySelectorAll('.textOrderNoModifyItem_downBtn');
+        downBtn.forEach(element => {
+            element.addEventListener('click', function(){
+                this.downBtnFn(event);
+                this.downBtnDisable();
+            }.bind(this))
+        });
+    },
+    downBtnFn :function(event){
+        if(event.target.parentNode.parentNode.nextElementSibling != null){
+
+            let currentGroupOrderNoNode = event.target.parentNode.nextElementSibling.firstElementChild;
+            let newGroupOrderNoValue = parseInt(currentGroupOrderNoNode.value)-1;
+            let currentNextSiblingInput = event.target.parentNode.parentNode.nextElementSibling.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.firstElementChild;
+            let newpnextSiblingValue = parseInt(currentNextSiblingInput.value)+1;
+            
+            currentNextSiblingInput.value=newpnextSiblingValue;
+            
+                
+            let clone = event.target.parentNode.parentNode.cloneNode(true);
+            event.target.parentNode.parentNode.nextElementSibling.insertAdjacentHTML('afterend', clone.outerHTML);
+            event.target.parentElement.parentElement.nextElementSibling.nextElementSibling.children[3].firstElementChild.value = newGroupOrderNoValue;
+    
+            event.target.parentNode.parentNode.remove();
+            this.downBtnEvent();
+            this.downBtnDisable();
+            this.upBtnEvent();
+            this.upBtnDisable();
+        }
+    },
+    upBtnDisable : function(){
+        let OrderNoInput = document.querySelectorAll('.textOrderNoModifyItem_OrderNo_input');
+        OrderNoInput.forEach(element => {
+            let downBtnTarget = element.parentNode.previousElementSibling.firstElementChild;
+            let upBtnTarget = element.parentNode.previousElementSibling.previousElementSibling.firstElementChild;
+            let firstCheckPoint = element.parentNode.parentNode.previousElementSibling;
+            let lastCheckValue = element.parentNode.parentNode.nextElementSibling;
+            if(firstCheckPoint === null){
+                upBtnTarget.disabled = true;
+                downBtnTarget.disabled = false;
+            }else if(lastCheckValue === null){
+                downBtnTarget.disabled = true;
+                upBtnTarget.disabled = false;
+            }else{
+                downBtnTarget.disabled = false;
+                upBtnTarget.disabled = false;
+            }
+        });
+    }
+}
 
 //text 변경 삭제 메뉴에서 아이템 선택시 이벤트
 function TextModifyItemClickEvent(){
@@ -859,8 +1050,10 @@ TextModifyItemClickEvent.prototype = {
     }
 }
 
+
 //text 변경 삭제 메뉴선택시 전체 리스트 만들어주기
 function WriteTextModifyHtml(){
+    
     this.menuWrap = $('.menu_wrap');
     this.textModifyWrap = document.querySelector('#textModifyWrap').innerHTML;
     this.imgContentWrap = document.querySelector('#text_img_content').innerHTML;
@@ -895,6 +1088,7 @@ WriteTextModifyHtml.prototype = {
         oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){	
                 let serverData = JSON.parse(oReq.responseText);
+                console.log(serverData);
                 this.makeHtml(serverData);
             }
         }.bind(this);
@@ -947,6 +1141,9 @@ NewsSubMenuEvent.prototype = {
         if(this.menuWrap.nextAll('div').length > 0){
             this.menuWrap.nextAll('div').remove();
         }
+        if(this.menuWrap.nextAll('table').length > 0){
+            this.menuWrap.nextAll('table').remove();
+        }
         console.log(this.submenuValue);
         switch(this.submenuValue){
 
@@ -969,8 +1166,11 @@ NewsSubMenuEvent.prototype = {
                 break;
 
             case 'Änderung und Löschung':
-                
                 new WriteTextModifyHtml();
+                break;
+
+            case 'Die Reihenfolge ändern':
+                new WriteTextOrderNoModifyHtml();
                 break;
         }
     }
@@ -1147,7 +1347,7 @@ GalleryDeleteBtnEvent.prototype={
             var oReq = new XMLHttpRequest();
             oReq.onreadystatechange = function(){
                 if(oReq.readyState === 4 && oReq.status === 200){		
-                    alert("Die Datei wurde gelöscht. 파일삭제에 성공했습니다.");
+                    alert("Die Datei wurde gelöscht.");
                     window.location.href='http://localhost:8080/update';
                 }
             }
@@ -1244,7 +1444,7 @@ GallerySendBtnEvent.prototype = {
 	    oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
                 var serverData = JSON.parse(this.responseText);
-                alert("Das Speichern der Datei war erfolgreich. 파일저장에 성공했습니다.");
+                alert("Das Speichern der Datei war erfolgreich.");
             }
         }
         oReq.open(this.ajaxMethod, this.ajaxUrl);
@@ -1894,13 +2094,13 @@ function mainMenuEvent(){
             break;
 
         case 'news':
-            var newsSubmenu = ['neue Text','Änderung und Löschung'];
+            var newsSubmenu = ['neue Text','Änderung und Löschung','Die Reihenfolge ändern'];
             new WriteSubmenu(newsSubmenu,mainMenu.value);
             new NewsSubMenuEvent();
             break;
 
         case 'press':
-            var newsSubmenu = ['neue Text','Änderung und Löschung'];
+            var newsSubmenu = ['neue Text','Änderung und Löschung','Die Reihenfolge ändern'];
             new WriteSubmenu(newsSubmenu,"News");
             new NewsSubMenuEvent();
             break;

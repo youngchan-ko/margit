@@ -719,5 +719,42 @@
                 <td style="width:80%; word-break:break-all;">{bio_text}</td>
               </tr>
         </script>
+
+        <!-- text,Presse 컨텐츠 순서변경 랩 -->
+        <script type="rv-template" id="textOrderNoModifyWrap">
+            <table class="table table-striped table-hover textOrderNoTable">
+                <thead>
+                    <tr>
+                        <th style="display:none;">textId</th>
+                        <th style="width:10%">Up</th>
+                        <th style="width:10%">Down</th>
+                        <th style="width:10%">Turn</th>
+                        <th style="width:70%">Title</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {items}
+                </tbody> 
+            </table>
+        </script>
+
+        <!-- text.Presse 컨텐츠 순서 변경 테이블 채워줄 아이템 -->
+        <script type="rv-template" id="textOrderNoModifyTableItem">
+            <tr class="textOrderNoModifyItem">
+                <td style="display:none;" class="textOrderNoModifyItem_textId">{textId}</td>
+                <td style="width:10%">
+                    <button class="textOrderNoModifyItem_upBtn" {upBtnDisabled}>Up</button>
+                </td>
+                <td style="width:10%">
+                    <button class="textOrderNoModifyItem_downBtn" {downBtnDisabled}>Down</button>
+                </td>
+                <td style="width:10%" class="textOrderNoModifyItem_OrderNo">
+                    <input type="number" class="textOrderNoModifyItem_OrderNo_input" readonly value="{orderNo}">
+                </td>
+                <td style="width:70%; word-break:break-all;">
+                    <input type="text" id="textTitleInput" value="{textTitle}" >
+                </td>
+            </tr>
+        </script>
     </body>
 </html>

@@ -47,9 +47,11 @@ import com.margit.service.HomeService;
 import com.margit.service.JoinService;
 import com.margit.service.PresseContentsSaveService;
 import com.margit.service.PresseContentsService;
+import com.margit.service.PresseUpdateService;
 import com.margit.service.TextContentsSaveService;
 import com.margit.service.TextContentsService;
 import com.margit.service.TextImgSaveService;
+import com.margit.service.TextUpdateService;
 
 @Controller
 public class PageController {
@@ -81,9 +83,13 @@ public class PageController {
 	@Autowired
 	private TextContentsSaveService textContentsSaveService;
 	@Autowired
+	private TextUpdateService textUpdateService;
+	@Autowired
 	private PresseContentsSaveService presseContentsSaveService;
 	@Autowired
 	private PresseContentsService presseContentsService;
+	@Autowired
+	private PresseUpdateService presseUpdateService;
 	@Autowired
 	private HomeService homeService;
 	@Autowired
@@ -254,6 +260,15 @@ public class PageController {
 		
 		return deleteTextContents;
 	}
+	
+	@ResponseBody
+	@PostMapping({"/textOrderNoModify"})
+	public int updateTextOrderNo(@RequestParam(required=false) String textOrderNoModifyData) throws Throwable {
+		
+		int updateOrderNo = textUpdateService.updatePresseOrderNo(textOrderNoModifyData);
+		
+		return updateOrderNo;
+	}
 
 	@GetMapping({"/presse"})
 	public String presse() {
@@ -292,6 +307,15 @@ public class PageController {
 	public int deletePresse(@PathVariable("presseContentsId") int presseContentsId) {
 		int deletePresseContents = presseContentsService.deletePresse(presseContentsId);
 		return deletePresseContents;
+	}
+	
+	@ResponseBody
+	@PostMapping({"/presseOrderNoModify"})
+	public int updatePresseOrderNo(@RequestParam(required=false) String textOrderNoModifyData) throws Throwable {
+		
+		int updateOrderNo = presseUpdateService.updatePresseOrderNo(textOrderNoModifyData);
+		
+		return updateOrderNo;
 	}
 	
 	@GetMapping({"/biography"})

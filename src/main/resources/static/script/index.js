@@ -11,7 +11,6 @@ WriteImg.prototype = {
 	    oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
                 var serverData = JSON.parse(oReq.responseText);
-                console.log(serverData);
                 if(serverData.exhibition != null){
                     this.writeExhibition(serverData.exhibition);
                 }else{

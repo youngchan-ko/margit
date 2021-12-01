@@ -1,5 +1,7 @@
 package com.margit.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -8,7 +10,10 @@ import com.margit.model.BiographyCategory;
 
 
 public interface BiographyCategoryDao extends JpaRepository<BiographyCategory, Integer>{
-
+	@Query(value = "SELECT * FROM biographycategory ORDER BY turn", 
+			nativeQuery = true)
+	List<BiographyCategory> getBiographyCategoryList();
+	
 	@Query(value = "select EXISTS (select * from biographycategory where biography_category= ?1 limit 1) as success;", 
 			nativeQuery = true)
 	int searchBiographyCategory(String biographyCategory);

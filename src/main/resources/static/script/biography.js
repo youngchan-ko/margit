@@ -79,7 +79,6 @@ document.addEventListener("DOMContentLoaded", function(){
 	oReq.onreadystatechange = function(){
 		if(oReq.readyState === 4 && oReq.status === 200){	
 			let serverData = JSON.parse(this.responseText);
-			console.log(serverData);
             new WriteBasicContents(serverData);	
 			new WriteCategory(serverData);
 		}

@@ -24,7 +24,7 @@ public class BiographyServiceImpl implements BiographyService{
 	
 	@Override
 	public List<BiographyCategory> biographyCategoryList(){
-		List<BiographyCategory> biographyCategoryList = biographyCategoryDao.findAll();
+		List<BiographyCategory> biographyCategoryList = biographyCategoryDao.getBiographyCategoryList();
 		return biographyCategoryList;
 	}
 	
@@ -32,7 +32,7 @@ public class BiographyServiceImpl implements BiographyService{
 	public List<BiographyData> getBiography() {
 		List<BiographyData> biographyDataList = new ArrayList<BiographyData>();
 		
-		List<BiographyCategory> biographyCategory = biographyCategoryDao.findAll();
+		List<BiographyCategory> biographyCategory = biographyCategoryDao.getBiographyCategoryList();
 		
 		for(BiographyCategory category: biographyCategory) {
 			

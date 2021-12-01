@@ -21,4 +21,8 @@ public interface TextContentsDao extends JpaRepository<TextContents, Integer>{
 	@Modifying
 	@Query(value = "DELETE FROM textContents WHERE id = ?1", nativeQuery = true)
 	int deleteById(int textContensId);
+	
+	@Modifying
+	@Query(value = "UPDATE textcontents SET orderNo = ?1 WHERE id = ?2", nativeQuery = true)
+	int updateOrderNo(int orderNo, int id);
 }

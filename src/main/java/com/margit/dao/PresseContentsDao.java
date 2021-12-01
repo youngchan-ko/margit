@@ -21,4 +21,8 @@ public interface PresseContentsDao extends JpaRepository<PresseContents, Integer
 	@Modifying
 	@Query(value = "DELETE FROM presseContents WHERE id = ?1", nativeQuery = true)
 	int deleteById(int presseContensId);
+
+	@Modifying
+	@Query(value = "UPDATE pressecontents SET orderNo = ?1 WHERE id = ?2", nativeQuery = true)
+	int updateOrderNo(int orderNo, int id);
 }

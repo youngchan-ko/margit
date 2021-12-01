@@ -90,7 +90,6 @@ ExhibitionEvent.prototype = {
                     this.saveBtn.style.display = 'block';
                 }else{
                     var serverData = JSON.parse(oReq.responseText);
-                    console.log(serverData);
                     document.querySelector('#exhibition_title_input').value = serverData.exhibitionTitle;
                     document.querySelector('#exhibition_place_input').value = serverData.exhibitionPlace;;
                     document.querySelector('#exhibition_date_input').value = serverData.exhibitionDate;
@@ -197,7 +196,6 @@ ContactEvent.prototype = {
         oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
                 var serverData = JSON.parse(oReq.responseText);
-                console.log(serverData);
                 this.writeContactWrap(serverData);
                 
             }
@@ -283,7 +281,6 @@ WriteBiographyDeleteView.prototype = {
         oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
                 var serverData = JSON.parse(oReq.responseText);
-                console.log(serverData);
                 this.makeDeleteTable(serverData);
             }
         }.bind(this);
@@ -730,13 +727,14 @@ WriteBiographyGroupModifyHtml.prototype={
     writeHtml : function(serverData){
         let items = '';
         for(i=0; i<serverData.length; i++){
+            let turn = i+1;
             let currentItemHtml = '';
             if(i===0){
                 currentItemHtml = this.groupModyfyItemWrap
                                 .replace("{biographyCategoryId}", serverData[i].id)
                                 .replace("{upBtnDisabled}", 'disabled')
                                 .replace("{downBtnDisabled}", '')
-                                .replace("{groupOrderNo}", serverData[i].turn)
+                                .replace("{groupOrderNo}", turn)
                                 .replace("{groupName}", serverData[i].biography_category);
                 items +=currentItemHtml;
             }else if(i===serverData.length-1){
@@ -744,7 +742,7 @@ WriteBiographyGroupModifyHtml.prototype={
                                 .replace("{biographyCategoryId}", serverData[i].id)
                                 .replace("{upBtnDisabled}", '')
                                 .replace("{downBtnDisabled}", 'disabled')
-                                .replace("{groupOrderNo}", serverData[i].turn)
+                                .replace("{groupOrderNo}", turn)
                                 .replace("{groupName}", serverData[i].biography_category);
                 items +=currentItemHtml;
             }else{
@@ -752,7 +750,7 @@ WriteBiographyGroupModifyHtml.prototype={
                                 .replace("{biographyCategoryId}", serverData[i].id)
                                 .replace("{upBtnDisabled}", '')
                                 .replace("{downBtnDisabled}", '')
-                                .replace("{groupOrderNo}", serverData[i].turn)
+                                .replace("{groupOrderNo}", turn)
                                 .replace("{groupName}", serverData[i].biography_category);
                 items +=currentItemHtml;
             }
@@ -839,7 +837,56 @@ PresseModifyItemClickEvent.prototype = {
 }
 // ---------------------------------------Text---------------------
 
-
+// 텍스트 순서변경 저장버튼 이벤트
+function TextOrderNoModifySendBtnEvent(){
+    this.ajaxUrl = '';
+    this.eventListner();
+}
+TextOrderNoModifySendBtnEvent.prototype = {
+    eventListner : function(){
+        $('.save_btn').off().on('click', function(){
+            this.makeFormData();
+        }.bind(this));
+    },
+    makeFormData : function(){
+        let textOrderNoItem = document.querySelectorAll('.textOrderNoModifyItem');
+        let dataArr = new Array();
+        let formData = new FormData();
+        textOrderNoItem.forEach(element => {
+            let textId = element.children[0].innerText;
+            let elementTextOrderNo = parseInt(element.children[3].firstElementChild.value);
+            let dataObj = {
+                id:textId,
+                textOrderNo:elementTextOrderNo
+            }
+            dataArr.push(dataObj);
+        });
+        let jsonDataArr = JSON.stringify(dataArr);
+        formData.append("textOrderNoModifyData",jsonDataArr);
+        
+        this.sendAjax(formData);
+    },
+    sendAjax : function(formData){
+        this.makeAjaxUrl();
+        var oReq = new XMLHttpRequest();
+        oReq.onreadystatechange = function(){
+            if(oReq.readyState === 4 && oReq.status === 200){		
+                alert("Die Textreihenfolge wurde geändert.텍스트 순서를 변경했습니다.");
+                window.location.href='http://localhost:8080/update';
+            }
+        }
+        oReq.open("POST", this.ajaxUrl);
+        oReq.send(formData);
+    },
+    makeAjaxUrl :function(formData){
+        let ajaxUrl = "";
+        if(document.querySelector('#main_menu').value === "news"){
+            this.ajaxUrl = "/textOrderNoModify";
+        }else{
+            this.ajaxUrl = "/presseOrderNoModify";
+        }
+    }
+}
 //text 순서변경 선택시 전체 테이블 만들어주시
 function WriteTextOrderNoModifyHtml(){
     this.menuWrap = $('.menu_wrap');
@@ -875,7 +922,6 @@ WriteTextOrderNoModifyHtml.prototype = {
         oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){	
                 let serverData = JSON.parse(oReq.responseText);
-                console.log(serverData);
                 this.writeHtml(serverData);
             }
         }.bind(this);
@@ -885,13 +931,14 @@ WriteTextOrderNoModifyHtml.prototype = {
     writeHtml : function(serverData){
         let items = '';
         for(i=0; i<serverData.length; i++){
+            let orderNo = serverData.length - i;
             let currentItemHtml = '';
             if(i===0){
                 currentItemHtml = this.textOrderNoModyfyItemWrap
                                 .replace("{textId}", serverData[i].id)
                                 .replace("{upBtnDisabled}", 'disabled')
                                 .replace("{downBtnDisabled}", '')
-                                .replace("{orderNo}", serverData[i].orderNo)
+                                .replace("{orderNo}", orderNo)
                                 .replace("{textTitle}", serverData[i].title);
                 items +=currentItemHtml;
             }else if(i===serverData.length-1){
@@ -899,7 +946,7 @@ WriteTextOrderNoModifyHtml.prototype = {
                                 .replace("{textId}", serverData[i].id)
                                 .replace("{upBtnDisabled}", '')
                                 .replace("{downBtnDisabled}", 'disabled')
-                                .replace("{orderNo}", serverData[i].orderNo)
+                                .replace("{orderNo}", orderNo)
                                 .replace("{textTitle}", serverData[i].title);
                 items +=currentItemHtml;
             }else{
@@ -907,7 +954,7 @@ WriteTextOrderNoModifyHtml.prototype = {
                                 .replace("{textId}", serverData[i].id)
                                 .replace("{upBtnDisabled}", '')
                                 .replace("{downBtnDisabled}", '')
-                                .replace("{orderNo}", serverData[i].orderNo)
+                                .replace("{orderNo}", orderNo)
                                 .replace("{textTitle}", serverData[i].title);
                 items +=currentItemHtml;
             }
@@ -920,7 +967,7 @@ WriteTextOrderNoModifyHtml.prototype = {
         this.menuWrap.after(textOrderNoModifyHtml);
         this.saveBtn.style.display ='block';
         new TextOrderNoModifyBtnEvent();
-        // new BiographyGroupModifySendBtnEvent();
+        new TextOrderNoModifySendBtnEvent();
     }
 }
 
@@ -1088,7 +1135,6 @@ WriteTextModifyHtml.prototype = {
         oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){	
                 let serverData = JSON.parse(oReq.responseText);
-                console.log(serverData);
                 this.makeHtml(serverData);
             }
         }.bind(this);
@@ -1144,7 +1190,6 @@ NewsSubMenuEvent.prototype = {
         if(this.menuWrap.nextAll('table').length > 0){
             this.menuWrap.nextAll('table').remove();
         }
-        console.log(this.submenuValue);
         switch(this.submenuValue){
 
             case 'default': 
@@ -1452,21 +1497,21 @@ GallerySendBtnEvent.prototype = {
     }
 }
 // 지금 이거 사용하지 않음 사용하게되면 주석 바꿔주고 이 주석이 남아있다면 이거 전체 지우기
-function CheckPhotoName(){
-    this.photoName = document.querySelector('#img_title');
-    this.photoNameInputBlurEvent();
-}
-CheckPhotoName.prototype = {
-    photoNameInputBlurEvent : function(){
-        this.photoName.addEventListener('blur', function(){
-            var textFilter = /^.{3}$/;
-            var textValueCheck = (textFilter).test(this.photoName.value);
-            if(!textValueCheck){
-                alert("Fototitel eingeben.사진 제목을 입력하세요.");
-            }
-        }.bind(this))
-    }
-}
+// function CheckPhotoName(){
+//     this.photoName = document.querySelector('#img_title');
+//     this.photoNameInputBlurEvent();
+// }
+// CheckPhotoName.prototype = {
+//     photoNameInputBlurEvent : function(){
+//         this.photoName.addEventListener('blur', function(){
+//             var textFilter = /^.{3}$/;
+//             var textValueCheck = (textFilter).test(this.photoName.value);
+//             if(!textValueCheck){
+//                 alert("Fototitel eingeben.사진 제목을 입력하세요.");
+//             }
+//         }.bind(this))
+//     }
+// }
 
 //갤러리 서브메뉴 선택후 저장, 삭제, 수정, 사진순서변경 선택시 이벤트
 function GalleryDeleteSaveEvent(){
@@ -1588,7 +1633,6 @@ GalleryDeleteSaveEvent.prototype = {
                 oReq.onreadystatechange = function(){
                     if(oReq.readyState === 4 && oReq.status === 200){	
                         var photoDetailData = JSON.parse(oReq.responseText);	
-                        console.log(photoDetailData);
                         this.htmlInit();
                         this.imgTitle.style.display ='block';
                         this.imgTitle.getElementsByTagName("input")[0].value=photoDetailData.gallery.photoName; 
@@ -1614,17 +1658,17 @@ GalleryDeleteSaveEvent.prototype = {
         oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
                 var serverData = JSON.parse(oReq.responseText);
-                console.log(serverData);
                 let itemHtml ="";
 
                 for(i=0; i<serverData.length; i++){
+                    let photoOrderNo = i+1;
                     let currentItemHtml = '';
                     if(i===0){
                         currentItemHtml = this.photoOrderNoModifyTableItem
                         .replace("{galleryId}", serverData[i].id)
                         .replace("{upBtnDisabled}", 'disabled')
                         .replace("{downBtnDisabled}", '')
-                        .replace("{PhotoOrderNo}", serverData[i].photoOrderNo)
+                        .replace("{PhotoOrderNo}", photoOrderNo)
                         .replace("{galleryFileId}", serverData[i].galleryFileId)
                         .replace("{photoName}", serverData[i].photoName);
                         itemHtml +=currentItemHtml;
@@ -1633,7 +1677,7 @@ GalleryDeleteSaveEvent.prototype = {
                         .replace("{galleryId}", serverData[i].id)
                         .replace("{upBtnDisabled}", '')
                         .replace("{downBtnDisabled}", 'disabled')
-                        .replace("{PhotoOrderNo}", serverData[i].photoOrderNo)
+                        .replace("{PhotoOrderNo}", photoOrderNo)
                         .replace("{galleryFileId}", serverData[i].galleryFileId)
                         .replace("{photoName}", serverData[i].photoName);
                         itemHtml +=currentItemHtml;
@@ -1642,7 +1686,7 @@ GalleryDeleteSaveEvent.prototype = {
                         .replace("{galleryId}", serverData[i].id)
                         .replace("{upBtnDisabled}", '')
                         .replace("{downBtnDisabled}", '')
-                        .replace("{PhotoOrderNo}", serverData[i].photoOrderNo)
+                        .replace("{PhotoOrderNo}", photoOrderNo)
                         .replace("{galleryFileId}", serverData[i].galleryFileId)
                         .replace("{photoName}", serverData[i].photoName);
                         itemHtml +=currentItemHtml;
@@ -1876,7 +1920,6 @@ WriteGalleryGroupOrderNoModifyHtml.prototype={
             if(oReq.readyState === 4 && oReq.status === 200){		
                 var serverData = JSON.parse(oReq.responseText);
                 this.writeHtml(serverData);
-                console.log();
             }
         }.bind(this);
         oReq.open("GET", "/getGalleryGroupName?galleryMainMenu="+this.mainMenuValue);
@@ -1886,24 +1929,25 @@ WriteGalleryGroupOrderNoModifyHtml.prototype={
         let items = '';
         for(i=0; i<serverData.length; i++){
             let currentItemHtml = '';
+            let groupOrderNo = i+1;
             if(i===0){
                 currentItemHtml = this.groupOrderNoModyfyItemWrap
                                 .replace("{upBtnDisabled}", 'disabled')
-                                .replace("{groupOrderNo}", serverData[i].groupOrderNo)
+                                .replace("{groupOrderNo}", groupOrderNo)
                                 .replace("{groupName}", serverData[i].groupName);
                 items +=currentItemHtml;
             }else if(i===serverData.length-1){
                 currentItemHtml = this.groupOrderNoModyfyItemWrap
                                 .replace("{upBtnDisabled}", '')
                                 .replace("{downBtnDisabled}", 'disabled')
-                                .replace("{groupOrderNo}", serverData[i].groupOrderNo)
+                                .replace("{groupOrderNo}", groupOrderNo)
                                 .replace("{groupName}", serverData[i].groupName);
                 items +=currentItemHtml;
             }else{
                 currentItemHtml = this.groupOrderNoModyfyItemWrap
                                 .replace("{upBtnDisabled}", '')
                                 .replace("{downBtnDisabled}", '')
-                                .replace("{groupOrderNo}", serverData[i].groupOrderNo)
+                                .replace("{groupOrderNo}", groupOrderNo)
                                 .replace("{groupName}", serverData[i].groupName);
                 items +=currentItemHtml;
             }
@@ -2052,8 +2096,6 @@ WriteSubmenu.prototype = {
 }
 
 //메인메뉴 선택 이벤트
-
-//--------------------------------------------log지우기
 function mainMenuEvent(){
     var mainMenu = document.querySelector('#main_menu');
     if($('.menu_wrap').nextAll('div').length > 0){
@@ -2080,7 +2122,6 @@ function mainMenuEvent(){
             oReq.onreadystatechange = function(){
                 if(oReq.readyState === 4 && oReq.status === 200){		
                     var serverData = JSON.parse(this.responseText);
-                    console.log(serverData);
                     let gallerySubtitle = [];
                     serverData.forEach(function(currentDataEliment){
                         gallerySubtitle.push(currentDataEliment.groupName); 

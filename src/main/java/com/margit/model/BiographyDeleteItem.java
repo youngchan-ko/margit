@@ -3,7 +3,6 @@ package com.margit.model;
 import java.util.List;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 public class BiographyDeleteItem {

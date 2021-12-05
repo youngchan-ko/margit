@@ -16,7 +16,6 @@ import com.margit.dao.TextImgFileDao;
 import com.margit.model.TextContents;
 import com.margit.model.TextContentsData;
 import com.margit.model.TextImgFile;
-import com.margit.model.TextImgSaveData;
 import com.margit.service.TextContentsSaveService;
 
 @Service

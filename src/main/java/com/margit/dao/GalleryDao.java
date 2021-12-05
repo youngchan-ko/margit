@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.margit.model.Gallery;
-import com.margit.model.GalleryFile;
 import com.margit.model.GalleryGroupNameInterface;
 
 //JpaRepository<User(데이터 타입), Integer(프라이머리키의 형태)>

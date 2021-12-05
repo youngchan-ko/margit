@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.margit.model.Biography;
-import com.margit.model.Gallery;
 
 public interface BiographyDao extends JpaRepository<Biography, Integer>{
 	

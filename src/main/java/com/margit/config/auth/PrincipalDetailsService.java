@@ -17,12 +17,10 @@ public class PrincipalDetailsService implements UserDetailsService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		System.out.println("username : "+username);
 		User userEntity = joinDao.findByUsername(username);
 		if(userEntity != null) {
 			return new PrincipalDetails(userEntity);
 		}
 		return null;
 	}
-
 }

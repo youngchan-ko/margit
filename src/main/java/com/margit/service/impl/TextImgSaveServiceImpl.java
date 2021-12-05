@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.margit.dao.TextImgFileDao;
 import com.margit.model.TextImgFile;
-import com.margit.model.TextImgSaveData;
 import com.margit.service.TextImgSaveService;
 
 @Service
@@ -45,7 +44,6 @@ public class TextImgSaveServiceImpl implements TextImgSaveService{
 
 			//파일 쓰기
 			WriteFile(saveFileName, textImgSaveData);
-			System.out.println(returnString);
 			
 			return returnString;
 	}

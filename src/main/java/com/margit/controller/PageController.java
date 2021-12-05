@@ -121,7 +121,6 @@ public class PageController {
 		List<GalleryViewData> galleryViewData = 
 				galleryService.getGalleryViewData(galleryMainMenu);
 		return galleryViewData;
-		
 	}
 	
 	//갤러리 그룹별 모든 이미지 가져오기
@@ -149,10 +148,8 @@ public class PageController {
 	public int deleteGalleryData(
 			@RequestParam(required = false, value = "galleryIdArr") List<Integer> galleryId) 
 			{
-		
 		galleryDeleteService.deleteGalleryFile(galleryId);
 		return 1;
-		
 	}
 	
 	
@@ -160,7 +157,6 @@ public class PageController {
 	@PostMapping({"/save_gallery"})
 	public int saveGallery(GallerySaveData gallerySaveData) {
 		gallerySaveService.saveGallery(gallerySaveData);
-		
 		return 0;
 	}
 	
@@ -168,25 +164,20 @@ public class PageController {
 	@PostMapping({"/update_photoData"})
 	public int saveGallery(GalleryUpdateData galleryUpdateData) {
 		int result = galleryUpdateService.updatePhotoData(galleryUpdateData);
-		
 		return result;
 	}
 
 	@ResponseBody
 	@PostMapping({"/photoOrderNoModify"})
 	public int updatePhotoOrderNo(@RequestParam(required=false) String photoOrderNoModifyData) throws Throwable {
-
 		int updatePhotoOrderNo = galleryUpdateService.updatePhotoOrderNo(photoOrderNoModifyData);
-		
 		return updatePhotoOrderNo;
 	}
 	
 	@ResponseBody
 	@PostMapping({"/galleryGroupOrderNoModify"})
 	public int updateGroupOrderNo(@RequestParam(required=false) String groupOrderNoModifyData) throws Throwable {
-		
 		int updateGroupOrderNo = galleryUpdateService.updateGroupOrderNo(groupOrderNoModifyData);
-		
 		return updateGroupOrderNo;
 	}
 	
@@ -208,7 +199,6 @@ public class PageController {
 		List<GalleryGroupNameInterface> galleryGroupName = 
 				galleryUpdateService.getGallerygroupName(galleryMainMenu);
 		return galleryGroupName;
-		
 	}
 
 	@GetMapping({"/text"})
@@ -234,7 +224,6 @@ public class PageController {
 			@PathVariable("textContentsId") int textContentsId) {
 		TextContents textContents = textContentsService.getTextContent(textContentsId);
 		return textContents;
-		
 	}
 
 	@ResponseBody
@@ -249,7 +238,6 @@ public class PageController {
 	@PostMapping({"/saveText"})
 	public TextContents saveText(TextContentsData textContentsData) {
 		TextContents textContents = textContentsSaveService.saveText(textContentsData);
-		
 		return textContents;
 	}
 	
@@ -257,16 +245,13 @@ public class PageController {
 	@GetMapping({"/deleteText/{textContentsId}"})
 	public int deleteText(@PathVariable("textContentsId") int textContentsId) {
 		int deleteTextContents = textContentsService.deleteText(textContentsId);
-		
 		return deleteTextContents;
 	}
 	
 	@ResponseBody
 	@PostMapping({"/textOrderNoModify"})
 	public int updateTextOrderNo(@RequestParam(required=false) String textOrderNoModifyData) throws Throwable {
-		
 		int updateOrderNo = textUpdateService.updatePresseOrderNo(textOrderNoModifyData);
-		
 		return updateOrderNo;
 	}
 
@@ -312,9 +297,7 @@ public class PageController {
 	@ResponseBody
 	@PostMapping({"/presseOrderNoModify"})
 	public int updatePresseOrderNo(@RequestParam(required=false) String textOrderNoModifyData) throws Throwable {
-		
 		int updateOrderNo = presseUpdateService.updatePresseOrderNo(textOrderNoModifyData);
-		
 		return updateOrderNo;
 	}
 	
@@ -419,9 +402,7 @@ public class PageController {
 
 	@PostMapping({"/joinPrc"})
 	public String joinPrc(User user) {
-		System.out.println(user);
-		String aa = joinService.joinMember(user);
-		System.out.println(aa);
+		joinService.joinMember(user);
 		return "redirect:/loginForm";
 	}
 	
@@ -435,9 +416,7 @@ public class PageController {
 	@ResponseBody
 	@PostMapping({"/saveExhibition"})
 	public void saveExhibition(ExhibitionSaveData exhibitionSaveData) {
-		System.out.println(exhibitionSaveData);
 		exhibitionService.saveExhibition(exhibitionSaveData);
-		
 	}
 	
 	@ResponseBody

@@ -38,7 +38,7 @@ function WriteContents(galleryData){
     // this.groupWriteTarget = document.querySelector('.navbar');
     this.groupWrap = document.querySelector('#group_wrap').innerText;
     this.photoContentWrap = document.querySelector('#slide_item').innerText;
-    this.a = this.writeContentsHtml();
+    this.writeContentsHtml();
 }
 WriteContents.prototype = {
     writeContentsHtml : function(){

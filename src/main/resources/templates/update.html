@@ -238,7 +238,7 @@
                         },
                         valideText : function(){
                             if(CKEDITOR.instances.news_update_textarea.getData().length < 1){
-                                alert('Der Text fehlt!본문을 확인해주세요.');
+                                alert('Der Text fehlt!');
                             }else{
                                 return 1;
                             }
@@ -631,7 +631,8 @@
                         <th style="width:10%">Up</th>
                         <th style="width:10%">Down</th>
                         <th style="width:10%">Turn</th>
-                        <th style="width:70%">GroupName</th>
+                        <th style="width:40%">GroupName</th>
+                        <th style="width:30%">neue GroupName</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -652,7 +653,10 @@
                 <td style="width:10%" class="groupOrderNoModifyItem_groupOrderNo">
                     <input type="number" class="groupOrderNoModifyItem_groupOrderNo_input" readonly value="{groupOrderNo}">
                 </td>
-                <td style="width:70%; word-break:break-all;">{groupName}</td>
+                <td style="width:40%; word-break:break-all;">{groupName}</td>
+                <td style="width:30%">
+                    <input type="text" class="newGroupName">
+                </td>
             </tr>
         </script>
 

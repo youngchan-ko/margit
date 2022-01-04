@@ -61,7 +61,7 @@ ExhibitionSaveBtnEvent.prototype = {
         var oReq = new XMLHttpRequest();
 	    oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
-                alert("Das Speichern der Datei war erfolgreich.파일저장에 성공했습니다.");
+                alert("Das Speichern der Datei war erfolgreich.");
                 window.location.href='http://localhost:8080/update';
             }
         }
@@ -534,21 +534,21 @@ BiographySaveEvent.prototype = {
     },
     checkNewSubtitleValue : function(){
         if(this.newSubtitleInput.value.length === 0){
-            alert('Der Gruppenname fehlt! 새로운 그룹이름을 확인하세요.')
+            alert('Der Gruppenname fehlt!')
         }else{
             return 1;
         }
     },
     checkStartYearValue : function(){
         if(this.startYearInput.value.length === 0){
-            alert('Die Zeitangabe fehlt! 시작년 입력값을 확인하세요.')
+            alert('Die Zeitangabe fehlt!')
         }else{
             return 1;
         }
     },
     checkTextInputValue : function(){
         if(this.bioTextInput.value.length === 0){
-            alert('Text fehlt! 텍스트 입력값을 확인하세요.')
+            alert('Text fehlt!')
         }else{
             return 1;
         }
@@ -696,7 +696,7 @@ BiographyGroupModifySendBtnEvent.prototype={
         oReq.open("POST", "/biographyGroupModify");
         oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
-                alert("Die Fotoreihenfolge und der Name wurden geändert.그룹 순서와 이름을 변경했습니다.");
+                alert("Die Fotoreihenfolge und der Name wurden geändert.");
                 window.location.href='http://localhost:8080/update';
             }
         }
@@ -871,7 +871,7 @@ TextOrderNoModifySendBtnEvent.prototype = {
         var oReq = new XMLHttpRequest();
         oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
-                alert("Die Textreihenfolge wurde geändert.텍스트 순서를 변경했습니다.");
+                alert("Die Textreihenfolge wurde geändert.");
                 window.location.href='http://localhost:8080/update';
             }
         }
@@ -1363,7 +1363,7 @@ GalleryPhotoOrderNoModifySendBtnEvent.prototype={
         oReq.open("POST", "/photoOrderNoModify");
         oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
-                alert("Die Fotoreihenfolge wurde geändert.사진 순서를 변경했습니다.");
+                alert("Die Fotoreihenfolge wurde geändert.");
                 window.location.href='http://localhost:8080/update';
             }
         }
@@ -1441,14 +1441,14 @@ GallerySendBtnEvent.prototype = {
     },
     checkCategoryName : function(){
         if(this.newSubtitle.value.length === 0){
-            alert('Der Gruppenname fehlt!그룹 이름을 확인해 주세요.');
+            alert('Der Gruppenname fehlt!');
         }else{
             return 1;
         }
     },
     checkImgTitle: function(){
         if(this.imgTitle.value.length === 0){
-            alert('Titel des Fotos fehlt! 사진이름을 확인하세요');
+            alert('Titel des Fotos fehlt!');
         }else{
             return 1;
         }
@@ -1496,22 +1496,6 @@ GallerySendBtnEvent.prototype = {
         oReq.send(formData);
     }
 }
-// 지금 이거 사용하지 않음 사용하게되면 주석 바꿔주고 이 주석이 남아있다면 이거 전체 지우기
-// function CheckPhotoName(){
-//     this.photoName = document.querySelector('#img_title');
-//     this.photoNameInputBlurEvent();
-// }
-// CheckPhotoName.prototype = {
-//     photoNameInputBlurEvent : function(){
-//         this.photoName.addEventListener('blur', function(){
-//             var textFilter = /^.{3}$/;
-//             var textValueCheck = (textFilter).test(this.photoName.value);
-//             if(!textValueCheck){
-//                 alert("Fototitel eingeben.사진 제목을 입력하세요.");
-//             }
-//         }.bind(this))
-//     }
-// }
 
 //갤러리 서브메뉴 선택후 저장, 삭제, 수정, 사진순서변경 선택시 이벤트
 function GalleryDeleteSaveEvent(){
@@ -1741,7 +1725,7 @@ CheckFileType.prototype = {
                 this.thumImgTarget.src = window.URL.createObjectURL(image);
                 this.cancelEvent();
             }else{
-                alert("Die Bilddatei darf nur eine JPG- und PNG-Datei sein.(이미지 파일의 확장자는 jpg와 png만 가능합니다.)");
+                alert("Die Bilddatei darf nur eine JPG- und PNG-Datei sein.");
             }
         }.bind(this))
     },
@@ -1777,10 +1761,15 @@ GalleryGroupOrderNoModifySendBtnEvent.prototype = {
         groupOrderNoItem.forEach(element => {
             let elementGroupName = element.children[3].innerText;
             let elementGroupOrderNo = parseInt(element.children[2].firstElementChild.value);
+            let elementNewGroupName = element.children[4].firstElementChild.value;
+            let elementGalleryCategory = document.querySelector('#main_menu').value;
             let dataObj = {
                 groupName:elementGroupName,
-                groupOrderNo:elementGroupOrderNo
+                groupOrderNo:elementGroupOrderNo,
+                newGroupName:elementNewGroupName,
+                galleryCategory:elementGalleryCategory
             }
+            // debugger;
             dataArr.push(dataObj);
         });
         let jsonDataArr = JSON.stringify(dataArr);
@@ -1792,7 +1781,7 @@ GalleryGroupOrderNoModifySendBtnEvent.prototype = {
         oReq.open("POST", "/galleryGroupOrderNoModify");
         oReq.onreadystatechange = function(){
             if(oReq.readyState === 4 && oReq.status === 200){		
-                alert("Die Gruppenreihenfolge wurde geändert.그룹 순서를 변경했습니다.");
+                alert("Die Gruppenreihenfolge wurde geändert.");
                 window.location.href='http://localhost:8080/update';
             }
         }
@@ -2062,7 +2051,7 @@ WriteSubmenu.prototype = {
         if(this.mainValue === 'Gallery'){
             var galleryGroupOrderNoOption = this.submenuOption
                                             .replace('{options}', "groupOrderNoModify")
-                                            .replace('{upper_options}', "die Gruppen-Reihenfolge ändern");
+                                            .replace('{upper_options}', "die Gruppen-Reihenfolge & Name ändern");
             options += galleryGroupOrderNoOption;  
             options += "<option value=\"new_subtitle\">neue Gruppe</option>";                          
         }

@@ -55,6 +55,10 @@ public interface GalleryDao extends JpaRepository<Gallery, Integer>{
 	@Modifying
 	@Query(value = "UPDATE gallery SET photoOrderNo = ?1 WHERE id= ?2", nativeQuery = true)
 	void updatePhotoOrderNo(int photoOrderNo, int galleryId);
+
+	@Modifying
+	@Query(value = "update gallery SET groupName = ?1 WHERE galleryCategory = ?2 AND groupName= ?3", nativeQuery = true)
+	void updateGalleryGroupName(String newGroupName, String galleryCategory, String groupName);
 	
 	@Modifying
 	@Query(value = "UPDATE gallery SET groupOrderNo = ?1 WHERE groupName= ?2", nativeQuery = true)

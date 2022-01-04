@@ -184,10 +184,16 @@ public class GalleryUpdateServiceImpl implements GalleryUpdateService {
 		List<GroupOrderNoModifyData> groupOrderNoModifyDataList = getGroupOrderNoModifyDataList(groupOrderNoModifyData);
 		
 		for(int i=0; i<groupOrderNoModifyDataList.size(); i++) {
+			String galleryCategory = groupOrderNoModifyDataList.get(i).getGalleryCategory();
 			String groupName = groupOrderNoModifyDataList.get(i).getGroupName();
+			String newGroupName = groupOrderNoModifyDataList.get(i).getNewGroupName();
 			int groupOrderNo = groupOrderNoModifyDataList.get(i).getGroupOrderNo();
 			
 			galleryDao.updateGroupOrderNo(groupOrderNo, groupName);
+			
+			if(newGroupName.length() != 0) {
+				galleryDao.updateGalleryGroupName(newGroupName, galleryCategory, groupName);
+			}
 		}
 		
 		return 1;
@@ -201,9 +207,13 @@ public class GalleryUpdateServiceImpl implements GalleryUpdateService {
 		for(int i=0; i<jsonArray.size(); i++) {
 			GroupOrderNoModifyData currentGroupOrderNoModifyData = new GroupOrderNoModifyData();
 			JSONObject jsonObject = (JSONObject)jsonArray.get(i);
+			String galleryCategory = (String) jsonObject.get("galleryCategory");
 			String groupName = (String) jsonObject.get("groupName");
+			String newGroupName = (String) jsonObject.get("newGroupName");
 			int groupOrderNo =Integer.parseInt(String.valueOf(jsonObject.get("groupOrderNo")));
+			currentGroupOrderNoModifyData.setGalleryCategory(galleryCategory);
 			currentGroupOrderNoModifyData.setGroupName(groupName);
+			currentGroupOrderNoModifyData.setNewGroupName(newGroupName);
 			currentGroupOrderNoModifyData.setGroupOrderNo(groupOrderNo);
 			
 			groupOrderNoModifyDataList.add(currentGroupOrderNoModifyData);

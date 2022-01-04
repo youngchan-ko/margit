@@ -9,20 +9,20 @@ import org.springframework.data.jpa.repository.Query;
 import com.margit.model.PresseContents;
 
 public interface PresseContentsDao extends JpaRepository<PresseContents, Integer>{
-	@Query(value = "SELECT MAX(orderNo) FROM presseContents ", nativeQuery = true)
+	@Query(value = "SELECT MAX(orderNo) FROM PresseContents ", nativeQuery = true)
 	Integer getCurrentOderNo();
 
-	@Query(value = "SELECT * FROM presseContents ORDER BY orderNo DESC", nativeQuery = true)
+	@Query(value = "SELECT * FROM PresseContents ORDER BY orderNo DESC", nativeQuery = true)
 	List<PresseContents> getPresseContents();
 
-	@Query(value = "SELECT * FROM presseContents WHERE id=?1 ", nativeQuery = true)
+	@Query(value = "SELECT * FROM PresseContents WHERE id=?1 ", nativeQuery = true)
 	PresseContents getById(int textContensId);
 	
 	@Modifying
-	@Query(value = "DELETE FROM presseContents WHERE id = ?1", nativeQuery = true)
+	@Query(value = "DELETE FROM PresseContents WHERE id = ?1", nativeQuery = true)
 	int deleteById(int presseContensId);
 
 	@Modifying
-	@Query(value = "UPDATE pressecontents SET orderNo = ?1 WHERE id = ?2", nativeQuery = true)
+	@Query(value = "UPDATE PresseContents SET orderNo = ?1 WHERE id = ?2", nativeQuery = true)
 	int updateOrderNo(int orderNo, int id);
 }

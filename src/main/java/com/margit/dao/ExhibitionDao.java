@@ -12,6 +12,6 @@ public interface ExhibitionDao extends JpaRepository<Exhibition, Integer>{
 	
 	@Transactional
 	@Modifying
-	@Query(value = "DELETE FROM exhibition WHERE id = 1", nativeQuery = true)
+	@Query(value = "DELETE FROM Exhibition WHERE id = 1", nativeQuery = true)
 	void deleteById();
 }

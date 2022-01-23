@@ -26,11 +26,11 @@ WriteCategory.prototype = {
 						let withYearHtml = "";
 						let contentsHtml = "";
 						contentsHtml = this.contentsWrap.replace("{text}",currentDataEliment.biography_text);
-						if(currentDataEliment.end_year != null){
-							withYearHtml =contentsHtml.replace("{year}",currentDataEliment.start_year+" - "+currentDataEliment.end_year);
+						if(currentDataEliment.end_year == null||currentDataEliment.end_year ===""){
+							withYearHtml = contentsHtml.replace("{year}",currentDataEliment.start_year);
 							biographyText += withYearHtml;
 						}else{
-							withYearHtml = contentsHtml.replace("{year}",currentDataEliment.start_year);
+							withYearHtml =contentsHtml.replace("{year}",currentDataEliment.start_year+" - "+currentDataEliment.end_year);
 							biographyText += withYearHtml;
 						}
 					}

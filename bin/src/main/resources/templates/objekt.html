@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Margit Feyerer-Fleischanderl-Objekt</title>
+        <!-- Favicon-->
+        <link rel="shortcut icon" href="#">
+        <link href="css/bootstrap5.0.2.min.css" rel="stylesheet" />
+        <link href="css/swiper-bundle.css" rel="stylesheet" />
+        
+        <link href="css/gallery.css" rel="stylesheet" />
+
+    </head>
+    <body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+            <div class="container">
+                <a class="navbar-brand" href="/">
+                    Margit Feyerer-Fleischanderl
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                          <a class="nav-link" href="/">
+                              HOME
+                              <span class="sr-only">(current)</span>
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="/skulptur">
+                              SKULPTUR
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="/zeichnung">
+                              ZEICHNUNG
+                          </a>
+                      </li>
+                      <li class="nav-item active">
+                          <a class="nav-link" href="/objekt">
+                              OBJEKT
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="/text">
+                              TEXT
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                            <a class="nav-link" href="/presse">
+                                PRESSE
+                            </a>
+                        </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="/biography">
+                              BIOGRAFIE
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="/contact">
+                              KONTAKT
+                          </a>
+                      </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Page content-->
+        <!-- Swiper -->
+        
+        
+        
+        <div class="contentsWrap">
+
+            <div class="SumoGallery" style="display:none;">
+              <div class="Sheader">
+                <p>Living room title of the new.</p><a>&times;</a>
+              </div>
+              
+              <div class="Sbody">
+                <a><img src="" ></a>
+                <a><img src="" ></a>
+                <a class="sel"><img src="" ></a>
+              </div>
+              
+              <a class="Sarrow l">&#10092;</a>
+              <a class="Sarrow r">&#10093;</a>
+              
+            </div>
+        </div>
+        
+       
+        
+        
+        <!-- 그룹 컨테이너 -->
+        <script type="rv-template" id="group_wrap">
+          <div class="swiper-container mySwiper">
+            <h1 class="gallery_title">
+              {group_title}
+            </h1>
+            <div class="swiper-wrapper">
+              {photo_contents}
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+          </div>
+        </script>
+
+        <!-- 그룹 슬라이드 이미지 데이터 -->
+        <script type="rv-template" id="slide_item">
+          <div class="swiper-slide">
+            <img data-sgallery="{group_name}" title="{img_title}" data-full="download/{galleryFileId}" data-thumb="download/{galleryFileId}" data-expl="{img_explanation}" src="download/{galleryFileId}">
+          </div>
+        </script>
+
+        
+
+    </body>
+    <script src="script/gallery.js"></script>
+    <script src="script/gallery_slide.js"></script>
+</html>

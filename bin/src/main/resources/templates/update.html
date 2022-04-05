@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Margit Feyerer-Fleischanderl-Update</title>
+        <!-- Favicon-->
+        <link rel="shortcut icon" href="#">
+        <link href="css/bootstrap5.0.2.min.css" rel="stylesheet" />
+        <link href="css/update.css" rel="stylesheet" />
+        
+    </head>
+    <body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+            <div class="container">
+                <a class="navbar-brand" href="/">
+                    Margit Feyerer-Fleischanderl
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">
+                                HOME
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="/skulptur">
+                                SKULPTUR
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/zeichnung">
+                                ZEICHNUNG
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/objekt">
+                                OBJEKT
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/text">
+                                TEXT
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/presse">
+                                PRESSE
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/biography">
+                                BIOGRAFIE
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/contact">
+                                KONTAKT
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Page content-->
+        
+        <div class="menu_wrap">
+            <div class="main_menu_wrap">
+                <label for="main_menu">
+                    Menu : 
+                </label>
+                <select id="main_menu" onchange="mainMenuEvent()">
+                    <option value="default" selected>Menu auswählen</option>
+                    <option value="skulptur">SKULPTUR</option>
+                    <option value="zeichnung">ZEICHNUNG</option>
+                    <option value="objekt">OBJEKT</option>
+                    <option value="news">TEXT</option>
+                    <option value="press">PRESSE</option>
+                    <option value="biography">BIOGRAFIE</option>
+                    <option value="contact">KONTAKT</option>
+                    <option value="exhibition">Aktuell</option>
+                </select>
+            </div>
+        </div>
+        
+
+       
+        
+
+        
+        <button class="save_btn" style="display: none;">
+            <span>Datei speichern</span>
+        </button>
+        <button class="delete_btn" style="display: none;">
+            <span>löschen</span>
+        </button>
+        
+        <!-- Bootstrap core JS-->
+        <script src="script/ckeditor/ckeditor.js"></script>
+        <script src="script/jquery3_5_1.js"></script>
+        <script src="script/bootstrap4_6_0.js"></script>
+        <script src="script/update.js"></script>
+        
+        <!-- 전시공지 -->
+        <script type="rv-template" id="exhibition_wrap">
+            <div class="exhibition_input_wrap">
+                <div class="exhibition_title_input_wrap">
+                    <label for="exhibition_title_input">Ausstellungstitel</label>
+                    <input type="text" id="exhibition_title_input">
+                </div>
+                <div class="exhibition_place_input_wrap">
+                    <label for="exhibition_place_input">Ausstellungsort</label>
+                    <input type="text" id="exhibition_place_input">
+                </div>
+                <div class="exhibition_date_input_wrap">
+                    <label for="exhibition_date_input">Ausstellungszeitraum</label>
+                    <input type="text" id="exhibition_date_input">
+                </div>
+                <div class="exhibition_link_input_wrap">
+                    <label for="exhibition_link_input">Ausstellungslink</label>
+                    <input type="text" id="exhibition_link_input">
+                </div>
+            </div>
+        </script>
+        
+        <!-- 콘택트 수정 -->
+        <script type="rv-template" id="contact_wrap">
+            <div class="contact_modify_wrap">
+                <div class="contact_street_wrap">
+                    <label for="contact_street_input">Straße : </label>
+                    <input type="text" value="{street}" name="street_input" id="contact_street_input">
+                </div>
+    
+                <div class="contact_housenumber_wrap">
+                    <label for="contact_housenumber_input">HausNummer : </label>
+                    <input type="text" value="{housenumber}" name="housenumber_input" id="contact_housenumber_input">
+                </div>
+
+                <div class="contact_city_wrap">
+                    <label for="contact_city_input">Stadt : </label>
+                    <input type="text" value="{city}" name="city_input" id="contact_city_input">
+                </div>
+    
+                <div class="contact_postcode_wrap">
+                    <label for="contact_postcode_input">Postleitzahl : </label>
+                    <input type="text" value="{postcode}" name="postcode_input" id="contact_postcode_input">
+                </div>
+    
+                <div class="contact_phone_wrap">
+                    <label for="contact_phone_input">Telefonnummer : </label>
+                    <input type="text" value="{phone}" name="phone_input" id="contact_phone_input">
+                </div>
+    
+                <div class="contact_email_wrap">
+                    <label for="contact_email_input">Email : </label>
+                    <input type="text" value="{email}" name="email_input" id="contact_email_input">
+                </div>
+    
+                <div class="contact_homepage_owner_wrap">
+                    <label for="contact_homepage_owner_input">Medieninhaber und Herausgeber : </label>
+                    <input type="text" value="{homepage_owner}" name="homepage_owner_input" id="contact_homepage_owner_input">
+                </div>
+    
+                <div class="contact_homepage_producer_wrap">
+                    <label for="contact_homepage_producer_input">Gestaltung : </label>
+                    <input type="text" value="{homepage_producer}" name="homepage_producer_input" id="contact_homepage_producer_input">
+                </div>
+    
+                <div class="contact_Homepage_category_wrap">
+                    <label for="contact_Homepage_category_input">Grundlegende Richtung : </label>
+                    <input type="text" value="{Homepage_category}" name="Homepage_category_input" id="contact_Homepage_category_input">
+                </div>
+    
+                <div class="contact_liability_text_wrap">
+                    <label for="contact_liability_text_input">Haftung : </label>
+                <textarea name="liability_text_input" id="contact_liability_text_input" rows="10">{liability_text}</textarea>
+                </div>
+    
+                <div class="contact_links_text_wrap">
+                    <label for="contact_links_text_input">Links : </label>
+                    <textarea name="links_text_input" id="contact_links_text_input" rows="10">{links_text}</textarea>
+                </div>
+            </div>
+        </script>
+        
+        <!-- text 새로운 글 템플릿 -->
+        <template id="text_textarea">
+            <div class="news_update_wrap">
+                <div class="new_title_wrap">
+                    <label for="news_title_input">Titel : </label>
+                    <input type="text" name="news_title" id="news_title_input">
+                </div>
+                <div>Das Titelfoto : </div>
+                {fileInput}
+                <textarea id="news_update_textarea">
+                </textarea>
+                <script>
+                    CKEDITOR.replace('news_update_textarea' , {
+                        filebrowserImageUploadUrl : '/textImgUpload'
+                    });
+                    
+                    CKEDITOR.on('dialogDefinition', function(e){
+                        var dialogName = e.data.name;
+                        var dialog = e.data.definition.dialog;
+                        var dialogDefinition = e.data.definition;
+
+                        switch (dialogName) {
+                            case 'image':
+                                dialogDefinition.removeContents('advanced');
+                                dialogDefinition.removeContents('Link');
+                                break;
+                        }
+                        
+                    });
+                    
+                    //저장버튼 이벤트
+                    function NewsSaveBtnEvent(){
+                        this.saveBtn = $('.save_btn')[0];
+                        this.eventListner();
+                    }
+                    NewsSaveBtnEvent.prototype = {
+                        eventListner : function(){
+                            $('.save_btn').off().on('click', function(){
+                                let valideTitle = this.valideTitle();
+                                let valideText = this.valideText();
+                                
+                                if(valideTitle+valideText === 2){
+
+                                    this.makeFormData();
+                                }
+                            }.bind(this))
+                        },
+                        valideText : function(){
+                            if(CKEDITOR.instances.news_update_textarea.getData().length < 1){
+                                alert('Der Text fehlt!');
+                            }else{
+                                return 1;
+                            }
+                        },
+                        valideTitle : function(){
+                            if(document.querySelector('#news_title_input').value.length === 0){
+                                alert('Der Titel fehlt!제목을 확인해주세요.');
+                            }else{
+                                return 1;
+                            }
+                        },
+                        makeFormData : function(){
+                            let formData = new FormData();
+                            let title = document.querySelector('#news_title_input').value;
+                            let fileTarget = document.querySelector('.gallery_upload_file');
+                            let textContent = CKEDITOR.instances.news_update_textarea.getData();
+
+                            formData.append("title", title);
+                            formData.append("textContent", textContent);
+                            if(fileTarget.files[0] != undefined){
+                                formData.append("titleImgFile", fileTarget.files[0]);
+                            }
+                            if (window.confirm("Speichern?")){
+                                this.sendAjax(formData);
+                            }
+                        },
+                        sendAjax : function(formData){
+                            var oReq = new XMLHttpRequest();
+                            oReq.onreadystatechange = function(){
+                                if(oReq.readyState === 4 && oReq.status === 200){		
+                                    alert("Das Speichern der Datei war erfolgreich.저장 성공");
+                                    window.location.href='http://localhost:8080/update';
+                                }
+                            }
+                            oReq.open("POST", "/saveText");
+                            oReq.send(formData);
+                        }
+                    }
+                    new NewsSaveBtnEvent();
+                </script>
+            </div>
+        </template>
+
+        
+
+        <!-- text, presse 변경 삭제 선택시 모든 리스트 랩 -->
+        <script type="rv-template" id="textModifyWrap">
+            <!-- Page content-->
+            <div class="container listWrap">
+                <!-- Page Features-->
+                <div class="row text-center">
+                    {textContentList}
+                </div>
+            </div>
+        </script>
+
+        <!-- text 컨텐츠 템플릿(이미지와 함께 있을경우) -->
+        <script type="rv-template" id="text_img_content">
+            <div class="col-lg-3 col-md-6 mb-4 itemContaner">
+                    <a class="card h-100" data-textContentId="{textContentId}">
+                        <img class="card-img-top" src="/downloadTextImgFile/{textImgFileId}" />
+                        <div class="card-body">
+                            <h4 class="card-title">{title}</h4>
+                            <p class="card-text">{content}</p>
+                        </div>
+                        <!-- <div class="card-footer"><a class="btn btn-primary" href="#!">Find Out More!</a></div> -->
+                    </a>
+                </div>
+        </script>
+
+        <!-- text 컨텐츠 템플릿(텍스트만 있을경우) -->
+        <script type="rv-template" id="text_content">
+            <div class="col-lg-3 col-md-6 mb-4 itemContaner">
+                    <a class="card h-100" data-textContentId="{textContentId}">
+                        <div class="card-body">
+                            <h4 class="card-title">{title}</h4>
+                            <p class="card-text">{content}</p>
+                        </div>
+                        <!-- <div class="card-footer"><a class="btn btn-primary" href="#!">Find Out More!</a></div> -->
+                    </a>
+                </div>
+        </script>
+
+        
+        <!-- presse 새로운 글 템플릿 -->
+        <template id="presse_textarea">
+            <div class="presse_update_wrap">
+                <div class="new_title_wrap">
+                    <label for="news_title_input">Titel : </label>
+                    <input type="text" name="news_title" id="news_title_input">
+                </div>
+                <div>Das Titelfoto : </div>
+                {fileInput}
+                <textarea id="news_update_textarea">
+                </textarea>
+                <script>
+                    CKEDITOR.replace('news_update_textarea' , {
+                        filebrowserImageUploadUrl : '/textImgUpload'
+                    });
+                    
+                    CKEDITOR.on('dialogDefinition', function(e){
+                        var dialogName = e.data.name;
+                        var dialog = e.data.definition.dialog;
+                        var dialogDefinition = e.data.definition;
+
+                        switch (dialogName) {
+                            case 'image':
+                                dialogDefinition.removeContents('advanced');
+                                dialogDefinition.removeContents('Link');
+                                dialog.on('show', function(obj){
+                                    this.selectPage('Upload');
+                                });
+                                break;
+                        }
+                        
+                    });
+                    
+                    //저장버튼 이벤트
+                    function PresseSaveBtnEvent(){
+                        this.saveBtn = $('.save_btn')[0];
+                        this.eventListner();
+                    }
+                    PresseSaveBtnEvent.prototype = {
+                        eventListner : function(){
+                            $('.save_btn').off().on('click', function(){
+                                let valideTitle = this.valideTitle();
+                                let valideText = this.valideText();
+                                
+                                if(valideTitle+valideText === 2){
+
+                                    this.makeFormData();
+                                }
+                            }.bind(this))
+                        },
+                        valideText : function(){
+                            if(CKEDITOR.instances.news_update_textarea.getData().length < 1){
+                                alert('Der Text fehlt!본문을 확인해주세요.');
+                            }else{
+                                return 1;
+                            }
+                        },
+                        valideTitle : function(){
+                            if(document.querySelector('#news_title_input').value.length === 0){
+                                alert('Der Titel fehlt!제목을 확인해주세요.');
+                            }else{
+                                return 1;
+                            }
+                        },
+                        makeFormData : function(){
+                            let formData = new FormData();
+                            let title = document.querySelector('#news_title_input').value;
+                            let fileTarget = document.querySelector('.gallery_upload_file');
+                            let textContent = CKEDITOR.instances.news_update_textarea.getData();
+
+                            formData.append("title", title);
+                            formData.append("textContent", textContent);
+                            if(fileTarget.files[0] != undefined){
+                                formData.append("titleImgFile", fileTarget.files[0]);
+                            }
+                            
+                            if (window.confirm("Speichern?")){
+                                this.sendAjax(formData);
+                            }
+                        },
+                        sendAjax : function(formData){
+                            var oReq = new XMLHttpRequest();
+                            oReq.onreadystatechange = function(){
+                                if(oReq.readyState === 4 && oReq.status === 200){		
+                                    alert("Das Speichern der Datei war erfolgreich.저장 성공");
+                                    window.location.href='http://localhost:8080/update';
+                                }
+                            }
+                            oReq.open("POST", "/savePresse");
+                            oReq.send(formData);
+                        }
+                    }
+                    new PresseSaveBtnEvent();
+                </script>
+            </div>
+        </template>
+
+        <!-- 바이오그라피 삭제 선택시 테이블 템플릿 -->
+        <script type="rv-template" id="biography_table_wrap">
+            <table class="table table-striped table-hover biography_table">
+                <thead>
+                    <tr>
+                        <th style="width:10%">CheckBox</th>
+                        <th style="width:10%">von</th>
+                        <th style="width:10%">bis</th>
+                        <th style="width:70%">Text</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {item_tr}
+                </tbody> 
+            </table>
+        </script>
+
+        <!-- 바이오그라피 삭제 선택시 테이블에 채워줄 아이템 템플릿 -->
+        <script type="rv-template" id="biography_table_item">
+            <tr>
+                <td style="width:10%"><input type="checkbox" class="biography_item_check" data-biographyId="{id}"></td>
+                <td style="width:10%">{start_year}</td>
+                <td style="width:10%">{end_year}</td>
+                <td style="width:70%; word-break:break-all;">{bio_text}</td>
+              </tr>
+        </script>
+
+        <!-- 바이오그라피 입력창 템플릿 -->
+        <script type="rv-template" id="biography_input_template">
+            <div class="biography_insert_wrap">
+                <div class="start_year_wrap">
+                    <label for="start_year_input">
+                        von : 
+                    </label>
+                    <input type="number" id="start_year_input">
+                </div>
+                <div class="end_year_wrap">
+                    <label for="end_year_input">
+                        bis : 
+                    </label>
+                    <input type="number" id="end_year_input">
+                </div>
+                <div class="biography_text_input_wrap">
+                    <label for="biography_text_input">
+                        Text :
+                    </label> 
+                    <textarea id="biography_text_input" cols="70" rows="3"></textarea>
+                </div>
+            </div>
+        </script>
+
+        <!-- 메인메뉴에서 갤러리,바이오그라피 선택시 서브타이틀 선택창 만들어주기 
+        -->
+        <script type="rv-template" id="subtitle_template">
+            <div class="submenu_wrap">
+                <label for="submenu">
+                    >
+                </label>  
+                <select id="submenu" onchange="new {main_value}SubMenuEvent()">
+                    <option value="default" class="option_target" selected>Menu auswählen</option>
+                    <option value="new_subtitle">neue Menu</option>
+                </select>
+            </div>
+            <div class="delete_insert_wrap" style="display: none;"  onchange="new {main_value}DeleteSaveEvent()">
+                <select id="delete_insert">
+                    <option value="insert">einfügen</option>
+                    <option value="delete">löschen</option>
+                    <option value="modify">ändern</option>
+                    <option value="photoOrderNoModify" class="photoOrderNoModifyOption" style="display: none;">die Foto-Reihenfolge ändern</option>
+                </select>
+            </div>
+            <div class="new_subtitle_input_wrap" style="display: none;">
+                <label for="new_subtitle_input">
+                    neu Untertitel : 
+                </label>
+                <input type="text" class="subtitle_input" id="new_subtitle_input">
+            </div>
+        </script>
+        
+        <!-- 갤러리, 바이오그라피 서브타이틀 옵션 만들어주기 -->
+        <script type="rv-template" id="select_options">
+            <option value="{options}">{upper_options}</option>
+        </script>
+        
+        <!-- 갤러리 하부메뉴 선택시 이미지 설명글 textarea -->
+        <script type="rv-template" id="gallery_img_expl">
+            <div class="gallery_id_wrap" style="display: none;">
+                <label for="gallery_id">
+                    galleryId : 
+                </label>
+                <input type="text" value="" id="gallery_id">
+            </div>
+            <div class="img_title_wrap">
+                <label for="img_title">
+                    Titel des Fotos : 
+                </label>
+                <input type="text" value="" id="img_title">
+            </div>
+            <div class="img_expl_wrap">
+                <label for="img_explanation_text">
+                    Beschreibung des Fotos : 
+                </label>
+                <input type="text" id="img_explanation_text" value="" class="img_textarea">
+            </div>
+        </script>
+
+        <!-- 업로드 할 이미지파일 미리보기 -->
+        <script type="rv-template" id="file_wrap_template">
+            <div class="file_wrap">
+                <input type="file" class="gallery_upload_file" accept="image/png, image/jpeg" multiple>
+                <!-- preview pic. -->
+                <div class="review_photos review_photos_write">
+                    <div class="item_preview_thumbs">
+                        <ul class="lst_thumb">
+                            <li class="item" style="display: none;">
+                                <img src="" width="130" alt="upload_image" class="item_thumb">
+                                <a href="#" class="anchor">
+                                    <span class="spr_book ico_del">Löschen(삭제)</span>
+                                </a>
+                                <span class="img_border"></span>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </div>
+                <!-- //preview pic. -->
+            </div>
+        </script>
+
+        <!-- 삭제 이미지 랩 -->
+        <script type="rv-template" id="delete_preview_wrap">
+            <div class="delete_img_wrap">
+                <ul class="delete_ul">
+                    {groupPhotoData}
+                </ul>
+            </div>
+        </script>
+        
+        <!-- 갤러리 삭제 선택시 하부메뉴에 있는 모든 사진 불러오기 -->
+        <script type="rv-template" id="delete_preview">
+            <li class="del_list">
+                <input type="checkbox" data-galleryId="{galleryId}"  class="delete_img_check">
+                <img src="{imgPath}" class="delete_img">
+            </li>
+        </script>
+        
+        
+        <!-- 갤러리 수정 랩 -->
+        <script type="rv-template" id="modify_preview_wrap">
+            <div class="modify_img_wrap">
+                <ul class="modify_ul">
+                    {groupPhotoData}
+                </ul>
+            </div>
+        </script>
+        
+        <!-- 갤러리 수정 선택시 그룹내 모든이미지 보여주기 -->
+        <script type="rv-template" id="modify_preview">
+            <li class="modify_list">
+                <img src="{imgPath}" class="modify_img" data-galleryId="{galleryId}">
+            </li>
+        </script>
+
+        <!-- 갤러리 사진순서 변경 선택시 테이블 템플릿 -->
+        <script type="rv-template" id="photoOrderNoModifyWrap">
+            <table class="table table-striped table-hover photoOrderNoTable">
+                <thead>
+                    <tr>
+                        <th style="display:none;">GalleryId</th>
+                        <th style="width:10%">Up</th>
+                        <th style="width:10%">Down</th>
+                        <th style="width:10%">Num</th>
+                        <th style="width:40%">Foto</th>
+                        <th style="width:30%">Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {photoItems}
+                    
+                </tbody> 
+            </table>
+        </script>
+        
+        <!-- 갤러리 사진순서 변경 테이블 채워줄 아이템 -->
+        <script type="rv-template" id="photoOrderNoModifyTableItem">
+            <tr class="photoOrderNoModifyItem">
+                <td style="display:none;" class="photoOrderNoModifyItem_galleryId">{galleryId}</td>
+                <td style="width:10%">
+                    <button class="photoOrderNoModifyItem_upBtn" {upBtnDisabled}>Up</button>
+                </td>
+                <td style="width:10%">
+                    <button class="photoOrderNoModifyItem_downBtn" {downBtnDisabled}>Down</button>
+                </td>
+                <td style="width:10%" class="photoOrderNoModifyItem_photoOrderNo">
+                    <input type="number" class="photoOrderNoModifyItem_photoOrderNo_input" readonly value="{PhotoOrderNo}">
+                </td>
+                <td style="width:40%">
+                    <img class="photoOrderNoModifySample" src="download/{galleryFileId}">
+                </td>
+                <td style="width:30%; word-break:break-all;">{photoName}</td>
+            </tr>
+        </script>
+
+        <!-- 갤러리 그룹 순서변경 랩 -->
+        <script type="rv-template" id="groupOrderNoModifyWrap">
+            <table class="table table-striped table-hover groupOrderNoTable">
+                <thead>
+                    <tr>
+                        <th style="width:10%">Up</th>
+                        <th style="width:10%">Down</th>
+                        <th style="width:10%">Turn</th>
+                        <th style="width:40%">GroupName</th>
+                        <th style="width:30%">neue GroupName</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {groupItems}
+                </tbody> 
+            </table>
+        </script>
+
+        <!-- 갤러리 그룹순서 변경 테이블 채워줄 아이템 -->
+        <script type="rv-template" id="groupOrderNoModifyTableItem">
+            <tr class="groupOrderNoModifyItem">
+                <td style="width:10%">
+                    <button class="groupOrderNoModifyItem_upBtn" {upBtnDisabled}>Up</button>
+                </td>
+                <td style="width:10%">
+                    <button class="groupOrderNoModifyItem_downBtn" {downBtnDisabled}>Down</button>
+                </td>
+                <td style="width:10%" class="groupOrderNoModifyItem_groupOrderNo">
+                    <input type="number" class="groupOrderNoModifyItem_groupOrderNo_input" readonly value="{groupOrderNo}">
+                </td>
+                <td style="width:40%; word-break:break-all;">{groupName}</td>
+                <td style="width:30%">
+                    <input type="text" class="newGroupName">
+                </td>
+            </tr>
+        </script>
+
+        <!-- 바이오그라피 그룹 순서변경 랩 -->
+        <script type="rv-template" id="biographyGroupModifyWrap">
+            <table class="table table-striped table-hover biographyGroupOrderNoTable">
+                <thead>
+                    <tr>
+                        <th style="display:none;">BiographyCategoryId</th>
+                        <th style="width:10%">Up</th>
+                        <th style="width:10%">Down</th>
+                        <th style="width:10%">Turn</th>
+                        <th style="width:70%">GroupName</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {groupItems}
+                </tbody> 
+            </table>
+        </script>
+
+        <!-- 바이오그라피 그룹순서 변경 테이블 채워줄 아이템 -->
+        <script type="rv-template" id="biographyGroupModifyTableItem">
+            <tr class="biographyGroupModifyItem">
+                <td style="display:none;" class="biographyGroupModifyItem_biographyCategoryId">{biographyCategoryId}</td>
+                <td style="width:10%">
+                    <button class="biographyGroupModifyItem_upBtn" {upBtnDisabled}>Up</button>
+                </td>
+                <td style="width:10%">
+                    <button class="biographyGroupModifyItem_downBtn" {downBtnDisabled}>Down</button>
+                </td>
+                <td style="width:10%" class="biographyGroupModifyItem_groupOrderNo">
+                    <input type="number" class="biographyGroupModifyItem_groupOrderNo_input" readonly value="{groupOrderNo}">
+                </td>
+                <td style="width:70%; word-break:break-all;">
+                    <input type="text" id="biographyGroupNameInput" value="{groupName}" >
+                </td>
+            </tr>
+        </script>
+
+        <!-- 바이오그라피 수정 선택시 테이블 템플릿 -->
+        <script type="rv-template" id="biography_modify_table_wrap">
+            <table class="table table-striped table-hover biography_modify_table">
+                <thead>
+                    <tr>
+                        <th style="display:none;">ID</th>
+                        <th style="width:10%">von</th>
+                        <th style="width:10%">bis</th>
+                        <th style="width:80%">Text</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {item_tr}
+                </tbody> 
+            </table>
+        </script>
+
+        <!-- 바이오그라피 수정 선택시 테이블에 채워줄 아이템 템플릿 -->
+        <script type="rv-template" id="biography_modify_table_item">
+            <tr class="biography_modify_item">
+                <td style="display:none;">{id}</td>
+                <td style="width:10%">{start_year}</td>
+                <td style="width:10%">{end_year}</td>
+                <td style="width:80%; word-break:break-all;">{bio_text}</td>
+              </tr>
+        </script>
+
+        <!-- text,Presse 컨텐츠 순서변경 랩 -->
+        <script type="rv-template" id="textOrderNoModifyWrap">
+            <table class="table table-striped table-hover textOrderNoTable">
+                <thead>
+                    <tr>
+                        <th style="display:none;">textId</th>
+                        <th style="width:10%">Up</th>
+                        <th style="width:10%">Down</th>
+                        <th style="width:10%">Turn</th>
+                        <th style="width:70%">Title</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {items}
+                </tbody> 
+            </table>
+        </script>
+
+        <!-- text.Presse 컨텐츠 순서 변경 테이블 채워줄 아이템 -->
+        <script type="rv-template" id="textOrderNoModifyTableItem">
+            <tr class="textOrderNoModifyItem">
+                <td style="display:none;" class="textOrderNoModifyItem_textId">{textId}</td>
+                <td style="width:10%">
+                    <button class="textOrderNoModifyItem_upBtn" {upBtnDisabled}>Up</button>
+                </td>
+                <td style="width:10%">
+                    <button class="textOrderNoModifyItem_downBtn" {downBtnDisabled}>Down</button>
+                </td>
+                <td style="width:10%" class="textOrderNoModifyItem_OrderNo">
+                    <input type="number" class="textOrderNoModifyItem_OrderNo_input" readonly value="{orderNo}">
+                </td>
+                <td style="width:70%; word-break:break-all;">
+                    <input type="text" id="textTitleInput" value="{textTitle}" >
+                </td>
+            </tr>
+        </script>
+    </body>
+</html>

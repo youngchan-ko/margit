@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Margit Feyerer-Fleischanderl-UpdateText</title>
+        <!-- Favicon-->
+        <link rel="shortcut icon" href="#">
+        <link href="../../css/bootstrap5.0.2.min.css" rel="stylesheet" />
+        <link href="../../css/update.css" rel="stylesheet" />
+        
+    </head>
+    <body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+            <div class="container">
+                <a class="navbar-brand" href="/">
+                    Margit Feyerer-Fleischanderl
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">
+                                HOME
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="/skulptur">
+                                SKULPTUR
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/zeichnung">
+                                ZEICHNUNG
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/objekt">
+                                OBJEKT
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/text">
+                                TEXT
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/presse">
+                                PRESSE
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/biography">
+                                BIOGRAFIE
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/contact">
+                                KONTAKT
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Page content-->
+        
+        
+        
+
+       
+        
+
+        
+        <button class="save_btn" style="display: inline-block;">
+            <span>Datei speichern</span>
+        </button>
+        <button class="delete_btn" style="display: inline-block;">
+            <span>löschen</span>
+        </button>
+        
+        <!-- Bootstrap core JS-->
+        <script src="../../script/ckeditor/ckeditor.js"></script>
+        <script src="../../script/jquery3_5_1.js"></script>
+        <script src="../../script/bootstrap4_6_0.js"></script>
+        <script src="../../script/modifyText.js"></script>
+        
+        <!-- text 수정 삭제 템플릿 -->
+        <template id="text_modify_textarea">
+            <div class="news_update_wrap">
+                <div class="new_title_wrap">
+                    <label for="news_title_input">Titel : </label>
+                    <input type="text" name="news_title" id="news_title_input">
+                </div>
+                <div>Das Titelfoto : </div>
+                {fileInput}
+                <textarea id="news_update_textarea">
+                </textarea>
+                <script>
+                    CKEDITOR.replace('news_update_textarea' , {
+                        filebrowserImageUploadUrl : '/textImgUpload'
+                    });
+                    
+                    CKEDITOR.on('dialogDefinition', function(e){
+                        var dialogName = e.data.name;
+                        var dialog = e.data.definition.dialog;
+                        var dialogDefinition = e.data.definition;
+
+                        switch (dialogName) {
+                            case 'image':
+                                dialogDefinition.removeContents('advanced');
+                                dialogDefinition.removeContents('Link');
+                                break;
+                        }
+                        
+                    });
+                    
+                    //수정할 데이터 채워주기
+                    function SetData(){
+                        this.textContentId = window.location.pathname.split("/update/presse/")[1];
+                        this.getData();
+                    }
+                    SetData.prototype = {
+                        getData : function(){
+                        var oReq = new XMLHttpRequest();
+                        oReq.onreadystatechange = function(){
+                            if(oReq.readyState === 4 && oReq.status === 200){	
+                                let serverData = JSON.parse(oReq.responseText);
+                                this.setData(serverData);
+                                new NewsSaveBtnEvent(serverData);
+                                new PresseDeleteBtnEvent(serverData);
+                            }
+                        }.bind(this);
+                        oReq.open("GET", "/getPresseContent.ajax/"+this.textContentId);
+                        oReq.send();
+                    },
+                    setData : function(data){
+                            CKEDITOR.instances.news_update_textarea.setData(data.contentText);
+                            document.querySelector("#news_title_input").value = data.title;
+                        }
+                    }
+
+                    //저장버튼 이벤트
+                    function NewsSaveBtnEvent(serverData){
+                        this.saveBtn = $('.save_btn')[0];
+                        this.serverData = serverData;
+                        this.eventListner();
+                    }
+                    NewsSaveBtnEvent.prototype = {
+                        eventListner : function(){
+                            this.saveBtn.addEventListener('click', function(){
+                                let valideTitle = this.valideTitle();
+                                let valideText = this.valideText();
+                                
+                                if(valideTitle+valideText === 2){
+
+                                    this.makeFormData();
+                                }
+                            }.bind(this))
+                        },
+                        valideText : function(){
+                            if(CKEDITOR.instances.news_update_textarea.getData().length < 1){
+                                alert('Der Text fehlt!본문을 확인해주세요.');
+                            }else{
+                                return 1;
+                            }
+                        },
+                        valideTitle : function(){
+                            if(document.querySelector('#news_title_input').value.length === 0){
+                                alert('Der Titel fehlt!제목을 확인해주세요.');
+                            }else{
+                                return 1;
+                            }
+                        },
+                        makeFormData : function(){
+                            let formData = new FormData();
+                            let title = document.querySelector('#news_title_input').value;
+                            let fileTarget = document.querySelector('.gallery_upload_file');
+                            let textContent = CKEDITOR.instances.news_update_textarea.getData();
+                            formData.append("id", this.serverData.id);
+                            formData.append("title", title);
+                            formData.append("textContent", textContent);
+                            formData.append("orderNo", this.serverData.orderNo);
+
+                            if(fileTarget.files[0] != undefined){
+                                formData.append("titleImgFile", fileTarget.files[0]);
+                            }
+                            if (window.confirm("Speichern?")){
+                                this.sendAjax(formData);
+                            }
+                        },
+                        sendAjax : function(formData){
+                            var oReq = new XMLHttpRequest();
+                            oReq.onreadystatechange = function(){
+                                if(oReq.readyState === 4 && oReq.status === 200){		
+                                    alert("Das Speichern der Datei war erfolgreich.저장 성공");
+                                    window.location.href='http://localhost:8080/update';
+                                }
+                            }
+                            oReq.open("POST", "/savePresse");
+                            oReq.send(formData);
+                        }
+                    }
+                    
+                    function PresseDeleteBtnEvent(serverData){
+                        this.deleteBtn = $('.delete_btn')[0];
+                        this.serverData = serverData;
+                        this.eventListner();
+                    }
+                    PresseDeleteBtnEvent.prototype = {
+                        eventListner : function(){
+                            this.deleteBtn.addEventListener('click', function(){
+                                if (window.confirm("Möchten Sie löschen?")){
+                                    var oReq = new XMLHttpRequest();
+                                    oReq.onreadystatechange = function(){
+                                        if(oReq.readyState === 4 && oReq.status === 200){		
+                                            alert("Die Datei wurde erfolgreich gelöscht.삭제 성공");
+                                            window.location.href='http://localhost:8080/update';
+                                        }
+                                    }
+                                    oReq.open("GET", "/deletePresse/"+this.serverData.id);
+                                    oReq.send()
+                                }
+                            }.bind(this))
+                        }
+                    }
+                    new SetData();
+                    
+                </script>
+            </div>
+        </template>
+
+        <!-- 업로드 할 이미지파일 미리보기 -->
+        <script type="rv-template" id="file_wrap_template">
+            <div class="file_wrap">
+                <input type="file" class="gallery_upload_file" accept="image/png, image/jpeg" multiple>
+                <!-- preview pic. -->
+                <div class="review_photos review_photos_write">
+                    <div class="item_preview_thumbs">
+                        <ul class="lst_thumb">
+                            <li class="item" style="display: none;">
+                                <img src="" width="130" alt="upload_image" class="item_thumb">
+                                <a href="#" class="anchor">
+                                    <span class="spr_book ico_del">Löschen(삭제)</span>
+                                </a>
+                                <span class="img_border"></span>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </div>
+                <!-- //preview pic. -->
+            </div>
+        </script>
+        
+    </body>
+</html>
